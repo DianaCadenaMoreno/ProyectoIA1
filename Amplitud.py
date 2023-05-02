@@ -19,9 +19,9 @@ from NodoA import Nodo
 
 juego = np.array([
     [0, 0, 0, 0],
-    [0, 1, 1, 2],
-    [0, 1, 6, 1],
-    [5, 0, 0, 0]
+    [6, 1, 1, 2],
+    [6, 1, 6, 1],
+    [5, 0, 6, 0]
 ])
 
 # juego = np.array([
@@ -34,6 +34,7 @@ juego = np.array([
 def amplitud(matriz_juego):
     nodos_creados = 0
     nodos_expandidos = 0
+    num_esferas = 0
     for i in range(matriz_juego.shape[0]):  # filas
         for j in range(matriz_juego.shape[1]):  # columnas
             if matriz_juego[i][j] == 2:  # posicion del agente
@@ -41,10 +42,18 @@ def amplitud(matriz_juego):
                 matriz_juego[i][j] = 0  # actualizar
                 break  # romper ciclo para eficiencia
 
+    for i in range(matriz_juego.shape[0]):  # filas
+        for j in range(matriz_juego.shape[1]):  # columnas
+            if matriz_juego[i][j] == 6:  # posicion del agente
+                num_esferas += 1
+                matriz_juego[i][j] = 0  # actualizar
+                print("esferas",num_esferas)
+                break  # romper ciclo para eficiencia
+
     raiz = Nodo(
         matriz_juego,
         pos_agente,
-        [False],
+        [False,True],
         [pos_agente],
         [pos_agente],
         0,
@@ -59,12 +68,14 @@ def amplitud(matriz_juego):
         nodos_expandidos += 1
 
         # Contar numero de esferas
-        for i in range(nodo.matriz.shape[0]):  # filas
-            for j in range(nodo.matriz.shape[1]):  # columnas
-                if nodo.matriz[i][j] == 6:  # posicion del agente
-                    nodo.num_esferas += 1
-                    break
-
+        # for i in range(nodo.matriz.shape[0]):  # filas
+        #     for j in range(nodo.matriz.shape[1]):  # columnas
+        #         if nodo.matriz[i][j] == 6:  # posicion del agente
+        #             nodo.num_esferas += 1
+        #             matriz_juego[i][j]= 0
+        #             print("esferas",nodo.num_esferas)
+        #             break
+        
         if (nodo.condicionGanar()):
             # Retorno la solución
             return nodo.recorrido, nodos_creados, nodos_expandidos, nodo.profundidad
