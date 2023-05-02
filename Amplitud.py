@@ -48,7 +48,7 @@ def amplitud(matriz_juego):
                 num_esferas += 1
                 matriz_juego[i][j] = 0  # actualizar
                 print("esferas",num_esferas)
-                break  # romper ciclo para eficiencia
+                # romper ciclo para eficiencia
 
     raiz = Nodo(
         matriz_juego,
