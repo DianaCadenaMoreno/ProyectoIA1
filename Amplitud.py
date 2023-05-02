@@ -1,33 +1,33 @@
 import numpy as np
 from NodoA import Nodo
 
-# juego = np.array([
-#     [0, 5, 3, 1, 1, 1, 1, 1, 1, 1],
-#     [0, 1, 0, 0, 1, 0, 0, 0, 1, 1],
-#     [0, 1, 1, 0, 3, 5, 1, 0, 2, 0],
-#     [0, 1, 1, 1, 3, 1, 1, 1, 1, 0],
-#     [6, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-#     [1, 1, 4, 1, 1, 1, 1, 1, 1, 0],
-#     [1, 1, 0, 4, 4, 0, 0, 1, 1, 5],
-#     [1, 1, 0, 0, 1, 1, 0, 1, 1, 0],
-#     [0, 0, 0, 0, 1, 1, 5, 0, 0, 0],
-#     [1, 1, 1, 6, 1, 1, 0, 1, 1, 1]
-# ])
+juego = np.array([
+    [0, 5, 3, 1, 1, 1, 1, 1, 1, 1],
+    [0, 1, 0, 0, 1, 0, 0, 0, 1, 1],
+    [0, 1, 1, 0, 3, 5, 1, 0, 2, 0],
+    [0, 1, 1, 1, 3, 1, 1, 1, 1, 0],
+    [6, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [1, 1, 4, 1, 1, 1, 1, 1, 1, 0],
+    [1, 1, 0, 4, 4, 0, 0, 1, 1, 5],
+    [1, 1, 0, 0, 1, 1, 0, 1, 1, 0],
+    [0, 0, 0, 0, 1, 1, 5, 0, 0, 0],
+    [1, 1, 1, 6, 1, 1, 0, 1, 1, 1]
+])
 
 # posicion esfera 1 -> (0,4)
 # posicion esfera 2 -> (3,9)
 
-juego = np.array([
-    [0, 0, 0, 0],
-    [6, 1, 1, 2],
-    [6, 1, 6, 1],
-    [5, 0, 6, 0]
-])
-
 # juego = np.array([
 #     [0, 6],
 #     [0, 1],
-#     [0, 2]
+#     [0, 2],
+# ])
+
+# juego = np.array([
+#     [0, 0, 0, 0],
+#     [0, 1, 1, 2],
+#     [0, 1, 6, 1],
+#     [5, 0, 0, 0]
 # ])
 
 
@@ -35,6 +35,7 @@ def amplitud(matriz_juego):
     nodos_creados = 0
     nodos_expandidos = 0
     num_esferas = 0
+
     for i in range(matriz_juego.shape[0]):  # filas
         for j in range(matriz_juego.shape[1]):  # columnas
             if matriz_juego[i][j] == 2:  # posicion del agente
@@ -45,21 +46,19 @@ def amplitud(matriz_juego):
     for i in range(matriz_juego.shape[0]):  # filas
         for j in range(matriz_juego.shape[1]):  # columnas
             if matriz_juego[i][j] == 6:  # posicion del agente
-                num_esferas += 1
-                matriz_juego[i][j] = 0  # actualizar
-                print("esferas",num_esferas)
+                num_esferas += 1  # x=j(columnas), y=i(filas)
+                print("num_esferas", num_esferas)
                 break  # romper ciclo para eficiencia
 
     raiz = Nodo(
         matriz_juego,
         pos_agente,
-        [False,True],
         [pos_agente],
         [pos_agente],
         0,
         0,
         0,
-        0)
+        num_esferas)
 
     cola = [raiz]
 
@@ -67,18 +66,10 @@ def amplitud(matriz_juego):
         nodo = cola.pop(0)  # extraer el primero de la cola
         nodos_expandidos += 1
 
-        # Contar numero de esferas
-        # for i in range(nodo.matriz.shape[0]):  # filas
-        #     for j in range(nodo.matriz.shape[1]):  # columnas
-        #         if nodo.matriz[i][j] == 6:  # posicion del agente
-        #             nodo.num_esferas += 1
-        #             matriz_juego[i][j]= 0
-        #             print("esferas",nodo.num_esferas)
-        #             break
-        
         if (nodo.condicionGanar()):
             # Retorno la solución
-            return nodo.recorrido, nodos_creados, nodos_expandidos, nodo.profundidad
+            final = nodo.recorrido, nodos_creados, nodos_expandidos, nodo.profundidad, nodo.esferas, nodo.num_esferas
+            return final
 
         x = nodo.posAgente[0]
         y = nodo.posAgente[1]
@@ -119,12 +110,11 @@ def amplitud(matriz_juego):
 
             recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
             recorrido.append((xI, yI))
-            estado = nodo.estado.copy()
+            # estado = nodo.estado.copy()
 
             hijo = Nodo(
                 nodo.matriz,  # Compartido
-                (xI, yI),  # Nueva posicion
-                estado,
+                (xI, yI),
                 recorrido,  # Nuevo
                 nodos_visitados,  # Nuevo
                 nodo.semillas,
@@ -133,7 +123,7 @@ def amplitud(matriz_juego):
                 nodo.num_esferas
             )
             nodos_creados += 1
-            hijo.marcar()  # Evaluar que sucede en la posicion
+            # hijo.marcar()  # Evaluar que sucede en la posicion
             cola.append(hijo)
 
         # Abajo
@@ -170,12 +160,11 @@ def amplitud(matriz_juego):
 
             recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
             recorrido.append((xI, yI))
-            estado = nodo.estado.copy()
+            # estado = nodo.estado.copy()
 
             hijo = Nodo(
                 nodo.matriz,
                 (xI, yI),
-                estado,
                 recorrido,
                 nodos_visitados,
                 nodo.semillas,
@@ -184,7 +173,7 @@ def amplitud(matriz_juego):
                 nodo.num_esferas
             )
             nodos_creados += 1
-            hijo.marcar()  # Evaluar que sucede en la posicion
+            # hijo.marcar()  # Evaluar que sucede en la posicion
             cola.append(hijo)
 
         # izquierda
@@ -221,12 +210,11 @@ def amplitud(matriz_juego):
 
             recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
             recorrido.append((xI, yI))
-            estado = nodo.estado.copy()
+            # estado = nodo.estado.copy()
 
             hijo = Nodo(
                 nodo.matriz,
                 (xI, yI),
-                estado,
                 recorrido,
                 nodos_visitados,
                 nodo.semillas,
@@ -235,7 +223,7 @@ def amplitud(matriz_juego):
                 nodo.num_esferas
             )
             nodos_creados += 1
-            hijo.marcar()  # Evaluar que sucede en la posicion
+            # hijo.marcar()  # Evaluar que sucede en la posicion
             cola.append(hijo)
 
         # derecha
@@ -272,12 +260,11 @@ def amplitud(matriz_juego):
 
             recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
             recorrido.append((xI, yI))
-            estado = nodo.estado.copy()
+            # estado = nodo.estado.copy()
 
             hijo = Nodo(
                 nodo.matriz,
                 (xI, yI),
-                estado,
                 recorrido,
                 nodos_visitados,
                 nodo.semillas,
@@ -286,10 +273,12 @@ def amplitud(matriz_juego):
                 nodo.num_esferas
             )
             nodos_creados += 1
-            hijo.marcar()  # Evaluar que sucede en la posicion
+            # hijo.marcar()  # Evaluar que sucede en la posicion
             cola.append(hijo)
 
     return "No hay solucion", nodos_creados, nodos_expandidos, nodo.profundidad
 
 
+# final = amplitud(juego)
+# print(final[0])
 print(amplitud(juego))
