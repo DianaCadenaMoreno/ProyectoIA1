@@ -1,11 +1,11 @@
 class Nodo:
-    def __init__(self, matriz, posAgente, estado,  recorrido, nodos_visitados):
+    def __init__(self, matriz, posAgente, estado,  recorrido, nodos_visitados, profundidad):
         self.matriz = matriz
         self.posAgente = posAgente
         self.estado = estado
         self.recorrido = recorrido
-        self.nodos_visitados = nodos_visitados,
-        # self.profundidad = profundidad  # evitar devolverse
+        self.nodos_visitados = nodos_visitados
+        self.profundidad = profundidad  # evitar devolverse
 
     def condicionGanar(self):
         # condicion de cero(llego a la meta) y condicion del agente sean igual los dos en true
