@@ -1,11 +1,12 @@
 import tkinter as tk
+import numpy as np
 from PIL import Image, ImageTk
 
+with open("resources/maps/matriz.txt", "r") as archivo:
+    lineas = archivo.readlines()
+    matriz = np.array([list(map(int, linea.strip().split())) for linea in lineas])
+
 def dibujarMapa(self):
-    # Leer la matriz desde el archivo de texto
-    with open("resources/maps/matriz.txt", "r") as archivo:
-        lineas = archivo.readlines()
-        matriz = [list(map(int, linea.strip().split())) for linea in lineas]
 
     # Definir los valores y las imágenes correspondientes
     self.libre = 0
@@ -44,3 +45,8 @@ def dibujarMapa(self):
                 self.canvas.create_image(0, 0, image=self.imgSemilla, anchor="nw")
             elif matriz[i][j] == self.esfera:
                 self.canvas.create_image(0, 0, image=self.imgEsfera, anchor="nw")
+
+def moverAgente(self, ruta):
+    
+    for i in ruta:
+        print(i)
