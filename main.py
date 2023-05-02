@@ -1,4 +1,4 @@
-from interfaz import Interfaz
+from views.interfaz import Interfaz
 
 class GokuSmart:
     def main(self):
