@@ -10,4 +10,4 @@ class Nodo:
         self.num_esferas = num_esferas
 
     def condicionGanar(self):
-        return self.num_esferas == self.esferas
+        return self.num_esferas == self.esferas[0]
