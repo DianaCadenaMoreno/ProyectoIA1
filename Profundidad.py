@@ -1,5 +1,5 @@
 import numpy as np
-from NodoProfe2 import Nodo
+from NodoProfundidad import Nodo
 
 juego = np.array([
     [0, 0, 0, 0, 0, 0, 5],
