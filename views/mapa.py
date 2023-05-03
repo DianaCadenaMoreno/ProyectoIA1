@@ -1,6 +1,7 @@
 import tkinter as tk
 import numpy as np
 from PIL import Image, ImageTk
+import time
 
 with open("resources/maps/matriz.txt", "r") as archivo:
     lineas = archivo.readlines()
@@ -47,6 +48,47 @@ def dibujarMapa(self):
                 self.canvas.create_image(0, 0, image=self.imgEsfera, anchor="nw")
 
 def moverAgente(self, ruta):
-    
-    for i in ruta:
-        print(i)
+    self.canvas = None
+    self.imgGoku = None
+    self.imagen_goku = None
+
+    # crear instancia de lienzo si aún no ha sido creada
+    if not self.canvas:
+        self.canvas = tk.Canvas(self, width=600, height=600, bg="black", highlightthickness=0)
+        self.canvas.pack()
+        
+
+    # cargar imagen de Goku si aún no ha sido cargada
+    if not self.imgGoku:
+        self.imgGoku = ImageTk.PhotoImage(Image.open("resources/images/goku.jpg"))
+
+    # crear imagen de Goku en la posición inicial
+    x, y = ruta[0]
+    x_pixeles = y * 60
+    y_pixeles = x * 60
+    self.imagen_goku = self.canvas.create_image(y_pixeles, x_pixeles, image=self.imgGoku, anchor="nw")
+
+    # seguir ruta
+    for i in range(1, len(ruta)):
+        # obtener posición actual de Goku en la matriz
+        x1, y1 = ruta[i-1]
+
+        # obtener posición siguiente de Goku en la matriz
+        x2, y2 = ruta[i]
+
+        # calcular la posición de Goku en píxeles para ambos puntos
+        x1_pixeles = y1 * 60
+        y1_pixeles = x1 * 60
+        x2_pixeles = y2 * 60
+        y2_pixeles = x2 * 60
+
+        # animación para mover Goku gradualmente desde la posición actual a la siguiente posición
+        for t in range(0, 100, 5):
+            x_pixeles = x1_pixeles + ((x2_pixeles - x1_pixeles) * t // 100)
+            y_pixeles = y1_pixeles + ((y2_pixeles - y1_pixeles) * t // 100)
+            self.canvas.coords(self.imagen_goku, y_pixeles, x_pixeles)
+            self.update_idletasks()
+            time.sleep(0.02)
+
+    # eliminar imagen de Goku del lienzo cuando se termina el recorrido
+    self.canvas.delete(self.imagen_goku)
