@@ -1,7 +1,5 @@
 import numpy as np
-from NodoC import Nodo
-import queue
-
+from NodoAD import Nodo
 
 # juego = np.array([
 #     [0, 5, 3, 1, 1, 1, 1, 1, 1, 1],
@@ -16,6 +14,19 @@ import queue
 #     [1, 1, 1, 6, 1, 1, 0, 1, 1, 1]
 # ])
 
+juego = np.array([
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
+    [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+    [0, 1, 1, 0, 3, 5, 1, 0, 1, 6],
+    [0, 1, 1, 1, 3, 1, 1, 1, 1, 0],
+    [0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
+    [0, 1, 4, 1, 1, 1, 1, 1, 1, 0],
+    [0, 1, 0, 4, 1, 0, 0, 1, 1, 0],
+    [0, 1, 0, 0, 1, 1, 0, 1, 1, 0],
+    [0, 0, 1, 1, 1, 1, 1, 1, 1, 0],
+    [6, 0, 0, 0, 0, 0, 0, 0, 4, 0]
+])
+
 # posicion esfera 1 -> (0,4)
 # posicion esfera 2 -> (3,9)
 
@@ -25,12 +36,13 @@ import queue
 #     [0, 2],
 # ])
 
-juego = np.array([
-    [0, 0, 0, 0],
-    [0, 1, 1, 2],
-    [0, 1, 6, 1],
-    [5, 0, 0, 0]
-])
+# juego = np.array([
+
+#     [1, 0, 6, 0],
+#     [1, 2, 1, 0],
+#     [1, 6, 1, 1],
+#     [1, 1, 1, 0]
+# ])
 
 
 def amplitud(matriz_juego):
@@ -52,8 +64,6 @@ def amplitud(matriz_juego):
                 print("num_esferas", num_esferas)
                 break  # romper ciclo para eficiencia
 
-    costos = [0]
-
     raiz = Nodo(
         matriz_juego,
         pos_agente,
@@ -62,20 +72,19 @@ def amplitud(matriz_juego):
         0,
         [0],
         0,
-        num_esferas,
-        costos)
+        [False, False])
 
-    cola = queue.PriorityQueue()
-    cola.put((costos, raiz))
+    cola = [raiz]
 
-    while not cola.empty():  # condicion de parada
+    while len(cola) > 0:  # condicion de parada
         # print("*", list(map(lambda nodo: nodo.recorrido, cola)), "*")
-        nodo = cola.get()[1]  # extraer el primero de la cola
+        nodo = cola.pop(0)  # extraer el primero de la cola
         nodos_expandidos += 1
 
         if (nodo.condicionGanar()):
             # Retorno la solución
-            final = nodo.recorrido, nodos_creados, nodos_expandidos, nodo.profundidad, nodo.esferas, nodo.num_esferas
+            # final = nodo.recorrido, nodos_creados, nodos_expandidos, nodo.profundidad, nodo.esferas, nodo.matriz
+            final = nodo.recorrido
             return final
 
         x = nodo.posAgente[0]
@@ -88,150 +97,114 @@ def amplitud(matriz_juego):
         yI = y - 1
 
         if yI >= 0 and not ((xI, yI) in nodo.nodos_visitados) and nodo.matriz[y, x] != 1:
+            nodos_visitados = nodo.nodos_visitados.copy()  # pasar por valor
+            nodos_visitados.append((xI, yI))  # Hace el movimiento
             esferas = nodo.esferas.copy()
-            costoAgente = nodo.costo.copy()
-            costo1 = 0
-            costo2 = 0
-            semillasRecolectadas = nodo.semillas.copy()
-            nodos_visitados = nodo.nodos_visitados.copy()
-            recorrido = nodo.recorrido.copy()
-
-            # matrizJuegoNew = nodo.matriz.copy()
-            # matrizJuegoNew[xI, yI] = 2
+            estado = nodo.estado.copy()
+            matrizNew = nodo.matriz.copy()
             if (nodo.matriz[yI, xI] == 6):
                 esferas[0] += 1
-                costo1 += 1
-                costo2 = costo1 + costoAgente.pop(0)
-                costoAgente.append(costo2)
+                matrizNew[yI, xI] = 0
 
             if (nodo.matriz[yI, xI] == 5):
-                costo1 += 1
-                costoAgente.append(costo2)
-                semillasRecolectadas[0] += 1
+                nodo.semillas += 1
+                matrizNew[yI, xI] = 0
 
             # Caso donde encuentre un cell y no tenga semilla
             if (nodo.matriz[yI, xI] == 4):
-                costo1 += 7
-                costo2 = costo1 + costoAgente.pop(0)
-                costoAgente.append(costo2)
-                # print("encontró un cell sin semilla")
+                print("encontró un cell sin semilla")
 
             # Caso donde encuentre un cell y tenga semilla
             if (nodo.matriz[yI, xI] == 4):
-                # print("encontró un cell con semilla")
-                costo += 1
-                costo2 = costo1 + costoAgente.pop(0)
-                costoAgente.append(costo2)
-                semillasRecolectadas - 1
+                print("encontró un cell con semilla")
+                matrizNew[yI, xI] = 0
+                nodo.semillas - 1
 
             # Caso donde encuentre un freezer y no tenga semilla
             if (nodo.matriz[yI, xI] == 3):
-                costo1 += 4
-                costo2 = costo1 + costoAgente.pop(0)
-                costoAgente.append(costo2)
-                # print("encontró un freezer sin semilla")
+                print("encontró un freezer sin semilla")
 
             # Caso donde encuentre un freezer y tenga semilla
             if (nodo.matriz[yI, xI] == 3):
-                # print("encontró un freezer con semilla")
-                costo1 += 1
-                costo2 = costo1 + costoAgente.pop(0)
-                costoAgente.append(costo2)
-                semillasRecolectadas - 1
+                print("encontró un freezer con semilla")
+                matrizNew[yI, xI] = 0
+                nodo.semillas - 1
 
-            nodos_visitados.append((xI, yI))
+            recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
             recorrido.append((xI, yI))
+            # estado = nodo.estado.copy()
 
             hijo = Nodo(
-                nodo.matriz,
+                matrizNew,  # Compartido
                 (xI, yI),
-                recorrido,
-                nodos_visitados,
-                semillasRecolectadas,
+                recorrido,  # Nuevo
+                nodos_visitados,  # Nuevo
+                nodo.semillas,
                 esferas,
                 nodo.profundidad + 1,
-                nodo.num_esferas,
-                costoAgente
+                estado
             )
             nodos_creados += 1
+            hijo.marcar()
             # hijo.marcar()  # Evaluar que sucede en la posicion
-            # hijo.marcar()  # Evaluar que sucede en la posicion
-            cola.put(hijo)
+            cola.append(hijo)
 
         # Abajo
         xI = x
         yI = y + 1
 
         if yI < matriz_juego.shape[0] and not ((xI, yI) in nodo.nodos_visitados) and nodo.matriz[y, x] != 1:
+            nodos_visitados = nodo.nodos_visitados.copy()  # pasar por valor
+            nodos_visitados.append((xI, yI))
             esferas = nodo.esferas.copy()
-            costoAgente = nodo.costo.copy()
-            costo1 = 0
-            costo2 = 0
-            semillasRecolectadas = nodo.semillas.copy()
-            nodos_visitados = nodo.nodos_visitados.copy()
-            recorrido = nodo.recorrido.copy()
-
-            # matrizJuegoNew = nodo.matriz.copy()
-            # matrizJuegoNew[xI, yI] = 2
+            estado = nodo.estado.copy()
+            matrizNew = nodo.matriz.copy()
             if (nodo.matriz[yI, xI] == 6):
                 esferas[0] += 1
-                costo1 += 1
-                costo2 = costo1 + costoAgente.pop(0)
-                costoAgente.append(costo2)
+                matrizNew[yI, xI] = 0
 
             if (nodo.matriz[yI, xI] == 5):
-                costo1 += 1
-                costoAgente.append(costo2)
-                semillasRecolectadas[0] += 1
+                nodo.semillas += 1
+                matrizNew[yI, xI] = 0
 
             # Caso donde encuentre un cell y no tenga semilla
             if (nodo.matriz[yI, xI] == 4):
-                costo1 += 7
-                costo2 = costo1 + costoAgente.pop(0)
-                costoAgente.append(costo2)
-                # print("encontró un cell sin semilla")
+                print("encontró un cell sin semilla")
 
             # Caso donde encuentre un cell y tenga semilla
             if (nodo.matriz[yI, xI] == 4):
-                # print("encontró un cell con semilla")
-                costo += 1
-                costo2 = costo1 + costoAgente.pop(0)
-                costoAgente.append(costo2)
-                semillasRecolectadas - 1
+                print("encontró un cell con semilla")
+                matrizNew[yI, xI] = 0
+                nodo.semillas - 1
 
             # Caso donde encuentre un freezer y no tenga semilla
             if (nodo.matriz[yI, xI] == 3):
-                costo1 += 4
-                costo2 = costo1 + costoAgente.pop(0)
-                costoAgente.append(costo2)
-                # print("encontró un freezer sin semilla")
+                print("encontró un freezer sin semilla")
 
             # Caso donde encuentre un freezer y tenga semilla
             if (nodo.matriz[yI, xI] == 3):
-                # print("encontró un freezer con semilla")
-                costo1 += 1
-                costo2 = costo1 + costoAgente.pop(0)
-                costoAgente.append(costo2)
-                semillasRecolectadas - 1
+                print("encontró un freezer con semilla")
+                matrizNew[yI, xI] = 0
+                nodo.semillas - 1
 
-            nodos_visitados.append((xI, yI))
+            recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
             recorrido.append((xI, yI))
+            # estado = nodo.estado.copy()
 
             hijo = Nodo(
-                nodo.matriz,
+                matrizNew,  # Compartido
                 (xI, yI),
-                recorrido,
-                nodos_visitados,
-                semillasRecolectadas,
+                recorrido,  # Nuevo
+                nodos_visitados,  # Nuevo
+                nodo.semillas,
                 esferas,
                 nodo.profundidad + 1,
-                nodo.num_esferas,
-                costoAgente
+                estado
             )
             nodos_creados += 1
+            hijo.marcar()
             # hijo.marcar()  # Evaluar que sucede en la posicion
-            # hijo.marcar()  # Evaluar que sucede en la posicion
-            cola.put(hijo)
+            cola.append(hijo)
 
         # izquierda
         xI = x - 1
@@ -241,11 +214,15 @@ def amplitud(matriz_juego):
             nodos_visitados = nodo.nodos_visitados.copy()  # pasar por valor
             nodos_visitados.append((xI, yI))
             esferas = nodo.esferas.copy()
+            estado = nodo.estado.copy()
+            matrizNew = nodo.matriz.copy()
             if (nodo.matriz[yI, xI] == 6):
                 esferas[0] += 1
+                matrizNew[yI, xI] = 0
 
             if (nodo.matriz[yI, xI] == 5):
                 nodo.semillas += 1
+                matrizNew[yI, xI] = 0
 
             # Caso donde encuentre un cell y no tenga semilla
             if (nodo.matriz[yI, xI] == 4):
@@ -254,6 +231,7 @@ def amplitud(matriz_juego):
             # Caso donde encuentre un cell y tenga semilla
             if (nodo.matriz[yI, xI] == 4):
                 print("encontró un cell con semilla")
+                matrizNew[yI, xI] = 0
                 nodo.semillas - 1
 
             # Caso donde encuentre un freezer y no tenga semilla
@@ -263,6 +241,7 @@ def amplitud(matriz_juego):
             # Caso donde encuentre un freezer y tenga semilla
             if (nodo.matriz[yI, xI] == 3):
                 print("encontró un freezer con semilla")
+                matrizNew[yI, xI] = 0
                 nodo.semillas - 1
 
             recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
@@ -270,18 +249,19 @@ def amplitud(matriz_juego):
             # estado = nodo.estado.copy()
 
             hijo = Nodo(
-                nodo.matriz,  # Compartido
+                matrizNew,  # Compartido
                 (xI, yI),
                 recorrido,  # Nuevo
                 nodos_visitados,  # Nuevo
                 nodo.semillas,
                 esferas,
                 nodo.profundidad + 1,
-                nodo.num_esferas
+                estado
             )
             nodos_creados += 1
+            hijo.marcar()
             # hijo.marcar()  # Evaluar que sucede en la posicion
-            cola.put(hijo)
+            cola.append(hijo)
 
         # derecha
         xI = x + 1
@@ -291,11 +271,15 @@ def amplitud(matriz_juego):
             nodos_visitados = nodo.nodos_visitados.copy()  # pasar por valor
             nodos_visitados.append((xI, yI))
             esferas = nodo.esferas.copy()
+            estado = nodo.estado.copy()
+            matrizNew = nodo.matriz.copy()
             if (nodo.matriz[yI, xI] == 6):
                 esferas[0] += 1
+                matrizNew[yI, xI] = 0
 
             if (nodo.matriz[yI, xI] == 5):
                 nodo.semillas += 1
+                matrizNew[yI, xI] = 0
 
             # Caso donde encuentre un cell y no tenga semilla
             if (nodo.matriz[yI, xI] == 4):
@@ -304,6 +288,7 @@ def amplitud(matriz_juego):
             # Caso donde encuentre un cell y tenga semilla
             if (nodo.matriz[yI, xI] == 4):
                 print("encontró un cell con semilla")
+                matrizNew[yI, xI] = 0
                 nodo.semillas - 1
 
             # Caso donde encuentre un freezer y no tenga semilla
@@ -313,6 +298,7 @@ def amplitud(matriz_juego):
             # Caso donde encuentre un freezer y tenga semilla
             if (nodo.matriz[yI, xI] == 3):
                 print("encontró un freezer con semilla")
+                matrizNew[yI, xI] = 0
                 nodo.semillas - 1
 
             recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
@@ -320,18 +306,19 @@ def amplitud(matriz_juego):
             # estado = nodo.estado.copy()
 
             hijo = Nodo(
-                nodo.matriz,  # Compartido
+                matrizNew,  # Compartido
                 (xI, yI),
                 recorrido,  # Nuevo
                 nodos_visitados,  # Nuevo
                 nodo.semillas,
                 esferas,
                 nodo.profundidad + 1,
-                nodo.num_esferas
+                estado
             )
             nodos_creados += 1
+            hijo.marcar()
             # hijo.marcar()  # Evaluar que sucede en la posicion
-            cola.put(hijo)
+            cola.append(hijo)
 
     return "No hay solucion", nodos_creados, nodos_expandidos, nodo.profundidad
 
