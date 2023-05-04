@@ -1,7 +1,7 @@
 import tkinter as tk
 import numpy as np
 from PIL import Image, ImageTk
-from views.mapa import dibujarMapa, moverAgente
+from views.mapa import moverAgente_mapa
 from algoritmos.Amplitud import amplitud
 
 with open("resources/maps/matriz.txt", "r") as archivo:
@@ -23,8 +23,6 @@ class Interfaz(tk.Tk):
         self.tituloGoku.pack(pady=10)
         self.tituloGoku.config(bg="white")
         self.tituloGoku.place(x=600, y=0)
-
-        dibujarMapa(self)
 
         # Texto 3 (Busquedas)
         texto_busqueda = tk.Label(self, text="Seleccione la busqueda", fg="black")
@@ -74,7 +72,7 @@ class Interfaz(tk.Tk):
             if BusquedaNoInformada == "Amplitud":
                 final = amplitud(matriz)
                 movimientosAgente = final[0]
-                moverAgente(self,movimientosAgente)
+                moverAgente_mapa(self,movimientosAgente)
             elif BusquedaNoInformada == "Profundidad":
                 pass
             elif BusquedaNoInformada == "Costo uniforme":
@@ -96,3 +94,12 @@ class Interfaz(tk.Tk):
         boton_seleccion.place(x=800, y=140)
 
         # Label de reporte
+
+        # Botón de reinicio
+        boton_reiniciar = tk.Button(self, text="Reiniciar", command=self.reiniciar_programa, bg="black", fg="white")
+        boton_reiniciar.pack()
+        boton_reiniciar.place(x=800, y=550)
+
+    def reiniciar_programa(self):
+        self.destroy()  # Cierra la ventana actual
+        Interfaz()  # Abre una nueva ventana
