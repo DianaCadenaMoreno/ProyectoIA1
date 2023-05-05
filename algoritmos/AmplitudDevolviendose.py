@@ -1,5 +1,5 @@
 import numpy as np
-from algoritmos.Nodo import Nodo
+from algoritmos.NodoAD import Nodo
 
 # juego = np.array([
 #     [0, 5, 3, 1, 1, 1, 1, 1, 1, 1],
@@ -37,10 +37,11 @@ juego = np.array([
 # ])
 
 # juego = np.array([
-#     [0, 0, 0, 0],
-#     [0, 1, 1, 2],
-#     [0, 1, 6, 1],
-#     [5, 0, 0, 0]
+
+#     [1, 0, 6, 0],
+#     [1, 2, 1, 0],
+#     [1, 6, 1, 1],
+#     [1, 1, 1, 0]
 # ])
 
 
@@ -71,7 +72,7 @@ def amplitud(matriz_juego):
         0,
         [0],
         0,
-        num_esferas)
+        [False, False])
 
     cola = [raiz]
 
@@ -82,7 +83,8 @@ def amplitud(matriz_juego):
 
         if (nodo.condicionGanar()):
             # Retorno la solución
-            final = nodo.recorrido, nodos_creados, nodos_expandidos, nodo.profundidad, nodo.esferas, nodo.num_esferas
+            # final = nodo.recorrido, nodos_creados, nodos_expandidos, nodo.profundidad, nodo.esferas, nodo.matriz
+            final = nodo.recorrido
             return final
 
         x = nodo.posAgente[0]
@@ -98,11 +100,15 @@ def amplitud(matriz_juego):
             nodos_visitados = nodo.nodos_visitados.copy()  # pasar por valor
             nodos_visitados.append((xI, yI))  # Hace el movimiento
             esferas = nodo.esferas.copy()
+            estado = nodo.estado.copy()
+            matrizNew = nodo.matriz.copy()
             if (nodo.matriz[yI, xI] == 6):
                 esferas[0] += 1
+                matrizNew[yI, xI] = 0
 
             if (nodo.matriz[yI, xI] == 5):
                 nodo.semillas += 1
+                matrizNew[yI, xI] = 0
 
             # Caso donde encuentre un cell y no tenga semilla
             if (nodo.matriz[yI, xI] == 4):
@@ -111,6 +117,7 @@ def amplitud(matriz_juego):
             # Caso donde encuentre un cell y tenga semilla
             if (nodo.matriz[yI, xI] == 4):
                 print("encontró un cell con semilla")
+                matrizNew[yI, xI] = 0
                 nodo.semillas - 1
 
             # Caso donde encuentre un freezer y no tenga semilla
@@ -120,6 +127,7 @@ def amplitud(matriz_juego):
             # Caso donde encuentre un freezer y tenga semilla
             if (nodo.matriz[yI, xI] == 3):
                 print("encontró un freezer con semilla")
+                matrizNew[yI, xI] = 0
                 nodo.semillas - 1
 
             recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
@@ -127,16 +135,17 @@ def amplitud(matriz_juego):
             # estado = nodo.estado.copy()
 
             hijo = Nodo(
-                nodo.matriz,  # Compartido
+                matrizNew,  # Compartido
                 (xI, yI),
                 recorrido,  # Nuevo
                 nodos_visitados,  # Nuevo
                 nodo.semillas,
                 esferas,
                 nodo.profundidad + 1,
-                nodo.num_esferas
+                estado
             )
             nodos_creados += 1
+            hijo.marcar()
             # hijo.marcar()  # Evaluar que sucede en la posicion
             cola.append(hijo)
 
@@ -148,11 +157,15 @@ def amplitud(matriz_juego):
             nodos_visitados = nodo.nodos_visitados.copy()  # pasar por valor
             nodos_visitados.append((xI, yI))
             esferas = nodo.esferas.copy()
+            estado = nodo.estado.copy()
+            matrizNew = nodo.matriz.copy()
             if (nodo.matriz[yI, xI] == 6):
                 esferas[0] += 1
+                matrizNew[yI, xI] = 0
 
             if (nodo.matriz[yI, xI] == 5):
                 nodo.semillas += 1
+                matrizNew[yI, xI] = 0
 
             # Caso donde encuentre un cell y no tenga semilla
             if (nodo.matriz[yI, xI] == 4):
@@ -161,6 +174,7 @@ def amplitud(matriz_juego):
             # Caso donde encuentre un cell y tenga semilla
             if (nodo.matriz[yI, xI] == 4):
                 print("encontró un cell con semilla")
+                matrizNew[yI, xI] = 0
                 nodo.semillas - 1
 
             # Caso donde encuentre un freezer y no tenga semilla
@@ -170,6 +184,7 @@ def amplitud(matriz_juego):
             # Caso donde encuentre un freezer y tenga semilla
             if (nodo.matriz[yI, xI] == 3):
                 print("encontró un freezer con semilla")
+                matrizNew[yI, xI] = 0
                 nodo.semillas - 1
 
             recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
@@ -177,16 +192,17 @@ def amplitud(matriz_juego):
             # estado = nodo.estado.copy()
 
             hijo = Nodo(
-                nodo.matriz,  # Compartido
+                matrizNew,  # Compartido
                 (xI, yI),
                 recorrido,  # Nuevo
                 nodos_visitados,  # Nuevo
                 nodo.semillas,
                 esferas,
                 nodo.profundidad + 1,
-                nodo.num_esferas
+                estado
             )
             nodos_creados += 1
+            hijo.marcar()
             # hijo.marcar()  # Evaluar que sucede en la posicion
             cola.append(hijo)
 
@@ -198,11 +214,15 @@ def amplitud(matriz_juego):
             nodos_visitados = nodo.nodos_visitados.copy()  # pasar por valor
             nodos_visitados.append((xI, yI))
             esferas = nodo.esferas.copy()
+            estado = nodo.estado.copy()
+            matrizNew = nodo.matriz.copy()
             if (nodo.matriz[yI, xI] == 6):
                 esferas[0] += 1
+                matrizNew[yI, xI] = 0
 
             if (nodo.matriz[yI, xI] == 5):
                 nodo.semillas += 1
+                matrizNew[yI, xI] = 0
 
             # Caso donde encuentre un cell y no tenga semilla
             if (nodo.matriz[yI, xI] == 4):
@@ -211,6 +231,7 @@ def amplitud(matriz_juego):
             # Caso donde encuentre un cell y tenga semilla
             if (nodo.matriz[yI, xI] == 4):
                 print("encontró un cell con semilla")
+                matrizNew[yI, xI] = 0
                 nodo.semillas - 1
 
             # Caso donde encuentre un freezer y no tenga semilla
@@ -220,6 +241,7 @@ def amplitud(matriz_juego):
             # Caso donde encuentre un freezer y tenga semilla
             if (nodo.matriz[yI, xI] == 3):
                 print("encontró un freezer con semilla")
+                matrizNew[yI, xI] = 0
                 nodo.semillas - 1
 
             recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
@@ -227,16 +249,17 @@ def amplitud(matriz_juego):
             # estado = nodo.estado.copy()
 
             hijo = Nodo(
-                nodo.matriz,  # Compartido
+                matrizNew,  # Compartido
                 (xI, yI),
                 recorrido,  # Nuevo
                 nodos_visitados,  # Nuevo
                 nodo.semillas,
                 esferas,
                 nodo.profundidad + 1,
-                nodo.num_esferas
+                estado
             )
             nodos_creados += 1
+            hijo.marcar()
             # hijo.marcar()  # Evaluar que sucede en la posicion
             cola.append(hijo)
 
@@ -248,11 +271,15 @@ def amplitud(matriz_juego):
             nodos_visitados = nodo.nodos_visitados.copy()  # pasar por valor
             nodos_visitados.append((xI, yI))
             esferas = nodo.esferas.copy()
+            estado = nodo.estado.copy()
+            matrizNew = nodo.matriz.copy()
             if (nodo.matriz[yI, xI] == 6):
                 esferas[0] += 1
+                matrizNew[yI, xI] = 0
 
             if (nodo.matriz[yI, xI] == 5):
                 nodo.semillas += 1
+                matrizNew[yI, xI] = 0
 
             # Caso donde encuentre un cell y no tenga semilla
             if (nodo.matriz[yI, xI] == 4):
@@ -261,6 +288,7 @@ def amplitud(matriz_juego):
             # Caso donde encuentre un cell y tenga semilla
             if (nodo.matriz[yI, xI] == 4):
                 print("encontró un cell con semilla")
+                matrizNew[yI, xI] = 0
                 nodo.semillas - 1
 
             # Caso donde encuentre un freezer y no tenga semilla
@@ -270,6 +298,7 @@ def amplitud(matriz_juego):
             # Caso donde encuentre un freezer y tenga semilla
             if (nodo.matriz[yI, xI] == 3):
                 print("encontró un freezer con semilla")
+                matrizNew[yI, xI] = 0
                 nodo.semillas - 1
 
             recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
@@ -277,16 +306,17 @@ def amplitud(matriz_juego):
             # estado = nodo.estado.copy()
 
             hijo = Nodo(
-                nodo.matriz,  # Compartido
+                matrizNew,  # Compartido
                 (xI, yI),
                 recorrido,  # Nuevo
                 nodos_visitados,  # Nuevo
                 nodo.semillas,
                 esferas,
                 nodo.profundidad + 1,
-                nodo.num_esferas
+                estado
             )
             nodos_creados += 1
+            hijo.marcar()
             # hijo.marcar()  # Evaluar que sucede en la posicion
             cola.append(hijo)
 

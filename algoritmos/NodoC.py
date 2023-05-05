@@ -7,7 +7,6 @@ class Nodo:
         self.semillas = semillas
         self.esferas = esferas
         self.profundidad = profundidad
-        self.num_esferas = num_esferas
         self.costo = costo
 
     def condicionGanar(self):

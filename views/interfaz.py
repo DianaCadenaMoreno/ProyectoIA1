@@ -4,11 +4,17 @@ from PIL import Image, ImageTk
 from views.mapa import moverAgente_mapa
 from algoritmos.Amplitud import amplitud
 
-with open("resources/maps/matriz.txt", "r") as archivo:
-    lineas = archivo.readlines()
-    matriz = np.array([list(map(int, linea.strip().split())) for linea in lineas])
+
+
 
 class Interfaz(tk.Tk):
+    
+    global matriz
+
+    with open("resources/maps/matriz.txt", "r") as archivo:
+        lineas = archivo.readlines()
+        matriz = np.array([list(map(int, linea.strip().split())) for linea in lineas])
+
     def __init__(self):
         super().__init__()
         self.title("Goku Smart")
