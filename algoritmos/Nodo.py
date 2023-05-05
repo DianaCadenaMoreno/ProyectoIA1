@@ -1,5 +1,5 @@
 class Nodo:
-    def __init__(self, matriz, posAgente, recorrido, nodos_visitados, semillas, esferas, profundidad, num_esferas, costo):
+    def __init__(self, matriz, posAgente, recorrido, nodos_visitados, semillas, esferas, profundidad, num_esferas):
         self.matriz = matriz
         self.posAgente = posAgente
         self.recorrido = recorrido
@@ -7,8 +7,7 @@ class Nodo:
         self.semillas = semillas
         self.esferas = esferas
         self.profundidad = profundidad
-        self.costo = costo
+        self.num_esferas = num_esferas
 
     def condicionGanar(self):
-        # self.nodos_visitados = []
         return self.num_esferas == self.esferas[0]

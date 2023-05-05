@@ -1,5 +1,5 @@
 import numpy as np
-from NodoC import Nodo
+from algoritmos.NodoC import Nodo
 
 # juego = np.array([
 #     [0, 5, 3, 1, 1, 1, 1, 1, 1, 1],
