@@ -1,5 +1,5 @@
 class Nodo:
-    def __init__(self, matriz, posAgente, recorrido, nodos_visitados, semillas, esferas, profundidad, num_esferas):
+    def __init__(self, matriz, posAgente, recorrido, nodos_visitados, semillas, esferas, profundidad, estadoEsferas, costo):
         self.matriz = matriz
         self.posAgente = posAgente
         self.recorrido = recorrido
@@ -7,7 +7,20 @@ class Nodo:
         self.semillas = semillas
         self.esferas = esferas
         self.profundidad = profundidad
-        self.num_esferas = num_esferas
+        self.estadoEsferas = estadoEsferas
+        self.costo = costo
 
     def condicionGanar(self):
-        return self.num_esferas == self.esferas[0]
+        if (self.estadoEsferas[0] == True and self.estadoEsferas[1] == True):
+            return True
+
+    def econtrarEsfera(self):
+        # Encontramos la primera esfera
+        if self.esferas[0] == 1:
+            self.estadoEsferas[0] = True
+            # para que pueda devolverse, despues de encontrar la primera esfera
+            # self.nodos_visitados = []
+
+        # Encontramos la segunda esfera
+        if self.esferas[0] == 2:
+            self.estadoEsferas[1] = True

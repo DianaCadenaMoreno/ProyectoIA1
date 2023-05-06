@@ -4,7 +4,7 @@ import numpy as np
 from PIL import Image, ImageTk
 from views.mapa import moverAgente_mapa
 # from algoritmos.Amplitud import amplitud
-from algoritmos.AmplitudDevolviendose import amplitud
+from algoritmos.Amplitud import amplitud
 # from algoritmos.Profundidad import profundidad
 # from algoritmos.Costo_uniforme import costo_uniforme
 

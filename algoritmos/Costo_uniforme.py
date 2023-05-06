@@ -1,18 +1,18 @@
 import numpy as np
-from algoritmos.NodoC import Nodo
+from Nodo import Nodo
 
-# juego = np.array([
-#     [0, 5, 3, 1, 1, 1, 1, 1, 1, 1],
-#     [0, 1, 0, 0, 1, 0, 0, 0, 1, 1],
-#     [0, 1, 1, 0, 3, 5, 1, 0, 2, 0],
-#     [0, 1, 1, 1, 3, 1, 1, 1, 1, 0],
-#     [6, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-#     [1, 1, 4, 1, 1, 1, 1, 1, 1, 0],
-#     [1, 1, 0, 4, 4, 0, 0, 1, 1, 5],
-#     [1, 1, 0, 0, 1, 1, 0, 1, 1, 0],
-#     [0, 0, 0, 0, 1, 1, 5, 0, 0, 0],
-#     [1, 1, 1, 6, 1, 1, 0, 1, 1, 1]
-# ])
+juego = np.array([
+    [0, 5, 3, 1, 1, 1, 1, 1, 1, 1],
+    [0, 1, 0, 0, 1, 0, 0, 0, 1, 1],
+    [0, 1, 1, 0, 3, 5, 1, 0, 2, 0],
+    [0, 1, 1, 1, 3, 1, 1, 1, 1, 0],
+    [6, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [1, 1, 4, 1, 1, 1, 1, 1, 1, 0],
+    [1, 1, 0, 4, 4, 0, 0, 1, 1, 5],
+    [1, 1, 0, 0, 1, 1, 0, 1, 1, 0],
+    [0, 0, 0, 0, 1, 1, 5, 0, 0, 0],
+    [1, 1, 1, 6, 1, 1, 0, 1, 1, 1]
+])
 
 # [(8, 2), (7, 2), (7, 1), (6, 1), (5, 1), (5, 2), (4, 2), (3, 2), (3, 1), (2, 1), (2, 0), (1, 0), (0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (1, 4), (2, 4), (2, 5), (2, 6), (2, 7), (2, 8), (3, 8), (3, 9)]
 
@@ -61,37 +61,37 @@ from algoritmos.NodoC import Nodo
 #     [0, 0, 0, 0, 0]
 # ])
 
-juego = np.array([
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-    [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-    [0, 1, 1, 0, 3, 5, 1, 0, 1, 6],
-    [0, 1, 1, 1, 3, 1, 1, 1, 1, 0],
-    [0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
-    [0, 1, 4, 1, 1, 1, 1, 1, 1, 0],
-    [0, 1, 0, 4, 1, 0, 0, 1, 1, 0],
-    [0, 1, 0, 0, 1, 1, 0, 1, 1, 0],
-    [0, 0, 1, 1, 1, 1, 1, 1, 1, 0],
-    [6, 0, 0, 0, 0, 0, 0, 0, 4, 0]
-])
+# juego = np.array([
+#     [0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
+#     [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+#     [0, 1, 1, 0, 3, 5, 1, 0, 1, 6],
+#     [0, 1, 1, 1, 3, 1, 1, 1, 1, 0],
+#     [0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
+#     [0, 1, 4, 1, 1, 1, 1, 1, 1, 0],
+#     [0, 1, 0, 4, 1, 0, 0, 1, 1, 0],
+#     [0, 1, 0, 0, 1, 1, 0, 1, 1, 0],
+#     [0, 0, 1, 1, 1, 1, 1, 1, 1, 0],
+#     [6, 0, 0, 0, 0, 0, 0, 0, 4, 0]
+# ])
+
+# juego = np.array([
+
+#     [1, 0, 6, 0],
+#     [1, 2, 1, 0],
+#     [1, 6, 1, 1],
+#     [1, 1, 1, 0]
+# ])
 
 
 def costo_uniforme(matriz_juego):
     nodos_creados = 0
     nodos_expandidos = 0
-    num_esferas = 0
 
     for i in range(matriz_juego.shape[0]):  # filas
         for j in range(matriz_juego.shape[1]):  # columnas
             if matriz_juego[i][j] == 2:  # posicion del agente
                 pos_agente = (j, i)  # x=j(columnas), y=i(filas)
                 matriz_juego[i][j] = 0  # actualizar
-                break  # romper ciclo para eficiencia
-
-    for i in range(matriz_juego.shape[0]):  # filas
-        for j in range(matriz_juego.shape[1]):  # columnas
-            if matriz_juego[i][j] == 6:  # posicion del agente
-                num_esferas += 1  # x=j(columnas), y=i(filas)
-                print("num_esferas", num_esferas)
                 break  # romper ciclo para eficiencia
 
     raiz = Nodo(
@@ -102,7 +102,7 @@ def costo_uniforme(matriz_juego):
         [0],
         [0],
         0,
-        num_esferas,
+        [False, False],
         [0])
 
     cola = [raiz]
@@ -117,7 +117,7 @@ def costo_uniforme(matriz_juego):
         nodos_expandidos += 1
         if (nodo.condicionGanar()):
             # Retorno la solución
-            final = "PARTE FINAL", nodo.recorrido, nodos_creados, nodos_expandidos, nodo.profundidad, nodo.costo
+            final = "PARTE FINAL", nodo.recorrido, nodos_expandidos, nodo.profundidad, nodo.costo
             return final
 
         x = nodo.posAgente[0]
@@ -136,14 +136,16 @@ def costo_uniforme(matriz_juego):
             semillasRecolectadas = nodo.semillas.copy()
             nodos_visitados = nodo.nodos_visitados.copy()
             recorrido = nodo.recorrido.copy()
+            estado = nodo.estadoEsferas.copy()
+            matrizNew = nodo.matriz.copy()
 
-            # matrizJuegoNew = nodo.matriz.copy()
-            # matrizJuegoNew[xI, yI] = 2
             if (nodo.matriz[yI, xI] == 6):
                 esferas[0] += 1
+                estado
                 costo1 += 1
                 costo2 = costo1 + costoAgente[-1]
                 costoAgente.append(costo2)
+                matrizNew[yI, xI] = 0
 
             if (nodo.matriz[yI, xI] == 5):
                 costo1 += 1
@@ -185,18 +187,18 @@ def costo_uniforme(matriz_juego):
             recorrido.append((xI, yI))
 
             hijo = Nodo(
-                nodo.matriz,
+                matrizNew,
                 (xI, yI),
                 recorrido,
                 nodos_visitados,
                 semillasRecolectadas,
                 esferas,
                 nodo.profundidad + 1,
-                nodo.num_esferas,
+                estado,
                 costoAgente
             )
             nodos_creados += 1
-            # hijo.marcar()  # Evaluar que sucede en la posicion
+            hijo.econtrarEsfera()
             cola.append(hijo)
 
         # Abajo
@@ -210,18 +212,20 @@ def costo_uniforme(matriz_juego):
             semillasRecolectadas = nodo.semillas.copy()
             nodos_visitados = nodo.nodos_visitados.copy()
             recorrido = nodo.recorrido.copy()
+            estado = nodo.estadoEsferas.copy()
+            matrizNew = nodo.matriz.copy()
 
-            # matrizJuegoNew = nodo.matriz.copy()
-            # matrizJuegoNew[xI, yI] = 2
             if (nodo.matriz[yI, xI] == 6):
                 esferas[0] += 1
+                estado
                 costo1 += 1
                 costo2 = costo1 + costoAgente[-1]
                 costoAgente.append(costo2)
+                matrizNew[yI, xI] = 0
 
             if (nodo.matriz[yI, xI] == 5):
                 costo1 += 1
-                costo2 = costo1 + costoAgente[-1]
+                costo2 = costo1 + costoAgente.pop()
                 costoAgente.append(costo2)
                 semillasRecolectadas[0] += 1
 
@@ -259,18 +263,18 @@ def costo_uniforme(matriz_juego):
             recorrido.append((xI, yI))
 
             hijo = Nodo(
-                nodo.matriz,
+                matrizNew,
                 (xI, yI),
                 recorrido,
                 nodos_visitados,
                 semillasRecolectadas,
                 esferas,
                 nodo.profundidad + 1,
-                nodo.num_esferas,
+                estado,
                 costoAgente
             )
             nodos_creados += 1
-            # hijo.marcar()  # Evaluar que sucede en la posicion
+            hijo.econtrarEsfera()
             cola.append(hijo)
 
             # izquierda
@@ -284,18 +288,20 @@ def costo_uniforme(matriz_juego):
             semillasRecolectadas = nodo.semillas.copy()
             nodos_visitados = nodo.nodos_visitados.copy()
             recorrido = nodo.recorrido.copy()
+            estado = nodo.estadoEsferas.copy()
+            matrizNew = nodo.matriz.copy()
 
-            # matrizJuegoNew = nodo.matriz.copy()
-            # matrizJuegoNew[xI, yI] = 2
             if (nodo.matriz[yI, xI] == 6):
                 esferas[0] += 1
+                estado
                 costo1 += 1
                 costo2 = costo1 + costoAgente[-1]
                 costoAgente.append(costo2)
+                matrizNew[yI, xI] = 0
 
             if (nodo.matriz[yI, xI] == 5):
                 costo1 += 1
-                costo2 = costo1 + costoAgente[-1]
+                costo2 = costo1 + costoAgente.pop()
                 costoAgente.append(costo2)
                 semillasRecolectadas[0] += 1
 
@@ -333,18 +339,18 @@ def costo_uniforme(matriz_juego):
             recorrido.append((xI, yI))
 
             hijo = Nodo(
-                nodo.matriz,
+                matrizNew,
                 (xI, yI),
                 recorrido,
                 nodos_visitados,
                 semillasRecolectadas,
                 esferas,
                 nodo.profundidad + 1,
-                nodo.num_esferas,
+                estado,
                 costoAgente
             )
             nodos_creados += 1
-            # hijo.marcar()  # Evaluar que sucede en la posicion
+            hijo.econtrarEsfera()
             cola.append(hijo)
 
         # derecha
@@ -358,18 +364,20 @@ def costo_uniforme(matriz_juego):
             semillasRecolectadas = nodo.semillas.copy()
             nodos_visitados = nodo.nodos_visitados.copy()
             recorrido = nodo.recorrido.copy()
+            estado = nodo.estadoEsferas.copy()
+            matrizNew = nodo.matriz.copy()
 
-            # matrizJuegoNew = nodo.matriz.copy()
-            # matrizJuegoNew[xI, yI] = 2
             if (nodo.matriz[yI, xI] == 6):
                 esferas[0] += 1
+                estado
                 costo1 += 1
                 costo2 = costo1 + costoAgente[-1]
                 costoAgente.append(costo2)
+                matrizNew[yI, xI] = 0
 
             if (nodo.matriz[yI, xI] == 5):
                 costo1 += 1
-                costo2 = costo1 + costoAgente[-1]
+                costo2 = costo1 + costoAgente.pop()
                 costoAgente.append(costo2)
                 semillasRecolectadas[0] += 1
 
@@ -407,18 +415,18 @@ def costo_uniforme(matriz_juego):
             recorrido.append((xI, yI))
 
             hijo = Nodo(
-                nodo.matriz,
+                matrizNew,
                 (xI, yI),
                 recorrido,
                 nodos_visitados,
                 semillasRecolectadas,
                 esferas,
                 nodo.profundidad + 1,
-                nodo.num_esferas,
+                estado,
                 costoAgente
             )
             nodos_creados += 1
-            # hijo.marcar()  # Evaluar que sucede en la posicion
+            hijo.econtrarEsfera()
             cola.append(hijo)
 
     return "No hay solucion", nodos_creados, nodos_expandidos, nodo.profundidad
