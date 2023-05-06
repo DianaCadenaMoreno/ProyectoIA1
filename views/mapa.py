@@ -48,7 +48,8 @@ def moverAgente_mapa(self, ruta):
             elif matriz[i][j] == self.muro:
                 self.canvas.create_rectangle(x, y, x+60, y+60, fill="orange")
             elif matriz[i][j] == self.goku:
-                pass
+                self.canvas.create_image(
+                    x, y, image=self.imgGoku, anchor="nw")
             elif matriz[i][j] == self.freezer:
                 self.canvas.create_image(
                     x, y, image=self.imgFreezer, anchor="nw")
@@ -80,9 +81,9 @@ def moverAgente_mapa(self, ruta):
     # Inicializar el acumulador de semillas y esferas
     semillas = 0
     esferas = 0
-
     # Recorrer la ruta
     for i in range(1, len(ruta)):
+        
         # Obtener posición actual de Goku en la matriz
         x1, y1 = ruta[i-1]
 
@@ -92,7 +93,23 @@ def moverAgente_mapa(self, ruta):
         # Verificar si hay una semilla en la posición actual de Goku
         if matriz[y1][x1] == self.semilla:
             # Incrementar el contador de semillas
+            x_pixeles = y1 * 60
+            y_pixeles = x1 * 60
+            self.canvas.delete(self.imgSemilla)
             semillas += 1
+            self.canvas.create_rectangle(y_pixeles, x_pixeles, y_pixeles+60, x_pixeles+60, fill="white")
+        else: 
+            if matriz[y1][x1] == self.esfera:
+                x_pixeles = y1 * 60
+                y_pixeles = x1 * 60
+                self.canvas.delete(self.imgEsfera)
+                self.canvas.create_rectangle(y_pixeles, x_pixeles, y_pixeles+60, x_pixeles+60, fill="white")
+            else:
+                if matriz[y1][x1] == self.goku:
+                    x_pixeles = y1 * 60
+                    y_pixeles = x1 * 60
+                    self.canvas.delete(self.imgGoku)
+                    self.canvas.create_rectangle(y_pixeles, x_pixeles, y_pixeles+60, x_pixeles+60, fill="white")
 
         # Verificar si Goku puede eliminar a Cell o Freezer
         if semillas > 0:
@@ -100,22 +117,22 @@ def moverAgente_mapa(self, ruta):
                 # Eliminar la imagen correspondiente de la celda
                 x_pixeles = y2 * 60
                 y_pixeles = x2 * 60
-                self.canvas.delete(self.imgCell)
+                
                 self.canvas.create_image(
                     y_pixeles, x_pixeles, image=img_batallaCell, anchor="nw")
                 # Decrementar el contador de semillas
                 semillas -= 1
-
+                self.canvas.delete(self.imgCell)                                                                                                                                                                                                                                                                                                                                            
             elif matriz[y2][x2] == self.freezer:
                 # Eliminar la imagen correspondiente de la celda
                 x_pixeles = y2 * 60
                 y_pixeles = x2 * 60
-                self.canvas.delete(self.imgFreezer)
+                
                 self.canvas.create_image(
                     y_pixeles, x_pixeles, image=img_batallaFree, anchor="nw")
                 # Decrementar el contador de semillas
                 semillas -= 1
-
+                self.canvas.delete(self.imgFreezer)
         else:
             pass
 
