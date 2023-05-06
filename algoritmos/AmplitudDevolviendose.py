@@ -84,7 +84,7 @@ def amplitud(matriz_juego):
         if (nodo.condicionGanar()):
             # Retorno la solución
             # final = nodo.recorrido, nodos_creados, nodos_expandidos, nodo.profundidad, nodo.esferas, nodo.matriz
-            final = nodo.recorrido
+            final = nodo.recorrido, nodos_creados, nodos_expandidos, nodo.profundidad, nodo.esferas
             return final
 
         x = nodo.posAgente[0]
@@ -112,21 +112,21 @@ def amplitud(matriz_juego):
 
             # Caso donde encuentre un cell y no tenga semilla
             if (nodo.matriz[yI, xI] == 4):
-                print("encontró un cell sin semilla")
+                0
+                # print("encontró un cell sin semilla")
 
             # Caso donde encuentre un cell y tenga semilla
             if (nodo.matriz[yI, xI] == 4):
-                print("encontró un cell con semilla")
+                # print("encontró un cell con semilla")
                 matrizNew[yI, xI] = 0
                 nodo.semillas - 1
 
             # Caso donde encuentre un freezer y no tenga semilla
             if (nodo.matriz[yI, xI] == 3):
-                print("encontró un freezer sin semilla")
+                0
 
             # Caso donde encuentre un freezer y tenga semilla
             if (nodo.matriz[yI, xI] == 3):
-                print("encontró un freezer con semilla")
                 matrizNew[yI, xI] = 0
                 nodo.semillas - 1
 
@@ -169,21 +169,20 @@ def amplitud(matriz_juego):
 
             # Caso donde encuentre un cell y no tenga semilla
             if (nodo.matriz[yI, xI] == 4):
-                print("encontró un cell sin semilla")
+                0
 
             # Caso donde encuentre un cell y tenga semilla
             if (nodo.matriz[yI, xI] == 4):
-                print("encontró un cell con semilla")
+
                 matrizNew[yI, xI] = 0
                 nodo.semillas - 1
 
             # Caso donde encuentre un freezer y no tenga semilla
             if (nodo.matriz[yI, xI] == 3):
-                print("encontró un freezer sin semilla")
+                0
 
             # Caso donde encuentre un freezer y tenga semilla
             if (nodo.matriz[yI, xI] == 3):
-                print("encontró un freezer con semilla")
                 matrizNew[yI, xI] = 0
                 nodo.semillas - 1
 
@@ -226,21 +225,21 @@ def amplitud(matriz_juego):
 
             # Caso donde encuentre un cell y no tenga semilla
             if (nodo.matriz[yI, xI] == 4):
-                print("encontró un cell sin semilla")
+                0
 
             # Caso donde encuentre un cell y tenga semilla
             if (nodo.matriz[yI, xI] == 4):
-                print("encontró un cell con semilla")
+                0
                 matrizNew[yI, xI] = 0
                 nodo.semillas - 1
 
             # Caso donde encuentre un freezer y no tenga semilla
             if (nodo.matriz[yI, xI] == 3):
-                print("encontró un freezer sin semilla")
+                0
 
             # Caso donde encuentre un freezer y tenga semilla
             if (nodo.matriz[yI, xI] == 3):
-                print("encontró un freezer con semilla")
+                0
                 matrizNew[yI, xI] = 0
                 nodo.semillas - 1
 
@@ -283,21 +282,21 @@ def amplitud(matriz_juego):
 
             # Caso donde encuentre un cell y no tenga semilla
             if (nodo.matriz[yI, xI] == 4):
-                print("encontró un cell sin semilla")
+                0
 
             # Caso donde encuentre un cell y tenga semilla
             if (nodo.matriz[yI, xI] == 4):
-                print("encontró un cell con semilla")
+                0
                 matrizNew[yI, xI] = 0
                 nodo.semillas - 1
 
             # Caso donde encuentre un freezer y no tenga semilla
             if (nodo.matriz[yI, xI] == 3):
-                print("encontró un freezer sin semilla")
+                0
 
             # Caso donde encuentre un freezer y tenga semilla
             if (nodo.matriz[yI, xI] == 3):
-                print("encontró un freezer con semilla")
+                0
                 matrizNew[yI, xI] = 0
                 nodo.semillas - 1
 

@@ -2,10 +2,13 @@ import tkinter as tk
 import numpy as np
 from PIL import Image, ImageTk
 import time
+# from main import GokuSmart
 
 with open("resources/maps/matriz.txt", "r") as archivo:
     lineas = archivo.readlines()
-    matriz = np.array([list(map(int, linea.strip().split())) for linea in lineas])
+    matriz = np.array([list(map(int, linea.strip().split()))
+                      for linea in lineas])
+
 
 def moverAgente_mapa(self, ruta):
     # Definir los valores y las imágenes correspondientes
@@ -18,17 +21,21 @@ def moverAgente_mapa(self, ruta):
     self.esfera = 6
 
     self.imgGoku = ImageTk.PhotoImage(Image.open("resources/images/goku.jpg"))
-    self.imgFreezer = ImageTk.PhotoImage(Image.open("resources/images/freezer.jpg"))
+    self.imgFreezer = ImageTk.PhotoImage(
+        Image.open("resources/images/freezer.jpg"))
     self.imgCell = ImageTk.PhotoImage(Image.open("resources/images/cell.jpg"))
-    self.imgSemilla = ImageTk.PhotoImage(Image.open("resources/images/semilla.jpg"))
-    self.imgEsfera = ImageTk.PhotoImage(Image.open("resources/images/esfera.png"))
+    self.imgSemilla = ImageTk.PhotoImage(
+        Image.open("resources/images/semilla.jpg"))
+    self.imgEsfera = ImageTk.PhotoImage(
+        Image.open("resources/images/esfera.png"))
+    img_batallaCell = ImageTk.PhotoImage(
+        Image.open("resources/images/batalla_cell.png"))
+    img_batallaFree = ImageTk.PhotoImage(
+        Image.open("resources/images/batalla_freezer.png"))
 
     # Crear el canvas
     self.canvas = tk.Canvas(self, width=600, height=600, bg="white")
     self.canvas.place(x=0, y=0)
-
-    # Inicializar la posición de goku
-    goku_pos = ruta[0]
 
     # Dibujar la matriz en el canvas
     for i in range(10):
@@ -41,21 +48,23 @@ def moverAgente_mapa(self, ruta):
             elif matriz[i][j] == self.muro:
                 self.canvas.create_rectangle(x, y, x+60, y+60, fill="orange")
             elif matriz[i][j] == self.goku:
-                #self.canvas.create_image(x, y, image=self.imgGoku, anchor="nw")
                 pass
             elif matriz[i][j] == self.freezer:
-                self.canvas.create_image(x, y, image=self.imgFreezer, anchor="nw")
+                self.canvas.create_image(
+                    x, y, image=self.imgFreezer, anchor="nw")
             elif matriz[i][j] == self.cell:
                 self.canvas.create_image(x, y, image=self.imgCell, anchor="nw")
             elif matriz[i][j] == self.semilla:
-                self.canvas.create_image(x, y, image=self.imgSemilla, anchor="nw")
+                self.canvas.create_image(
+                    x, y, image=self.imgSemilla, anchor="nw")
             elif matriz[i][j] == self.esfera:
-                self.canvas.create_image(x, y, image=self.imgEsfera, anchor="nw")
+                self.canvas.create_image(
+                    x, y, image=self.imgEsfera, anchor="nw")
 
-    # Cargar imagen original de Goku
+    # Cargar imagen original de Goku, batalla de cell y batalla de freezer
     img_goku = Image.open("resources/images/goku.jpg")
 
-    # Redimensionar imagen a 50x50 píxeles
+    # Redimensionar imagen a píxeles
     img_goku_resized = img_goku.resize((50, 50))
 
     # Crear objeto ImageTk para la imagen redimensionada
@@ -65,7 +74,8 @@ def moverAgente_mapa(self, ruta):
     x, y = ruta[0]
     x_pixeles = y * 60
     y_pixeles = x * 60
-    self.imagen_goku = self.canvas.create_image(y_pixeles, x_pixeles, image=img_goku_tk, anchor="nw")
+    self.imagen_goku = self.canvas.create_image(
+        y_pixeles, x_pixeles, image=img_goku_tk, anchor="nw")
     # Variable para indicar si Goku ya ha recogido la semilla
     # Inicializar el acumulador de semillas y esferas
     semillas = 0
@@ -81,9 +91,6 @@ def moverAgente_mapa(self, ruta):
 
         # Verificar si hay una semilla en la posición actual de Goku
         if matriz[y1][x1] == self.semilla:
-            # Eliminar la imagen de la semilla
-            self.canvas.delete(self.imgSemilla)
-
             # Incrementar el contador de semillas
             semillas += 1
 
@@ -94,8 +101,8 @@ def moverAgente_mapa(self, ruta):
                 x_pixeles = y2 * 60
                 y_pixeles = x2 * 60
                 self.canvas.delete(self.imgCell)
-                self.canvas.create_rectangle(y_pixeles, x_pixeles, y_pixeles+60, x_pixeles+60, fill="white")
-
+                self.canvas.create_image(
+                    y_pixeles, x_pixeles, image=img_batallaCell, anchor="nw")
                 # Decrementar el contador de semillas
                 semillas -= 1
 
@@ -104,14 +111,13 @@ def moverAgente_mapa(self, ruta):
                 x_pixeles = y2 * 60
                 y_pixeles = x2 * 60
                 self.canvas.delete(self.imgFreezer)
-                self.canvas.create_rectangle(y_pixeles, x_pixeles, y_pixeles+60, x_pixeles+60, fill="white")
-
+                self.canvas.create_image(
+                    y_pixeles, x_pixeles, image=img_batallaFree, anchor="nw")
                 # Decrementar el contador de semillas
                 semillas -= 1
 
         else:
             pass
-
 
         # calcular la posición de Goku en píxeles para ambos puntos
         x1_pixeles = y1 * 60
