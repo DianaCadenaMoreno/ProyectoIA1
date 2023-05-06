@@ -1,5 +1,5 @@
 import numpy as np
-from Nodo import Nodo
+from NodoPeye import Nodo
 
 juego = np.array([
     [0, 5, 3, 1, 1, 1, 1, 1, 1, 1],
@@ -117,7 +117,7 @@ def costo_uniforme(matriz_juego):
         nodos_expandidos += 1
         if (nodo.condicionGanar()):
             # Retorno la solución
-            final = "PARTE FINAL", nodo.recorrido, nodos_expandidos, nodo.profundidad, nodo.costo
+            final = "PARTE FINAL", nodo.recorrido, nodos_expandidos, nodo.profundidad, matriz_juego
             return final
 
         x = nodo.posAgente[0]

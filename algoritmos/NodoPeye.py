@@ -11,17 +11,16 @@ class Nodo:
         self.costo = costo
 
     def condicionGanar(self):
-        if (self.posAgente[1][0] == True and self.posAgente[1][1] == True):
+        if (self.estadoEsferas[0] == True and self.estadoEsferas[1] == True):
             return True
 
     def econtrarEsfera(self):
         # Encontramos la primera esfera
         if self.esferas[0] == 1:
-            # print("aaaaaaaa", self.posAgente[1][0])
-            self.posAgente[1][0] = True
+            self.estadoEsferas[0] = True
             # para que pueda devolverse, despues de encontrar la primera esfera
             # self.nodos_visitados = []
 
         # Encontramos la segunda esfera
         if self.esferas[0] == 2:
-            self.posAgente[1][1] = True
+            self.estadoEsferas[1] = True

@@ -1,5 +1,5 @@
 import numpy as np
-from Nodo import Nodo
+from NodoPeye import Nodo
 
 juego = np.array([
     [0, 5, 3, 1, 1, 1, 1, 1, 1, 1],
@@ -15,45 +15,16 @@ juego = np.array([
 ])
 
 # juego = np.array([
-#     [0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-#     [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-#     [0, 1, 1, 0, 3, 5, 1, 0, 1, 6],
-#     [0, 1, 1, 1, 3, 1, 1, 1, 1, 0],
-#     [0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
-#     [0, 1, 4, 1, 1, 1, 1, 1, 1, 0],
-#     [0, 1, 0, 4, 1, 0, 0, 1, 1, 0],
-#     [0, 1, 0, 0, 1, 1, 0, 1, 1, 0],
-#     [0, 0, 1, 1, 1, 1, 1, 1, 1, 0],
-#     [6, 0, 0, 0, 0, 0, 0, 0, 4, 0]
+#     [1, 0, 6, 0],
+#     [1, 2, 1, 0],
+#     [1, 6, 1, 1],
+#     [1, 1, 1, 0]
 # ])
-
-# [(8, 2), (7, 2), (7, 1), (6, 1), (5, 1), (5, 2), (4, 2), (3, 2), (3, 1), (2, 1), (2, 0), (1, 0), (0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (1, 4), (2, 4), (2, 5), (2, 6), (2, 7), (2, 8), (3, 8), (3, 9)]
-
-# posicion esfera 1 -> (0,4)
-# posicion esfera 2 -> (3,9)
-
-# juego = np.array([
-#     [0, 6],
-#     [0, 1],
-#     [0, 2],
-# ])
-
-# Recorrido correcto [(1, 2), (0, 2), (0, 1), (0, 0), (1, 0)]
-
-# juego = np.array([
-#     [0, 0, 0, 0],
-#     [0, 1, 1, 2],
-#     [0, 1, 6, 1],
-#     [5, 0, 0, 0]
-# ])
-
-# Recorrido correcto [(3, 1), (3, 0), (2, 0), (1, 0), (0, 0), (0, 1), (0, 2), (0, 3), (1, 3), (2, 3), (2, 2)]
 
 
 def profundidad(matriz_juego):
     nodos_creados = 0
     nodos_expandidos = 0
-
     for i in range(matriz_juego.shape[0]):  # filas
         for j in range(matriz_juego.shape[1]):  # columnas
             if matriz_juego[i][j] == 2:  # posicion del agente
@@ -143,7 +114,8 @@ def profundidad(matriz_juego):
             nodos_creados += 1
             hijo.econtrarEsfera()
             # hijo.marcar()  # Evaluar que sucede en la posicion
-            pila.append(hijo)
+            if nodo.profundidad < 64:
+                pila.append(hijo)
 
             # izquierda
         xI = x - 1
@@ -200,7 +172,9 @@ def profundidad(matriz_juego):
             )
             nodos_creados += 1
             hijo.econtrarEsfera()
-            pila.append(hijo)
+
+            if nodo.profundidad < 64:
+                pila.append(hijo)
 
         # Abajo
         xI = x
@@ -257,7 +231,8 @@ def profundidad(matriz_juego):
             )
             nodos_creados += 1
             hijo.econtrarEsfera()
-            pila.append(hijo)
+            if nodo.profundidad < 64:
+                pila.append(hijo)
 
         # Arriba
         xI = x
@@ -314,7 +289,8 @@ def profundidad(matriz_juego):
             )
             nodos_creados += 1
             hijo.econtrarEsfera()
-            pila.append(hijo)
+            if nodo.profundidad < 64:
+                pila.append(hijo)
 
     return "No hay solucion", nodos_creados, nodos_expandidos, nodo.profundidad
 
