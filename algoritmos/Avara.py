@@ -14,27 +14,25 @@ from NodoAvara import Nodo
 #     [1, 1, 1, 6, 1, 1, 0, 1, 1, 1]
 # ])
 
-juego = np.array([
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-    [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-    [0, 1, 1, 0, 3, 5, 1, 0, 1, 6],
-    [0, 1, 1, 1, 3, 1, 1, 1, 1, 0],
-    [0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
-    [0, 1, 4, 1, 1, 1, 1, 1, 1, 0],
-    [0, 1, 0, 4, 1, 0, 0, 1, 1, 0],
-    [0, 1, 0, 0, 1, 1, 0, 1, 1, 0],
-    [0, 0, 1, 1, 1, 1, 1, 1, 1, 0],
-    [6, 0, 0, 0, 0, 0, 0, 0, 4, 0]
-])
-
-# posicion esfera 1 -> (0,4)
-# posicion esfera 2 -> (3,9)
-
 # juego = np.array([
-#     [0, 6],
-#     [6, 1],
-#     [0, 2],
+#     [0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
+#     [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+#     [0, 1, 1, 0, 3, 5, 1, 0, 1, 6],
+#     [0, 1, 1, 1, 3, 1, 1, 1, 1, 0],
+#     [0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
+#     [0, 1, 4, 1, 1, 1, 1, 1, 1, 0],
+#     [0, 1, 0, 4, 1, 0, 0, 1, 1, 0],
+#     [0, 1, 0, 0, 1, 1, 0, 1, 1, 0],
+#     [0, 0, 1, 1, 1, 1, 1, 1, 1, 0],
+#     [6, 0, 0, 0, 0, 0, 0, 0, 4, 0]
 # ])
+
+
+juego = np.array([
+    [0, 6],
+    [6, 1],
+    [0, 2],
+])
 
 # juego = np.array([
 
@@ -49,6 +47,7 @@ def avara(matriz_juego):
     nodos_creados = 0
     nodos_expandidos = 0
     num_esferas = 0
+    esferas =[]
 
     for i in range(matriz_juego.shape[0]):  # filas
         for j in range(matriz_juego.shape[1]):  # columnas
@@ -62,11 +61,15 @@ def avara(matriz_juego):
             if matriz_juego[i][j] == 6:  # posicion del agente
                 num_esferas += 1  # x=j(columnas), y=i(filas)
                 print("num_esferas", num_esferas)
-                esferas= (j,i)
+                esferas.append((j,i))
                 print(esferas)
                 break  # romper ciclo para eficiencia.
 
-    def encontrar_heuristica(posicion):
+    # calcula la distancia de Manhattan entre dos puntos en un plano cartesiano (heurística de Avara)
+    def distancia_esfera(x1,y1,x2,y2):
+        return abs(x1 - x2) + abs(y1 - y2)
+
+    def heuristica(posicion):
         distancias=[]
 
         if len(esferas) == 0:
@@ -86,12 +89,7 @@ def avara(matriz_juego):
             total = sphere_distance + min(distancias[0], distancias[1])
         # print(total)
         return total
-
-    def distancia_esfera(x1,y1,x2,y2):
-        #calcula la distancia de Manhattan entre dos puntos en un plano cartesiano
-        return abs(x1 - x2) + abs(y1 - y2)
-    
-    
+    print(heuristica(pos_agente))
 
     raiz = Nodo(
         matriz_juego, #matriz
@@ -109,14 +107,11 @@ def avara(matriz_juego):
 
     while len(cola) > 0:  # condicion de parada
         # print("*", list(map(lambda nodo: nodo.recorrido, cola)), "*")
-        nodo = min(cola, key=lambda x: sum(encontrar_heuristica))
+        nodo = min(cola, key=lambda x: x.heuristica)
         nodo = cola.pop(0)  # extraer el primero de la cola
         nodos_expandidos += 1
        
-
         if (nodo.condicionGanar()):
-            # Retorno la solución
-            # final = nodo.recorrido, nodos_creados, nodos_expandidos, nodo.profundidad, nodo.esferas, nodo.matriz
             final = nodo.recorrido, nodos_creados, nodos_expandidos, nodo.profundidad, nodo.esferas, nodo.heuristica
             return final
 
@@ -175,7 +170,8 @@ def avara(matriz_juego):
                 nodo.semillas,
                 esferas,
                 nodo.profundidad + 1,
-                estado
+                estado,
+                nodo.heuristica
             )
             nodos_creados += 1
             hijo.marcar()
@@ -231,7 +227,8 @@ def avara(matriz_juego):
                 nodo.semillas,
                 esferas,
                 nodo.profundidad + 1,
-                estado
+                estado,
+                nodo.heuristica
             )
             nodos_creados += 1
             hijo.marcar()
@@ -288,7 +285,8 @@ def avara(matriz_juego):
                 nodo.semillas,
                 esferas,
                 nodo.profundidad + 1,
-                estado
+                estado,
+                nodo.heuristica
             )
             nodos_creados += 1
             hijo.marcar()
@@ -345,7 +343,8 @@ def avara(matriz_juego):
                 nodo.semillas,
                 esferas,
                 nodo.profundidad + 1,
-                estado
+                estado,
+                nodo.heuristica
             )
             nodos_creados += 1
             hijo.marcar()
