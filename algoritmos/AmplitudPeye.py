@@ -1,5 +1,5 @@
 import numpy as np
-from Nodo import Nodo
+from NodoPeye import Nodo
 
 juego = np.array([
     [0, 5, 3, 1, 1, 1, 1, 1, 1, 1],
@@ -32,7 +32,7 @@ juego = np.array([
 
 # juego = np.array([
 #     [0, 6],
-#     [0, 1],
+#     [6, 1],
 #     [0, 2],
 # ])
 
