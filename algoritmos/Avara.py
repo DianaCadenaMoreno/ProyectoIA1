@@ -66,51 +66,50 @@ def avara(matriz_juego):
                 print(esferas)
                 break  # romper ciclo para eficiencia.
 
-    def distancia_esfera(pos_agente, esferas):
+    def encontrar_heuristica(posicion):
+        distancias=[]
 
-        for i in range(matriz_juego.shape[0]):  # filas
-            for j in range(matriz_juego.shape[1]):  # columnas
-                if matriz_juego[i][j] == 2:  # posicion del agente
-                    pos_agente = (j, i)  # x=j(columnas), y=i(filas)
-                    matriz_juego[i][j] = 0  # actualizar
-                    break  # romper ciclo  para eficiencia
-    
-        for i in range(matriz_juego.shape[0]):  # filas
-            for j in range(matriz_juego.shape[1]):  # columnas
-                if matriz_juego[i][j] == 6:  # posicion del agente
-                    esferas= (j,i)
-                    # print(esferas)
-                break
-        x1, y1 = pos_agente
-        x2, y2 = esferas
+        if len(esferas) == 0:
+            return 0
+        
+        for esfera in esferas:
+            distancias.append(distancia_esfera(posicion[0], posicion[1], esfera[0], esfera[1]))
+
+        if len(esferas) == 2:
+            sphere_distance = distancia_esfera(esferas[0][0], esferas[0][1], esferas[1][0], esferas[1][1])
+        else:
+            sphere_distance = 0
+
+        if len(distancias) == 1:
+            total = sphere_distance + distancias[0]
+        else:
+            total = sphere_distance + min(distancias[0], distancias[1])
+        # print(total)
+        return total
+
+    def distancia_esfera(x1,y1,x2,y2):
         #calcula la distancia de Manhattan entre dos puntos en un plano cartesiano
         return abs(x1 - x2) + abs(y1 - y2)
-    print(distancia_esfera(pos_agente,esferas))
-
-    def heuristica(nodo):
-        pos_agente = nodo.posAgente
-        esferas = nodo.esferas
-        # print(pos_agente,esferas)
-        distancias = [distancia_esfera(pos_agente, esfera) for esfera in esferas]
-        # print(distancia_esfera)
-        return min(distancias)
+    
     
 
     raiz = Nodo(
-        matriz_juego,
-        pos_agente,
-        [pos_agente],
-        [pos_agente],
-        0,
-        [0],
-        0,
-        [False, False])
+        matriz_juego, #matriz
+        pos_agente, #posAgente
+        [pos_agente], #recorrido
+        [pos_agente], #nodos_visitados
+        0, #semillas
+        [0], #esferas
+        0, #profundidad
+        [False, False], #estado 
+        [pos_agente]) #heuristica
     
     cola = [raiz]
     # cola = sorted(cola, key=heuristica)
 
     while len(cola) > 0:  # condicion de parada
         # print("*", list(map(lambda nodo: nodo.recorrido, cola)), "*")
+        nodo = min(cola, key=lambda x: sum(encontrar_heuristica))
         nodo = cola.pop(0)  # extraer el primero de la cola
         nodos_expandidos += 1
        
@@ -118,7 +117,7 @@ def avara(matriz_juego):
         if (nodo.condicionGanar()):
             # Retorno la solución
             # final = nodo.recorrido, nodos_creados, nodos_expandidos, nodo.profundidad, nodo.esferas, nodo.matriz
-            final = nodo.recorrido, nodos_creados, nodos_expandidos, nodo.profundidad, nodo.esferas, heuristica(nodo)
+            final = nodo.recorrido, nodos_creados, nodos_expandidos, nodo.profundidad, nodo.esferas, nodo.heuristica
             return final
 
         x = nodo.posAgente[0]

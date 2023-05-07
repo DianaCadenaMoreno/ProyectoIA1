@@ -25,7 +25,7 @@ class Nodo:
         if self.esferas[0] == 2:
             self.estado[1] = True
 
-    def encontrar_heuristica(self):
+
         # Para calcular la heurística, podemos estimar la distancia restante
         # desde el estado actual hasta el estado objetivo. Podemos usar la distancia
         # de Manhattan para estimar esta distancia.
