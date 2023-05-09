@@ -14,32 +14,13 @@ juego = np.array([
     [1, 1, 1, 6, 1, 1, 0, 1, 1, 1]
 ])
 
-# juego = np.array([
-#     [0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-#     [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-#     [0, 1, 1, 0, 3, 5, 1, 0, 1, 6],
-#     [0, 1, 1, 1, 3, 1, 1, 1, 1, 0],
-#     [0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
-#     [0, 1, 4, 1, 1, 1, 1, 1, 1, 0],
-#     [0, 1, 0, 4, 1, 0, 0, 1, 1, 0],
-#     [0, 1, 0, 0, 1, 1, 0, 1, 1, 0],
-#     [0, 0, 1, 1, 1, 1, 1, 1, 1, 0],
-#     [6, 0, 0, 0, 0, 0, 0, 0, 4, 0]
-# ])
-
+#heuristica = 18
 
 # juego = np.array([
-#     [0, 6],
-#     [6, 1],
-#     [0, 2],
-# ])
-
-# juego = np.array([
-
-#     [1, 0, 6, 0],
-#     [1, 2, 1, 0],
-#     [1, 6, 1, 1],
-#     [1, 1, 1, 0]
+#     [0, 0, 6, 0],
+#     [0, 2, 1, 6],
+#     [0, 0, 1, 0],
+#     [0, 0, 0, 0]
 # ])
 
 def avara(matriz_juego):
@@ -62,34 +43,34 @@ def avara(matriz_juego):
                 num_esferas += 1  # x=j(columnas), y=i(filas)
                 esferas.append((j,i))
                 # print("num_esferas", num_esferas)
-                #print(esferas)               
+                # print(esferas)               
                 break  # romper ciclo para eficiencia
     
     # calcula la distancia de Manhattan entre dos puntos en un plano cartesiano (heurística de Avara)
-    def distancia_esfera(x1,y1,x2,y2):
-        return abs(x1 - x2) + abs(y1 - y2)
+    # def distancia_manhattan(x1,y1,x2,y2):
+    #     return abs(x1 - x2) + abs(y1 - y2)
 
-    def heuristica(posicion):
-        distancias=[]
+    # def heuristica(posicion):
+    #     distancias=[]
 
-        if len(esferas) == 0:
-            return 0
+    #     if len(esferas) == 0:
+    #         return 0
         
-        for esfera in esferas:
-            distancias.append(distancia_esfera(posicion[0], posicion[1], esfera[0], esfera[1]))
+    #     for esfera in esferas:
+    #         distancias.append(distancia_manhattan(posicion[0], posicion[1], esfera[0], esfera[1]))
 
-        if len(esferas) == 2:
-            sphere_distance = distancia_esfera(esferas[0][0], esferas[0][1], esferas[1][0], esferas[1][1])
-        else:
-            sphere_distance = 0
+    #     if len(esferas) == 2:
+    #         distancia_esferas = distancia_manhattan(esferas[0][0], esferas[0][1], esferas[1][0], esferas[1][1])
+    #     else:
+    #         distancia_esferas = 0
 
-        if len(distancias) == 1:
-            total = sphere_distance + distancias[0]
-        else:
-            total = sphere_distance + min(distancias[0], distancias[1])
+    #     if len(distancias) == 1:
+    #         heuristica = distancia_esferas + distancias[0]
+    #     else:
+    #         heuristica = distancia_esferas + min(distancias[0], distancias[1])
         
-        return total
-    print(heuristica(pos_agente))
+    #     return heuristica
+    # print(heuristica(pos_agente))
 
     raiz = Nodo(
         matriz_juego, #matriz
@@ -101,7 +82,7 @@ def avara(matriz_juego):
         0, #profundidad
         [False, False], #estadoEsferas
         0, #costo
-        [pos_agente]) #heuristica
+        0) #heuristica
 
     cola = [raiz]
 
@@ -109,15 +90,12 @@ def avara(matriz_juego):
         # print("*", list(map(lambda nodo: nodo.recorrido, cola)), "*")
         nodo = min(cola, key=lambda x: x.heuristica)
         cola.remove(nodo)  # extrae el ultimo elemento de primero
+        
         # nodo = cola.pop(0)  # extraer el primero de la cola
-        nodo.heuristica.copy()
         nodos_expandidos += 1
-
+        
         if (nodo.condicionGanar()):
-            # Retorno la solución
-            # final = nodo.recorrido, nodos_creados, nodos_expandidos, nodo.profundidad, nodo.esferas, nodo.matriz
-            final = nodo.recorrido, nodos_expandidos, nodo.profundidad, nodo.heuristica
-            return final
+            return nodo.recorrido, nodos_expandidos, nodo.profundidad, nodo.heuristica
 
         x = nodo.posAgente[0]
         y = nodo.posAgente[1]
@@ -134,6 +112,8 @@ def avara(matriz_juego):
             esferas = nodo.esferas.copy()
             estado = nodo.estadoEsferas.copy()
             matrizNew = nodo.matriz.copy()
+            nodo.heuristica = nodo.encontrar_heuristica()
+                                            
             if (nodo.matriz[yI, xI] == 6):
                 esferas[0] += 1
                 matrizNew[yI, xI] = 0
@@ -180,7 +160,6 @@ def avara(matriz_juego):
             )
             nodos_creados += 1
             hijo.econtrarEsfera()
-            # hijo.econtrarEsfera()  # Evaluar que sucede en la posicion
             cola.append(hijo)
 
         # Abajo
@@ -192,7 +171,8 @@ def avara(matriz_juego):
             nodos_visitados.append((xI, yI))
             esferas = nodo.esferas.copy()
             estado = nodo.estadoEsferas.copy()
-            matrizNew = nodo.matriz.copy()
+            nodo.heuristica = nodo.encontrar_heuristica()
+            
             if (nodo.matriz[yI, xI] == 6):
                 esferas[0] += 1
                 matrizNew[yI, xI] = 0
@@ -238,7 +218,6 @@ def avara(matriz_juego):
             )
             nodos_creados += 1
             hijo.econtrarEsfera()
-            # hijo.econtrarEsfera()  # Evaluar que sucede en la posicion
             cola.append(hijo)
 
         # izquierda
@@ -251,6 +230,9 @@ def avara(matriz_juego):
             esferas = nodo.esferas.copy()
             estado = nodo.estadoEsferas.copy()
             matrizNew = nodo.matriz.copy()
+            nodo.heuristica = nodo.encontrar_heuristica()
+            # print(nodo.encontrar_heuristica())
+
             if (nodo.matriz[yI, xI] == 6):
                 esferas[0] += 1
                 matrizNew[yI, xI] = 0
@@ -297,7 +279,6 @@ def avara(matriz_juego):
             )
             nodos_creados += 1
             hijo.econtrarEsfera()
-            # hijo.econtrarEsfera()  # Evaluar que sucede en la posicion
             cola.append(hijo)
 
         # derecha
@@ -310,6 +291,8 @@ def avara(matriz_juego):
             esferas = nodo.esferas.copy()
             estado = nodo.estadoEsferas.copy()
             matrizNew = nodo.matriz.copy()
+            nodo.heuristica = nodo.encontrar_heuristica()
+            
             if (nodo.matriz[yI, xI] == 6):
                 esferas[0] += 1
                 matrizNew[yI, xI] = 0
@@ -356,12 +339,9 @@ def avara(matriz_juego):
             )
             nodos_creados += 1
             hijo.econtrarEsfera()
-            # hijo.econtrarEsfera()  # Evaluar que sucede en la posicion
             cola.append(hijo)
+            
 
     return "No hay solucion", nodos_creados, nodos_expandidos, nodo.profundidad
 
-
-# final = avara(juego)
-# print(final[0])
 print(avara(juego))
