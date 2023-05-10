@@ -9,7 +9,7 @@ class Nodo:
         self.profundidad = profundidad
         self.estadoEsferas = estadoEsferas
         self.costo = costo
-        self.heuristica = heuristica
+        self.heuristica = self.encontrar_heuristica()
 
     def condicionGanar(self):
         if (self.estadoEsferas[0] == True and self.estadoEsferas[1] == True):
@@ -27,7 +27,7 @@ class Nodo:
             self.estadoEsferas[1] = True
         
     # calcula la distancia de Manhattan entre dos puntos en un plano cartesiano (heurística de Avara)
-    def distancia_manhattan(self,posAgentex1,posAgentey1,posEsferax2,posEsferay2):
+    def distancia_manhattan(self, posAgentex1, posAgentey1, posEsferax2, posEsferay2):
         return abs(posAgentex1 - posEsferax2) + abs(posAgentey1 - posEsferay2)
 
     def encontrar_heuristica(self):
@@ -48,9 +48,11 @@ class Nodo:
         for esfera in esferas:
             print(f"Posiciones: {self.posAgente[0]}, {self.posAgente[1]}, {esfera[0]}, {esfera[1]}")
             distancias.append(self.distancia_manhattan(self.posAgente[0], self.posAgente[1], esfera[0], esfera[1]))
+            print("D: ", distancias)
 
         if len(esferas) == 2:
             distancia_esferas = self.distancia_manhattan(esferas[0][0], esferas[0][1], esferas[1][0], esferas[1][1])
+            print("D_esf: ", distancia_esferas)
         else:
             distancia_esferas = 0
 
