@@ -1,5 +1,5 @@
 import numpy as np
-from Nodo import Nodo
+from Nodo_noInformada import Nodo
 
 juego = np.array([
     [1, 0, 6, 0],

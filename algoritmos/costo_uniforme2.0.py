@@ -1,12 +1,38 @@
 import numpy as np
-from Nodo import Nodo
+from Nodo_noInformada import Nodo
+
+# juego = np.array([
+#     [1, 0, 6, 0],
+#     [1, 2, 1, 0],
+#     [1, 6, 1, 1],
+#     [1, 1, 1, 0]
+# ])
 
 juego = np.array([
-    [1, 0, 6, 0],
-    [1, 2, 1, 0],
-    [1, 6, 1, 1],
-    [1, 1, 1, 0]
+    [0, 5, 3, 1, 1, 1, 1, 1, 1, 1],
+    [0, 1, 0, 0, 1, 0, 0, 0, 1, 1],
+    [0, 1, 1, 0, 3, 5, 1, 0, 2, 0],
+    [0, 1, 1, 1, 3, 1, 1, 1, 1, 0],
+    [6, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [1, 1, 4, 1, 1, 1, 1, 1, 1, 0],
+    [1, 1, 0, 4, 4, 0, 0, 1, 1, 5],
+    [1, 1, 0, 0, 1, 1, 0, 1, 1, 0],
+    [0, 0, 0, 0, 1, 1, 5, 0, 0, 0],
+    [1, 1, 1, 6, 1, 1, 0, 1, 1, 1]
 ])
+
+# juego = np.array([
+#     [0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
+#     [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+#     [0, 1, 1, 0, 3, 5, 1, 0, 1, 6],
+#     [0, 1, 1, 1, 3, 1, 1, 1, 1, 0],
+#     [0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
+#     [0, 1, 4, 1, 1, 1, 1, 1, 1, 0],
+#     [0, 1, 0, 4, 1, 0, 0, 1, 1, 0],
+#     [0, 1, 0, 0, 1, 1, 0, 1, 1, 0],
+#     [0, 0, 1, 1, 1, 1, 1, 1, 1, 0],
+#     [6, 0, 0, 0, 0, 0, 0, 0, 4, 0]
+# ])
 
 # juego = np.array([
 #     [0, 5, 3, 1, 1, 1, 1, 1, 1, 1],
@@ -121,7 +147,7 @@ def amplitud(matriz_juego):
     nodos_visitados = []
     while len(cola) > 0:  # condicion de parada
         # print("*", list(map(lambda nodo: nodo.recorrido, cola)), "*")
-        nodo = min(cola, key=lambda x: sum(x.costo))
+        nodo = min(cola, key=lambda x: x.costo[0])
         cola.remove(nodo)  # extrae el ultimo elemento de primero
         costoAgente = nodo.costo.copy()
 

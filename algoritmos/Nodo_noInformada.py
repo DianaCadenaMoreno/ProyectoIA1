@@ -1,8 +1,6 @@
 class Nodo:
     def __init__(self, matriz, posAgente, recorrido, nodos_visitados, semillas, esferas, profundidad,  costo):
         self.matriz = matriz
-        self.columnas = posAgente[0][0]
-        self.filas = posAgente[0][1]
         self.posAgente = posAgente
         self.recorrido = recorrido
         self.nodos_visitados = nodos_visitados  # evitar devolverse

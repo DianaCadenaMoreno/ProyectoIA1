@@ -1,5 +1,5 @@
 class Nodo:
-    def __init__(self, matriz, posAgente, recorrido, nodos_visitados, semillas, esferas, profundidad, estadoEsferas, costo, heuristica):
+    def __init__(self, matriz, posAgente, recorrido, nodos_visitados, semillas, esferas, profundidad, costo, heuristica, fn):
         self.matriz = matriz
         self.posAgente = posAgente
         self.recorrido = recorrido
@@ -7,24 +7,14 @@ class Nodo:
         self.semillas = semillas
         self.esferas = esferas
         self.profundidad = profundidad
-        self.estadoEsferas = estadoEsferas
         self.costo = costo
         self.heuristica = heuristica
+        self.fn = fn
 
-    def condicionGanar(self):
-        if (self.estadoEsferas[0] == True and self.estadoEsferas[1] == True):
-            return True
-
-    def econtrarEsfera(self):
-        # Encontramos la primera esfera
-        if self.esferas[0] == 1:
-            self.estadoEsferas[0] = True
-            # para que pueda devolverse, despues de encontrar la primera esfera
-            # self.nodos_visitados = []
-
-        # Encontramos la segunda esfera
-        if self.esferas[0] == 2:
-            self.estadoEsferas[1] = True
+    def condicionGanar(self, esferas):
+        if (self.posAgente[1] in esferas):
+            if (self.posAgente[2] in esferas):
+                return True
 
     # calcula la distancia de Manhattan entre dos puntos en un plano cartesiano (heurística de Avara)
     def distancia_manhattan(self, posAgentex1, posAgentey1, posEsferax2, posEsferay2):
@@ -39,6 +29,7 @@ class Nodo:
                     esferas.append((j, i))
                     break  # romper ciclo para eficiencia
         distancias = []
+
         if len(esferas) == 0:
             return 0
 
@@ -46,7 +37,7 @@ class Nodo:
             print(
                 f"Posiciones: {self.posAgente[0]}, {self.posAgente[1]}, {esfera[0]}, {esfera[1]}")
             distancias.append(self.distancia_manhattan(
-                self.posAgente[0], self.posAgente[1], esfera[0], esfera[1]))
+                self.posAgente[0][0], self.posAgente[0][1], esfera[0], esfera[1]))
             print("D: ", distancias)
 
         if len(esferas) == 2:

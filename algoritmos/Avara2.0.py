@@ -1,5 +1,5 @@
 import numpy as np
-from Nodo_noInformada import Nodo
+from NodoAvara2 import Nodo
 
 # juego = np.array([
 #     [1, 0, 6, 0],
@@ -7,6 +7,19 @@ from Nodo_noInformada import Nodo
 #     [1, 6, 1, 1],
 #     [1, 1, 1, 0]
 # ])
+
+juego = np.array([
+    [0, 5, 3, 1, 1, 1, 1, 1, 1, 1],
+    [0, 1, 0, 0, 1, 0, 0, 0, 1, 1],
+    [0, 1, 1, 0, 3, 5, 1, 0, 2, 0],
+    [0, 1, 1, 1, 3, 1, 1, 1, 1, 0],
+    [6, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [1, 1, 4, 1, 1, 1, 1, 1, 1, 0],
+    [1, 1, 0, 4, 4, 0, 0, 1, 1, 5],
+    [1, 1, 0, 0, 1, 1, 0, 1, 1, 0],
+    [0, 0, 0, 0, 1, 1, 5, 0, 0, 0],
+    [1, 1, 1, 6, 1, 1, 0, 1, 1, 1]
+])
 
 # juego = np.array([
 #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
@@ -19,45 +32,6 @@ from Nodo_noInformada import Nodo
 #     [0, 1, 0, 0, 1, 1, 0, 1, 1, 0],
 #     [0, 0, 1, 1, 1, 1, 1, 1, 1, 0],
 #     [6, 0, 0, 0, 0, 0, 0, 0, 4, 0]
-# ])
-
-# juego = np.array([
-#     [0, 5, 3, 1, 1, 1, 1, 1, 1, 1],
-#     [0, 1, 0, 0, 1, 1, 1, 1, 1, 1],
-#     [0, 1, 1, 0, 3, 5, 1, 1, 2, 0],
-#     [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-#     [6, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-#     [1, 0, 1, 1, 1, 1, 1, 1, 1, 1],
-#     [1, 0, 0, 4, 4, 1, 0, 1, 1, 5],
-#     [1, 1, 0, 1, 1, 1, 0, 1, 1, 0],
-#     [0, 1, 0, 0, 1, 1, 5, 0, 0, 0],
-#     [1, 1, 1, 6, 1, 1, 0, 1, 1, 1]
-# ])
-
-juego = np.array([
-    [6, 5, 3, 1, 1, 1, 1, 1, 1, 1],
-    [0, 1, 0, 0, 1, 1, 0, 0, 0, 1],
-    [0, 1, 1, 0, 3, 1, 0, 1, 2, 1],
-    [0, 1, 1, 1, 3, 1, 0, 0, 0, 0],
-    [6, 0, 0, 0, 0, 0, 1, 1, 1, 0],
-    [1, 1, 4, 1, 1, 1, 1, 1, 1, 0],
-    [1, 1, 0, 4, 4, 0, 0, 1, 1, 5],
-    [1, 1, 0, 0, 1, 1, 0, 1, 1, 0],
-    [0, 0, 0, 0, 1, 1, 5, 0, 0, 0],
-    [1, 1, 1, 0, 1, 1, 0, 1, 1, 1]
-])
-
-# juego = np.array([
-#     [1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-#     [1, 1, 0, 1, 2, 0, 1, 0, 1, 0],
-#     [1, 1, 0, 1, 0, 1, 1, 0, 1, 1],
-#     [1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-#     [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-#     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-#     [1, 0, 1, 1, 0, 1, 0, 1, 0, 1],
-#     [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-#     [1, 6, 6, 1, 1, 1, 0, 1, 0, 1],
-#     [1, 1, 1, 1, 1, 1, 0, 0, 0, 1]
 # ])
 
 # juego = np.array([
@@ -75,55 +49,73 @@ juego = np.array([
 # esferas -> (2,0) y (1,2)
 
 
-def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, matriz,):
+def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, copiaSemillas, matriz, costoAgente, heuristica, funcionHeuristica):
     esferas = copiaEsferas
     estadoAgente = copiaEstadoAgente
     matrizNew = copiaMatriz
+    costo1 = 0
+    costo2 = 0
+    semillasRecolectadas = copiaSemillas
     Final = []
+    heuristica = funcionHeuristica
 
     if (matriz[yI, xI] == 6):
         esferas[0] += 1
         matrizNew[yI, xI] = 0
         if (esferas[0] == 1):
             estadoAgente[1] = [xI, yI]
-            esferas[1] = [xI, yI]
         if (esferas[0] == 2):
             estadoAgente[2] = [xI, yI]
-            esferas[1] = [xI, yI]
+        costo1 += 1
+        costo2 = costo1 + costoAgente[-1]
+        costoAgente.append(costo2)
 
     if (matriz[yI, xI] == 5):
         matrizNew[yI, xI] = 0
+        costo1 += 1
+        costo2 = costo1 + costoAgente.pop()
+        costoAgente.append(costo2)
+        semillasRecolectadas[0] += 1
 
     # Caso donde encuentre un cell y no tenga semilla
     if (matriz[yI, xI] == 4):
         matrizNew[yI, xI] = 0
-        0
-        # print("encontró un cell sin semilla")
+        costo1 += 7
+        costo2 = costo1 + costoAgente[-1]
+        costoAgente.append(costo2)
 
     # Caso donde encuentre un cell y tenga semilla
     if (matriz[yI, xI] == 4):
-        # print("encontró un cell con semilla")
         matrizNew[yI, xI] = 0
+        costo1 += 1
+        costo2 = costo1 + costoAgente[-1]
+        costoAgente.append(costo2)
+        semillasRecolectadas[0] - 1
 
     # Caso donde encuentre un freezer y no tenga semilla
     if (matriz[yI, xI] == 3):
         matrizNew[yI, xI] = 0
-        0
+        costo1 += 4
+        costo2 = costo1 + costoAgente[-1]
+        costoAgente.append(costo2)
+        semillasRecolectadas[0] - 1
 
     # Caso donde encuentre un freezer y tenga semilla
     if (matriz[yI, xI] == 3):
         matrizNew[yI, xI] = 0
+        costo1 += 1
+        costo2 = costo1 + costoAgente[-1]
+        costoAgente.append(costo2)
+        semillasRecolectadas[0] - 1
 
     estadoAgente[0] = ((xI, yI))
-
-    Final = matrizNew, estadoAgente, esferas
+    Final = matrizNew, estadoAgente, esferas, costoAgente, semillasRecolectadas, heuristica
     return Final
 
 
-def amplitud(matriz_juego):
+def avara(matriz_juego):
     nodos_creados = 0
     nodos_expandidos = 0
-    pos_agente = []
     pos_esfera = []
     # matrizInicio = matriz_juego
 
@@ -147,8 +139,10 @@ def amplitud(matriz_juego):
         [pos_agente, [], []],
         [pos_agente],
         [[pos_agente], [], []],
+        [0],
+        [0, pos_esfera],
         0,
-        [0, []],
+        [0],
         0,
         0)
 
@@ -156,8 +150,9 @@ def amplitud(matriz_juego):
     nodos_visitados = []
     while len(cola) > 0:  # condicion de parada
         # print("*", list(map(lambda nodo: nodo.recorrido, cola)), "*")
-        nodo = cola.pop(0)  # extraer el primero de la cola
-        # print("Nodos visitados", nodo.nodos_visitados)
+        nodo = min(cola, key=lambda x: x.heuristica)
+        cola.remove(nodo)  # extrae el ultimo elemento de primero
+        costoAgente = nodo.costo.copy()
 
         nodos_visitados.append(nodo.posAgente)
         nodos_expandidos += 1
@@ -165,7 +160,6 @@ def amplitud(matriz_juego):
             # Retorno la solución
             # final = nodo.recorrido, nodos_creados, nodos_expandidos, nodo.profundidad, nodo.esferas, nodo.matriz
             final = nodo.recorrido, nodos_expandidos, nodo.profundidad, matriz_juego
-
             return final
 
         x = nodo.posAgente[0][0]
@@ -178,7 +172,7 @@ def amplitud(matriz_juego):
 
         if yI >= 0 and nodo.matriz[yI, xI] != 1:
             movimientos = verficarMovimientos(xI, yI, nodo.esferas.copy(
-            ), nodo.posAgente.copy(), nodo.matriz.copy(), nodo.matriz)
+            ), nodo.posAgente.copy(), nodo.matriz.copy(), nodo.semillas.copy(), nodo.matriz, nodo.costo, nodo.heuristica, nodo.encontrar_heuristica())
             recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
             # estado = nodo.estadoEsferas.copy()
             hijo = Nodo(
@@ -186,18 +180,19 @@ def amplitud(matriz_juego):
                 movimientos[1],
                 recorrido,  # Nuevo
                 nodos_visitados,  # Nuevo
-                nodo.semillas,
+                movimientos[4],
                 movimientos[2],
                 nodo.profundidad + 1,
-                nodo.costo
+                movimientos[3],
+                movimientos[5],
+                nodo.fn
             )
             nodos_creados += 1
-            if (nodo.profundidad < 64):
-                if (movimientos[1] not in nodos_visitados):
-                    cola.append(hijo)
-                    recorrido.append((xI, yI))
+            if (movimientos[1] not in nodos_visitados):
+                cola.append(hijo)
+                recorrido.append((xI, yI))
+                0
             print("nodos_visitados", nodos_visitados)
-            print("Estado agente", nodo.posAgente)
 
         # Abajo
         xI = x
@@ -205,7 +200,7 @@ def amplitud(matriz_juego):
 
         if yI < matriz_juego.shape[0] and nodo.matriz[yI, xI] != 1:
             movimientos = verficarMovimientos(xI, yI, nodo.esferas.copy(
-            ), nodo.posAgente.copy(), nodo.matriz.copy(), nodo.matriz)
+            ), nodo.posAgente.copy(), nodo.matriz.copy(), nodo.semillas.copy(), nodo.matriz, nodo.costo, nodo.heuristica, nodo.encontrar_heuristica())
             recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
             # estado = nodo.estadoEsferas.copy()
             hijo = Nodo(
@@ -213,18 +208,19 @@ def amplitud(matriz_juego):
                 movimientos[1],
                 recorrido,  # Nuevo
                 nodos_visitados,  # Nuevo
-                nodo.semillas,
+                movimientos[4],
                 movimientos[2],
                 nodo.profundidad + 1,
-                nodo.costo
+                movimientos[3],
+                movimientos[5],
+                nodo.fn
             )
             nodos_creados += 1
-            if (nodo.profundidad < 64):
-                if (movimientos[1] not in nodos_visitados):
-                    cola.append(hijo)
-                    recorrido.append((xI, yI))
+            if (movimientos[1] not in nodos_visitados):
+                cola.append(hijo)
+                recorrido.append((xI, yI))
+                0
             print("nodos_visitados", nodos_visitados)
-            print("Estado agente", nodo.posAgente)
 
         # izquierda
         xI = x - 1
@@ -232,7 +228,7 @@ def amplitud(matriz_juego):
 
         if xI >= 0 and nodo.matriz[yI, xI] != 1:
             movimientos = verficarMovimientos(xI, yI, nodo.esferas.copy(
-            ), nodo.posAgente.copy(), nodo.matriz.copy(), nodo.matriz)
+            ), nodo.posAgente.copy(), nodo.matriz.copy(), nodo.semillas.copy(), nodo.matriz, nodo.costo, nodo.heuristica, nodo.encontrar_heuristica())
             recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
             # estado = nodo.estadoEsferas.copy()
             hijo = Nodo(
@@ -240,26 +236,26 @@ def amplitud(matriz_juego):
                 movimientos[1],
                 recorrido,  # Nuevo
                 nodos_visitados,  # Nuevo
-                nodo.semillas,
+                movimientos[4],
                 movimientos[2],
                 nodo.profundidad + 1,
-                nodo.costo
+                movimientos[3],
+                movimientos[5],
+                nodo.fn
             )
             nodos_creados += 1
-            if (nodo.profundidad < 64):
-                if (movimientos[1] not in nodos_visitados):
-                    cola.append(hijo)
-                    recorrido.append((xI, yI))
+            if (movimientos[1] not in nodos_visitados):
+                cola.append(hijo)
+                recorrido.append((xI, yI))
                 0
             print("nodos_visitados", nodos_visitados)
-            print("Estado agente", nodo.posAgente)
         # derecha
         xI = x + 1
         yI = y
 
         if xI < matriz_juego.shape[1] and nodo.matriz[yI, xI] != 1:
             movimientos = verficarMovimientos(xI, yI, nodo.esferas.copy(
-            ), nodo.posAgente.copy(), nodo.matriz.copy(), nodo.matriz)
+            ), nodo.posAgente.copy(), nodo.matriz.copy(), nodo.semillas.copy(), nodo.matriz, nodo.costo, nodo.heuristica, nodo.encontrar_heuristica())
             recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
             # estado = nodo.estadoEsferas.copy()
             hijo = Nodo(
@@ -267,23 +263,23 @@ def amplitud(matriz_juego):
                 movimientos[1],
                 recorrido,  # Nuevo
                 nodos_visitados,  # Nuevo
-                nodo.semillas,
+                movimientos[4],
                 movimientos[2],
                 nodo.profundidad + 1,
-                nodo.costo
+                movimientos[3],
+                movimientos[5],
+                nodo.fn
             )
             nodos_creados += 1
-            if (nodo.profundidad < 64):
-                if (movimientos[1] not in nodos_visitados):
-                    cola.append(hijo)
-                    recorrido.append((xI, yI))
+            if (movimientos[1] not in nodos_visitados):
+                cola.append(hijo)
+                recorrido.append((xI, yI))
                 0
             print("nodos_visitados", nodos_visitados)
-            print("Estado agente", nodo.posAgente)
 
     return "No hay solucion", nodos_creados, nodos_expandidos, nodo.profundidad
 
 
-# final = amplitud(juego)
+# final = avara(juego)
 # print(final[0])
-print(amplitud(juego))
+print(avara(juego))
