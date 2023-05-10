@@ -1,20 +1,31 @@
 import numpy as np
 from NodoAvara import Nodo
 
+# juego = np.array([
+#     [0, 5, 3, 1, 1, 1, 1, 1, 1, 1],
+#     [0, 1, 0, 0, 1, 0, 0, 0, 1, 1],
+#     [0, 1, 1, 0, 3, 5, 1, 0, 2, 0],
+#     [0, 1, 1, 1, 3, 1, 1, 1, 1, 0],
+#     [6, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+#     [1, 1, 4, 1, 1, 1, 1, 1, 1, 0],
+#     [1, 1, 0, 4, 4, 0, 0, 1, 1, 5],
+#     [1, 1, 0, 0, 1, 1, 0, 1, 1, 0],
+#     [0, 0, 0, 0, 1, 1, 5, 0, 0, 0],
+#     [1, 1, 1, 6, 1, 1, 0, 1, 1, 1]
+# ])
+
 juego = np.array([
     [0, 5, 3, 1, 1, 1, 1, 1, 1, 1],
     [0, 1, 0, 0, 1, 0, 0, 0, 1, 1],
     [0, 1, 1, 0, 3, 5, 1, 0, 2, 0],
-    [0, 1, 1, 1, 3, 1, 1, 1, 1, 0],
+    [0, 1, 1, 1, 3, 1, 1, 1, 1, 6],
     [6, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [1, 1, 4, 1, 1, 1, 1, 1, 1, 0],
     [1, 1, 0, 4, 4, 0, 0, 1, 1, 5],
     [1, 1, 0, 0, 1, 1, 0, 1, 1, 0],
     [0, 0, 0, 0, 1, 1, 5, 0, 0, 0],
-    [1, 1, 1, 6, 1, 1, 0, 1, 1, 1]
+    [1, 1, 1, 0, 1, 1, 0, 1, 1, 1]
 ])
-
-#heuristica = 18
 
 # juego = np.array([
 #     [0, 0, 6, 0],
@@ -87,12 +98,13 @@ def avara(matriz_juego):
     cola = [raiz]
 
     while len(cola) > 0:  # condicion de parada
-        # print("*", list(map(lambda nodo: nodo.recorrido, cola)), "*")
+       
         nodo = min(cola, key=lambda x: x.heuristica)
         cola.remove(nodo)  # extrae el ultimo elemento de primero
         
         # nodo = cola.pop(0)  # extraer el primero de la cola
         nodos_expandidos += 1
+        # print(nodo.encontrar_heuristica())
         
         if (nodo.condicionGanar()):
             return nodo.recorrido, nodos_expandidos, nodo.profundidad, nodo.heuristica
