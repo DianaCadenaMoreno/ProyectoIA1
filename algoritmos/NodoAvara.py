@@ -9,7 +9,7 @@ class Nodo:
         self.profundidad = profundidad
         self.estadoEsferas = estadoEsferas
         self.costo = costo
-        self.heuristica = self.encontrar_heuristica()
+        self.heuristica = heuristica
 
     def condicionGanar(self):
         if (self.estadoEsferas[0] == True and self.estadoEsferas[1] == True):
@@ -46,13 +46,11 @@ class Nodo:
             return 0
         
         for esfera in esferas:
-            print(f"Posiciones: {self.posAgente[0]}, {self.posAgente[1]}, {esfera[0]}, {esfera[1]}")
             distancias.append(self.distancia_manhattan(self.posAgente[0], self.posAgente[1], esfera[0], esfera[1]))
-            print("D: ", distancias)
 
         if len(esferas) == 2:
             distancia_esferas = self.distancia_manhattan(esferas[0][0], esferas[0][1], esferas[1][0], esferas[1][1])
-            print("D_esf: ", distancia_esferas)
+
         else:
             distancia_esferas = 0
 
@@ -60,9 +58,9 @@ class Nodo:
             self.heuristica = distancia_esferas + distancias[0]
         else:
             self.heuristica = distancia_esferas + min(distancias[0], distancias[1])
+
         print("heuristica",self.heuristica)
         return self.heuristica 
-    
     
 
             

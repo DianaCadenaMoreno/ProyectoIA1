@@ -99,6 +99,7 @@ def avara(matriz_juego):
             esferas = nodo.esferas.copy()
             estado = nodo.estadoEsferas.copy()
             matrizNew = nodo.matriz.copy()
+            nodo.heuristica = nodo.encontrar_heuristica()
                                             
             if (nodo.matriz[yI, xI] == 6):
                 esferas[0] += 1
@@ -157,6 +158,7 @@ def avara(matriz_juego):
             nodos_visitados.append((xI, yI))
             esferas = nodo.esferas.copy()
             estado = nodo.estadoEsferas.copy()
+            nodo.heuristica = nodo.encontrar_heuristica()
             
             if (nodo.matriz[yI, xI] == 6):
                 esferas[0] += 1
@@ -215,6 +217,7 @@ def avara(matriz_juego):
             esferas = nodo.esferas.copy()
             estado = nodo.estadoEsferas.copy()
             matrizNew = nodo.matriz.copy()
+            nodo.heuristica = nodo.encontrar_heuristica()
 
             if (nodo.matriz[yI, xI] == 6):
                 esferas[0] += 1
@@ -274,6 +277,7 @@ def avara(matriz_juego):
             esferas = nodo.esferas.copy()
             estado = nodo.estadoEsferas.copy()
             matrizNew = nodo.matriz.copy()
+            nodo.heuristica = nodo.encontrar_heuristica()
 
             if (nodo.matriz[yI, xI] == 6):
                 esferas[0] += 1
