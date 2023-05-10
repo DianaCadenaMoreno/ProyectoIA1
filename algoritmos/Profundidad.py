@@ -1,6 +1,7 @@
 import numpy as np
 from NodoPeye import Nodo
 
+
 juego = np.array([
     [0, 5, 3, 1, 1, 1, 1, 1, 1, 1],
     [0, 1, 0, 0, 1, 0, 0, 0, 1, 1],
@@ -72,7 +73,7 @@ def profundidad(matriz_juego):
 
             if (nodo.matriz[yI, xI] == 5):
                 nodo.semillas += 1
-                # matrizNew[yI, xI] = 0
+                matrizNew[yI, xI] = 0
 
             # Caso donde encuentre un cell y no tenga semilla
             if (nodo.matriz[yI, xI] == 4):
@@ -101,7 +102,7 @@ def profundidad(matriz_juego):
             # estado = nodo.estadoEsferas.copy()
 
             hijo = Nodo(
-                nodo.matriz,
+                matrizNew,
                 (xI, yI),
                 recorrido,
                 nodos_visitados,
@@ -160,7 +161,7 @@ def profundidad(matriz_juego):
             # estado = nodo.estadoEsferas.copy()
 
             hijo = Nodo(
-                nodo.matriz,
+                matrizNew,
                 (xI, yI),
                 recorrido,
                 nodos_visitados,
@@ -219,7 +220,7 @@ def profundidad(matriz_juego):
             # estado = nodo.estadoEsferas.copy()
 
             hijo = Nodo(
-                nodo.matriz,
+                matrizNew,
                 (xI, yI),
                 recorrido,
                 nodos_visitados,
@@ -277,7 +278,7 @@ def profundidad(matriz_juego):
             # estado = nodo.estadoEsferas.copy()
 
             hijo = Nodo(
-                nodo.matriz,
+                matrizNew,
                 (xI, yI),
                 recorrido,
                 nodos_visitados,

@@ -1,18 +1,18 @@
 import numpy as np
 from NodoPeye import Nodo
 
-juego = np.array([
-    [0, 5, 3, 1, 1, 1, 1, 1, 1, 1],
-    [0, 1, 0, 0, 1, 0, 0, 0, 1, 1],
-    [0, 1, 1, 0, 3, 5, 1, 0, 2, 0],
-    [0, 1, 1, 1, 3, 1, 1, 1, 1, 0],
-    [6, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [1, 1, 4, 1, 1, 1, 1, 1, 1, 0],
-    [1, 1, 0, 4, 4, 0, 0, 1, 1, 5],
-    [1, 1, 0, 0, 1, 1, 0, 1, 1, 0],
-    [0, 0, 0, 0, 1, 1, 5, 0, 0, 0],
-    [1, 1, 1, 6, 1, 1, 0, 1, 1, 1]
-])
+# juego = np.array([
+#     [0, 5, 3, 1, 1, 1, 1, 1, 1, 1],
+#     [0, 1, 0, 0, 1, 0, 0, 0, 1, 1],
+#     [0, 1, 1, 0, 3, 5, 1, 0, 2, 0],
+#     [0, 1, 1, 1, 3, 1, 1, 1, 1, 0],
+#     [6, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+#     [1, 1, 4, 1, 1, 1, 1, 1, 1, 0],
+#     [1, 1, 0, 4, 4, 0, 0, 1, 1, 5],
+#     [1, 1, 0, 0, 1, 1, 0, 1, 1, 0],
+#     [0, 0, 0, 0, 1, 1, 5, 0, 0, 0],
+#     [1, 1, 1, 6, 1, 1, 0, 1, 1, 1]
+# ])
 
 # [(8, 2), (7, 2), (7, 1), (6, 1), (5, 1), (5, 2), (4, 2), (3, 2), (3, 1), (2, 1), (2, 0), (1, 0), (0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (1, 4), (2, 4), (2, 5), (2, 6), (2, 7), (2, 8), (3, 8), (3, 9)]
 
@@ -43,14 +43,14 @@ juego = np.array([
 #     [6, 0, 0, 0, 0]
 # ])
 
-# juego = np.array([
-#     [0, 0, 1, 1, 1, 1],
-#     [3, 0, 0, 0, 0, 2],
-#     [0, 1, 1, 1, 1, 1],
-#     [6, 1, 1, 0, 0, 1],
-#     [0, 0, 4, 4, 0, 1],
-#     [1, 0, 5, 1, 6, 1]
-# ])
+juego = np.array([
+    [0, 0, 1, 1, 1, 1],
+    [3, 0, 0, 0, 0, 2],
+    [0, 1, 1, 1, 1, 1],
+    [6, 1, 1, 0, 0, 1],
+    [0, 0, 4, 4, 0, 1],
+    [1, 0, 5, 1, 6, 1]
+])
 # ajaaaaaaaa
 
 # juego = np.array([
@@ -129,7 +129,7 @@ def costo_uniforme(matriz_juego):
         xI = x
         yI = y - 1
 
-        if yI >= 0 and not ((xI, yI) in nodo.nodos_visitados) and nodo.matriz[y, x] != 1:
+        if yI >= 0 and not ((xI, yI) in nodo.nodos_visitados) and nodo.matriz[yI, xI] != 1:
             esferas = nodo.esferas.copy()
             costo1 = 0
             costo2 = 0
@@ -183,9 +183,6 @@ def costo_uniforme(matriz_juego):
                 costoAgente.append(costo2)
                 semillasRecolectadas[0] - 1
 
-            nodos_visitados.append((xI, yI))
-            recorrido.append((xI, yI))
-
             hijo = Nodo(
                 matrizNew,
                 (xI, yI),
@@ -199,13 +196,16 @@ def costo_uniforme(matriz_juego):
             )
             nodos_creados += 1
             hijo.econtrarEsfera()
-            cola.append(hijo)
+            if nodo.profundidad < 64:
+                cola.append(hijo)
+                nodos_visitados.append((xI, yI))
+                recorrido.append((xI, yI))
 
         # Abajo
         xI = x
         yI = y + 1
 
-        if yI < matriz_juego.shape[0] and not ((xI, yI) in nodo.nodos_visitados) and nodo.matriz[y, x] != 1:
+        if yI < matriz_juego.shape[0] and not ((xI, yI) in nodo.nodos_visitados) and nodo.matriz[yI, xI] != 1:
             esferas = nodo.esferas.copy()
             costo1 = 0
             costo2 = 0
@@ -259,9 +259,6 @@ def costo_uniforme(matriz_juego):
                 costoAgente.append(costo2)
                 semillasRecolectadas[0] - 1
 
-            nodos_visitados.append((xI, yI))
-            recorrido.append((xI, yI))
-
             hijo = Nodo(
                 matrizNew,
                 (xI, yI),
@@ -275,13 +272,16 @@ def costo_uniforme(matriz_juego):
             )
             nodos_creados += 1
             hijo.econtrarEsfera()
-            cola.append(hijo)
+            if nodo.profundidad < 64:
+                cola.append(hijo)
+                nodos_visitados.append((xI, yI))
+                recorrido.append((xI, yI))
 
             # izquierda
         xI = x - 1
         yI = y
 
-        if xI >= 0 and not ((xI, yI) in nodo.nodos_visitados) and nodo.matriz[y, x] != 1:
+        if xI >= 0 and not ((xI, yI) in nodo.nodos_visitados) and nodo.matriz[yI, xI] != 1:
             esferas = nodo.esferas.copy()
             costo1 = 0
             costo2 = 0
@@ -335,9 +335,6 @@ def costo_uniforme(matriz_juego):
                 costoAgente.append(costo2)
                 semillasRecolectadas[0] - 1
 
-            nodos_visitados.append((xI, yI))
-            recorrido.append((xI, yI))
-
             hijo = Nodo(
                 matrizNew,
                 (xI, yI),
@@ -351,13 +348,16 @@ def costo_uniforme(matriz_juego):
             )
             nodos_creados += 1
             hijo.econtrarEsfera()
-            cola.append(hijo)
+            if nodo.profundidad < 64:
+                cola.append(hijo)
+                nodos_visitados.append((xI, yI))
+                recorrido.append((xI, yI))
 
         # derecha
         xI = x + 1
         yI = y
 
-        if xI < matriz_juego.shape[1] and not ((xI, yI) in nodo.nodos_visitados) and nodo.matriz[y, x] != 1:
+        if xI < matriz_juego.shape[1] and not ((xI, yI) in nodo.nodos_visitados) and nodo.matriz[yI, xI] != 1:
             esferas = nodo.esferas.copy()
             costo1 = 0
             costo2 = 0
@@ -380,6 +380,7 @@ def costo_uniforme(matriz_juego):
                 costo2 = costo1 + costoAgente.pop()
                 costoAgente.append(costo2)
                 semillasRecolectadas[0] += 1
+                matrizNew[yI, xI] = 0
 
             # Caso donde encuentre un cell y no tenga semilla
             if (nodo.matriz[yI, xI] == 4):
@@ -411,9 +412,6 @@ def costo_uniforme(matriz_juego):
                 costoAgente.append(costo2)
                 semillasRecolectadas[0] - 1
 
-            nodos_visitados.append((xI, yI))
-            recorrido.append((xI, yI))
-
             hijo = Nodo(
                 matrizNew,
                 (xI, yI),
@@ -427,7 +425,10 @@ def costo_uniforme(matriz_juego):
             )
             nodos_creados += 1
             hijo.econtrarEsfera()
-            cola.append(hijo)
+            if nodo.profundidad < 64:
+                cola.append(hijo)
+                nodos_visitados.append((xI, yI))
+                recorrido.append((xI, yI))
 
     return "No hay solucion", nodos_creados, nodos_expandidos, nodo.profundidad
 
