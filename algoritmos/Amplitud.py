@@ -1,12 +1,12 @@
 import numpy as np
-from Nodo_noInformada import Nodo
+from algoritmos.Nodo_noInformada import Nodo
 
-# juego = np.array([
-#     [1, 0, 6, 0],
-#     [1, 2, 1, 0],
-#     [1, 6, 1, 1],
-#     [1, 1, 1, 0]
-# ])
+juego = np.array([
+    [1, 0, 6, 0],
+    [1, 2, 1, 0],
+    [1, 6, 1, 1],
+    [1, 1, 1, 0]
+])
 
 # juego = np.array([
 #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 2],

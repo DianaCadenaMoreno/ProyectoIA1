@@ -15,8 +15,8 @@ class Nodo:
         return (self.estadoAgente[1] in esferas and self.estadoAgente[2] in esferas)
 
     # calcula la distancia de Manhattan entre dos puntos en un plano cartesiano (heurística de Avara)
-    def distancia_manhattan(self, posAgentex1, posAgentey1, posEsferax2, posEsferay2):
-        return abs(posAgentex1 - posEsferax2) + abs(posAgentey1 - posEsferay2)
+    def distancia_manhattan(self, estadoAgentex1, estadoAgentey1, posEsferax2, posEsferay2):
+        return abs(estadoAgentex1 - posEsferax2) + abs(estadoAgentey1 - posEsferay2)
 
     def encontrar_heuristica(self):
         esferas = []
