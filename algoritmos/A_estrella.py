@@ -12,13 +12,13 @@ juego = np.array([
     [0, 5, 3, 1, 1, 1, 1, 1, 1, 1],
     [0, 1, 0, 0, 1, 0, 0, 0, 1, 1],
     [0, 1, 1, 0, 3, 5, 1, 0, 2, 0],
-    [0, 1, 1, 1, 3, 1, 1, 1, 1, 0],
+    [6, 1, 1, 1, 3, 1, 1, 1, 1, 0],
     [6, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [1, 1, 4, 1, 1, 1, 1, 1, 1, 0],
     [1, 1, 0, 4, 4, 0, 0, 1, 1, 5],
     [1, 1, 0, 0, 1, 1, 0, 1, 1, 0],
     [0, 0, 0, 0, 1, 1, 5, 0, 0, 0],
-    [1, 1, 1, 6, 1, 1, 0, 1, 1, 1]
+    [1, 1, 1, 0, 1, 1, 0, 1, 1, 1]
 ])
 
 # juego = np.array([
@@ -142,7 +142,7 @@ def A_estrella(matriz_juego):
             if matriz_juego[i][j] == 6:  # posicion del agente
                 pos_esfera.append([j, i])  # x=j(columnas), y=i(filas)
                 # matriz_juego[i][j] = 0  # actualizar
-                break  # romper ciclo para eficiencia
+                #break  # romper ciclo para eficiencia
     print("Posiciones ideales", pos_esfera)
 
     raiz = Nodo(
