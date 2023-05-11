@@ -112,7 +112,7 @@ def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, co
     return Final
 
 
-def amplitud(matriz_juego):
+def costo_uniforme(matriz_juego):
     nodos_creados = 0
     nodos_expandidos = 0
     pos_esfera = []
@@ -271,4 +271,4 @@ def amplitud(matriz_juego):
 
 # final = amplitud(juego)
 # print(final[0])
-print(amplitud(juego))
+print(costo_uniforme(juego))

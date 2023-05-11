@@ -124,7 +124,7 @@ def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, co
     return Final
 
 
-def avara(matriz_juego):
+def A_estrella(matriz_juego):
     nodos_creados = 0
     nodos_expandidos = 0
     pos_esfera = []
@@ -172,7 +172,7 @@ def avara(matriz_juego):
             # final = nodo.recorrido, nodos_creados, nodos_expandidos, nodo.profundidad, nodo.esferas, nodo.matriz
             final = nodo.recorrido, nodos_expandidos, nodo.profundidad, matriz_juego
             return final
-
+    
         x = nodo.posAgente[0][0]
         y = nodo.posAgente[0][1]
         # genero los hijos
@@ -297,4 +297,4 @@ def avara(matriz_juego):
 
 # final = avara(juego)
 # print(final[0])
-print(avara(juego))
+print(A_estrella(juego))
