@@ -34,18 +34,18 @@ from Nodo_noInformada import Nodo
 #     [1, 1, 1, 6, 1, 1, 0, 1, 1, 1]
 # ])
 
-juego = np.array([
-    [6, 5, 3, 1, 1, 1, 1, 1, 1, 1],
-    [0, 1, 0, 0, 1, 1, 0, 0, 0, 1],
-    [0, 1, 1, 0, 3, 1, 0, 1, 2, 1],
-    [0, 1, 1, 1, 3, 1, 0, 0, 0, 0],
-    [6, 0, 0, 0, 0, 0, 1, 1, 1, 0],
-    [1, 1, 4, 1, 1, 1, 1, 1, 1, 0],
-    [1, 1, 0, 4, 4, 0, 0, 1, 1, 5],
-    [1, 1, 0, 0, 1, 1, 0, 1, 1, 0],
-    [0, 0, 0, 0, 1, 1, 5, 0, 0, 0],
-    [1, 1, 1, 0, 1, 1, 0, 1, 1, 1]
-])
+# juego = np.array([
+#     [6, 5, 3, 1, 1, 1, 1, 1, 1, 1],
+#     [0, 1, 0, 0, 1, 1, 0, 0, 0, 1],
+#     [0, 1, 1, 0, 3, 1, 0, 1, 2, 1],
+#     [0, 1, 1, 1, 3, 1, 0, 0, 0, 0],
+#     [6, 0, 0, 0, 0, 0, 1, 1, 1, 0],
+#     [1, 1, 4, 1, 1, 1, 1, 1, 1, 0],
+#     [1, 1, 0, 4, 4, 0, 0, 1, 1, 5],
+#     [1, 1, 0, 0, 1, 1, 0, 1, 1, 0],
+#     [0, 0, 0, 0, 1, 1, 5, 0, 0, 0],
+#     [1, 1, 1, 0, 1, 1, 0, 1, 1, 1]
+# ])
 
 # juego = np.array([
 #     [1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -139,7 +139,7 @@ def amplitud(matriz_juego):
             if matriz_juego[i][j] == 6:  # posicion del agente
                 pos_esfera.append([j, i])  # x=j(columnas), y=i(filas)
                 # matriz_juego[i][j] = 0  # actualizar
-                break  # romper ciclo para eficiencia
+
     print("Posiciones ideales", pos_esfera)
 
     raiz = Nodo(
@@ -159,7 +159,7 @@ def amplitud(matriz_juego):
         nodo = cola.pop(0)  # extraer el primero de la cola
         # print("Nodos visitados", nodo.nodos_visitados)
 
-        nodos_visitados.append(nodo.posAgente)
+        nodos_visitados.append(nodo.estadoAgente)
         nodos_expandidos += 1
         if (nodo.condicionGanar(pos_esfera)):
             # Retorno la solución
@@ -168,8 +168,8 @@ def amplitud(matriz_juego):
 
             return final
 
-        x = nodo.posAgente[0][0]
-        y = nodo.posAgente[0][1]
+        x = nodo.estadoAgente[0][0]
+        y = nodo.estadoAgente[0][1]
         # genero los hijos
 
         # Arriba
@@ -178,7 +178,7 @@ def amplitud(matriz_juego):
 
         if yI >= 0 and nodo.matriz[yI, xI] != 1:
             movimientos = verficarMovimientos(xI, yI, nodo.esferas.copy(
-            ), nodo.posAgente.copy(), nodo.matriz.copy(), nodo.matriz)
+            ), nodo.estadoAgente.copy(), nodo.matriz.copy(), nodo.matriz)
             recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
             # estado = nodo.estadoEsferas.copy()
             hijo = Nodo(
@@ -197,7 +197,7 @@ def amplitud(matriz_juego):
                     cola.append(hijo)
                     recorrido.append((xI, yI))
             print("nodos_visitados", nodos_visitados)
-            print("Estado agente", nodo.posAgente)
+            print("Estado agente", nodo.estadoAgente)
 
         # Abajo
         xI = x
@@ -205,7 +205,7 @@ def amplitud(matriz_juego):
 
         if yI < matriz_juego.shape[0] and nodo.matriz[yI, xI] != 1:
             movimientos = verficarMovimientos(xI, yI, nodo.esferas.copy(
-            ), nodo.posAgente.copy(), nodo.matriz.copy(), nodo.matriz)
+            ), nodo.estadoAgente.copy(), nodo.matriz.copy(), nodo.matriz)
             recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
             # estado = nodo.estadoEsferas.copy()
             hijo = Nodo(
@@ -224,7 +224,7 @@ def amplitud(matriz_juego):
                     cola.append(hijo)
                     recorrido.append((xI, yI))
             print("nodos_visitados", nodos_visitados)
-            print("Estado agente", nodo.posAgente)
+            print("Estado agente", nodo.estadoAgente)
 
         # izquierda
         xI = x - 1
@@ -232,7 +232,7 @@ def amplitud(matriz_juego):
 
         if xI >= 0 and nodo.matriz[yI, xI] != 1:
             movimientos = verficarMovimientos(xI, yI, nodo.esferas.copy(
-            ), nodo.posAgente.copy(), nodo.matriz.copy(), nodo.matriz)
+            ), nodo.estadoAgente.copy(), nodo.matriz.copy(), nodo.matriz)
             recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
             # estado = nodo.estadoEsferas.copy()
             hijo = Nodo(
@@ -252,14 +252,14 @@ def amplitud(matriz_juego):
                     recorrido.append((xI, yI))
                 0
             print("nodos_visitados", nodos_visitados)
-            print("Estado agente", nodo.posAgente)
+            print("Estado agente", nodo.estadoAgente)
         # derecha
         xI = x + 1
         yI = y
 
         if xI < matriz_juego.shape[1] and nodo.matriz[yI, xI] != 1:
             movimientos = verficarMovimientos(xI, yI, nodo.esferas.copy(
-            ), nodo.posAgente.copy(), nodo.matriz.copy(), nodo.matriz)
+            ), nodo.estadoAgente.copy(), nodo.matriz.copy(), nodo.matriz)
             recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
             # estado = nodo.estadoEsferas.copy()
             hijo = Nodo(
@@ -279,7 +279,7 @@ def amplitud(matriz_juego):
                     recorrido.append((xI, yI))
                 0
             print("nodos_visitados", nodos_visitados)
-            print("Estado agente", nodo.posAgente)
+            print("Estado agente", nodo.estadoAgente)
 
     return "No hay solucion", nodos_creados, nodos_expandidos, nodo.profundidad
 

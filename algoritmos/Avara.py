@@ -1,5 +1,5 @@
 import numpy as np
-from NodoAvara2 import Nodo
+from Nodo_Informada import Nodo
 
 # juego = np.array([
 #     [1, 0, 6, 0],
@@ -131,7 +131,7 @@ def avara(matriz_juego):
             if matriz_juego[i][j] == 6:  # posicion del agente
                 pos_esfera.append([j, i])  # x=j(columnas), y=i(filas)
                 # matriz_juego[i][j] = 0  # actualizar
-                break  # romper ciclo para eficiencia
+
     print("Posiciones ideales", pos_esfera)
 
     raiz = Nodo(

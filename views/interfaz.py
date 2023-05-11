@@ -4,10 +4,10 @@ import numpy as np
 import time
 from PIL import Image, ImageTk
 from views.mapa import moverAgente_mapa
-from algoritmos.Amplitudq2 import amplitud
-from algoritmos.Profundidad2 import profundidad
-from algoritmos.costo_uniforme2 import costo_uniforme
-from algoritmos.Avara2 import avara
+from algoritmos.Amplitud import amplitud
+from algoritmos.Profundidad import profundidad
+from algoritmos.Costo_uniforme import costo_uniforme
+from algoritmos.Avara import avara
 from algoritmos.A_estrella import A_estrella
 
 
@@ -17,7 +17,8 @@ class Interfaz(tk.Tk):
 
     with open("resources/maps/matriz.txt", "r") as archivo:
         lineas = archivo.readlines()
-        matriz = np.array([list(map(int, linea.strip().split())) for linea in lineas])
+        matriz = np.array([list(map(int, linea.strip().split()))
+                          for linea in lineas])
 
     def __init__(self):
         super().__init__()
@@ -83,115 +84,133 @@ class Interfaz(tk.Tk):
         # Crear un canvas en la ventana principal
         reporte = tk.Canvas(self, width=300, height=200, bg='white', bd=0)
         reporte.pack()
-        reporte.place(x= 600, y= 300)
-        label_reporte = tk.Label(reporte, text="Reporte:", fg='black', bg="white" ,font=('Arial', 12))
+        reporte.place(x=600, y=300)
+        label_reporte = tk.Label(
+            reporte, text="Reporte:", fg='black', bg="white", font=('Arial', 12))
         label_reporte.place(x=10, y=10)
         # Boton para iniciar el algoritmo
+
         def iniciar_algoritmo():
             BusquedaNoInformada = variar_opciones2.get()
             BusquedaInformada = variar_opciones3.get()
             if BusquedaNoInformada == "Amplitud":
 
-                inicioT=time.time()
+                inicioT = time.time()
                 final = amplitud(matriz)
-                finalT=time.time()                
+                finalT = time.time()
                 movimientosAgente = final[0]
-                moverAgente_mapa(self, movimientosAgente)                
+                moverAgente_mapa(self, movimientosAgente)
                 self.nodosExpandidos = str(final[1])
                 self.profundidadArbol = str(final[2])
                 self.tiempo_computo = str(round(finalT - inicioT, 5))
-                label_nodos = tk.Label(reporte, text=f'Nodos expandidos: {self.nodosExpandidos}', fg='black', bg="white" ,font=('Arial', 12))
+                label_nodos = tk.Label(
+                    reporte, text=f'Nodos expandidos: {self.nodosExpandidos}', fg='black', bg="white", font=('Arial', 12))
                 label_nodos.place(x=10, y=50)
 
-                label_profundidad = tk.Label(reporte, text=f'Profundidad: {self.profundidadArbol}', fg='black', bg="white" , font=('Arial', 12))
+                label_profundidad = tk.Label(
+                    reporte, text=f'Profundidad: {self.profundidadArbol}', fg='black', bg="white", font=('Arial', 12))
                 label_profundidad.place(x=10, y=100)
 
-                label_tiempo = tk.Label(reporte, text=f'Tiempo de computo: {self.tiempo_computo} s', fg='black', bg="white" , font=('Arial', 12))
+                label_tiempo = tk.Label(
+                    reporte, text=f'Tiempo de computo: {self.tiempo_computo} s', fg='black', bg="white", font=('Arial', 12))
                 label_tiempo.place(x=10, y=150)
 
-
             elif BusquedaNoInformada == "Profundidad":
-                
-                inicioT=time.time()
+
+                inicioT = time.time()
                 final = profundidad(matriz)
-                finalT=time.time()
+                finalT = time.time()
                 movimientosAgente = final[0]
-                moverAgente_mapa(self, movimientosAgente)                
+                moverAgente_mapa(self, movimientosAgente)
                 self.nodosExpandidos = str(final[1])
                 self.profundidadArbol = str(final[2])
                 self.tiempo_computo = str(round(finalT - inicioT, 5))
-                label_nodos = tk.Label(reporte, text=f'Nodos expandidos: {self.nodosExpandidos}', fg='black', bg="white" ,font=('Arial', 12))
+                label_nodos = tk.Label(
+                    reporte, text=f'Nodos expandidos: {self.nodosExpandidos}', fg='black', bg="white", font=('Arial', 12))
                 label_nodos.place(x=10, y=50)
 
-                label_profundidad = tk.Label(reporte, text=f'Profundidad: {self.profundidadArbol}', fg='black', bg="white" , font=('Arial', 12))
+                label_profundidad = tk.Label(
+                    reporte, text=f'Profundidad: {self.profundidadArbol}', fg='black', bg="white", font=('Arial', 12))
                 label_profundidad.place(x=10, y=100)
 
-                label_tiempo = tk.Label(reporte, text=f'Tiempo de computo: {self.tiempo_computo} s', fg='black', bg="white" , font=('Arial', 12))
+                label_tiempo = tk.Label(
+                    reporte, text=f'Tiempo de computo: {self.tiempo_computo} s', fg='black', bg="white", font=('Arial', 12))
                 label_tiempo.place(x=10, y=150)
 
             elif BusquedaNoInformada == "Costo uniforme":
-                inicioT=time.time()
+                inicioT = time.time()
                 final = costo_uniforme(matriz)
-                finalT=time.time()                
+                finalT = time.time()
                 movimientosAgente = final[0]
-                moverAgente_mapa(self, movimientosAgente)                
+                moverAgente_mapa(self, movimientosAgente)
                 self.nodosExpandidos = str(final[1])
                 self.profundidadArbol = str(final[2])
                 self.tiempo_computo = str(round(finalT - inicioT, 5))
-                label_nodos = tk.Label(reporte, text=f'Nodos expandidos: {self.nodosExpandidos}', fg='black', bg="white" ,font=('Arial', 12))
+                label_nodos = tk.Label(
+                    reporte, text=f'Nodos expandidos: {self.nodosExpandidos}', fg='black', bg="white", font=('Arial', 12))
                 label_nodos.place(x=10, y=50)
 
-                label_profundidad = tk.Label(reporte, text=f'Profundidad: {self.profundidadArbol}', fg='black', bg="white" , font=('Arial', 12))
+                label_profundidad = tk.Label(
+                    reporte, text=f'Profundidad: {self.profundidadArbol}', fg='black', bg="white", font=('Arial', 12))
                 label_profundidad.place(x=10, y=100)
 
-                label_tiempo = tk.Label(reporte, text=f'Tiempo de computo: {self.tiempo_computo} s', fg='black', bg="white" , font=('Arial', 12))
+                label_tiempo = tk.Label(
+                    reporte, text=f'Tiempo de computo: {self.tiempo_computo} s', fg='black', bg="white", font=('Arial', 12))
                 label_tiempo.place(x=10, y=150)
 
-                ## Falta costo
-                label_costo = tk.Label(reporte, text=f'Costo: {self.costo}', fg='black', bg="white" , font=('Arial', 12))
+                # Falta costo
+                label_costo = tk.Label(
+                    reporte, text=f'Costo: {self.costo}', fg='black', bg="white", font=('Arial', 12))
                 label_costo.place(x=10, y=200)
 
             if BusquedaInformada == "Avara":
 
-                inicioT=time.time()
+                inicioT = time.time()
                 final = avara(matriz)
-                finalT=time.time()                
+                finalT = time.time()
                 movimientosAgente = final[0]
-                moverAgente_mapa(self, movimientosAgente)                
+                moverAgente_mapa(self, movimientosAgente)
                 self.nodosExpandidos = str(final[1])
                 self.profundidadArbol = str(final[2])
                 self.tiempo_computo = str(round(finalT - inicioT, 5))
                 self.costo = 0
-                label_nodos = tk.Label(reporte, text=f'Nodos expandidos: {self.nodosExpandidos}', fg='black', bg="white" ,font=('Arial', 12))
+                label_nodos = tk.Label(
+                    reporte, text=f'Nodos expandidos: {self.nodosExpandidos}', fg='black', bg="white", font=('Arial', 12))
                 label_nodos.place(x=10, y=50)
 
-                label_profundidad = tk.Label(reporte, text=f'Profundidad: {self.profundidadArbol}', fg='black', bg="white" , font=('Arial', 12))
+                label_profundidad = tk.Label(
+                    reporte, text=f'Profundidad: {self.profundidadArbol}', fg='black', bg="white", font=('Arial', 12))
                 label_profundidad.place(x=10, y=100)
 
-                label_tiempo = tk.Label(reporte, text=f'Tiempo de computo: {self.tiempo_computo} s', fg='black', bg="white" , font=('Arial', 12))
+                label_tiempo = tk.Label(
+                    reporte, text=f'Tiempo de computo: {self.tiempo_computo} s', fg='black', bg="white", font=('Arial', 12))
                 label_tiempo.place(x=10, y=150)
 
             elif BusquedaInformada == "A*":
-                inicioT=time.time()
+                inicioT = time.time()
                 final = A_estrella(matriz)
-                finalT=time.time()                
+                finalT = time.time()
                 movimientosAgente = final[0]
-                moverAgente_mapa(self, movimientosAgente)                
+                moverAgente_mapa(self, movimientosAgente)
                 self.nodosExpandidos = str(final[1])
                 self.profundidadArbol = str(final[2])
                 self.tiempo_computo = str(round(finalT - inicioT, 5))
                 self.costo = 0
-                label_nodos = tk.Label(reporte, text=f'Nodos expandidos: {self.nodosExpandidos}', fg='black', bg="white" ,font=('Arial', 12))
+                label_nodos = tk.Label(
+                    reporte, text=f'Nodos expandidos: {self.nodosExpandidos}', fg='black', bg="white", font=('Arial', 12))
                 label_nodos.place(x=10, y=50)
 
-                label_profundidad = tk.Label(reporte, text=f'Profundidad: {self.profundidadArbol}', fg='black', bg="white" , font=('Arial', 12))
+                label_profundidad = tk.Label(
+                    reporte, text=f'Profundidad: {self.profundidadArbol}', fg='black', bg="white", font=('Arial', 12))
                 label_profundidad.place(x=10, y=100)
 
-                label_tiempo = tk.Label(reporte, text=f'Tiempo de computo: {self.tiempo_computo} s', fg='black', bg="white" , font=('Arial', 12))
+                label_tiempo = tk.Label(
+                    reporte, text=f'Tiempo de computo: {self.tiempo_computo} s', fg='black', bg="white", font=('Arial', 12))
                 label_tiempo.place(x=10, y=150)
 
-                ## Falta costo
-                label_costo = tk.Label(reporte, text=f'Costo: {self.costo}', fg='black', bg="white" , font=('Arial', 12))
+                # Falta costo
+                label_costo = tk.Label(
+                    reporte, text=f'Costo: {self.costo}', fg='black', bg="white", font=('Arial', 12))
                 label_costo.place(x=10, y=200)
 
         # Botón para iniciar el algoritmo seleccionado

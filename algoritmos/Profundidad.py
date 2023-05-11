@@ -1,25 +1,25 @@
 import numpy as np
 from Nodo_noInformada import Nodo
 
-juego = np.array([
-    [1, 0, 6, 0],
-    [1, 2, 1, 0],
-    [1, 6, 1, 1],
-    [1, 1, 1, 0]
-])
-
 # juego = np.array([
-#     [0, 5, 3, 1, 1, 1, 1, 1, 1, 1],
-#     [0, 1, 0, 0, 1, 0, 0, 0, 1, 1],
-#     [0, 1, 1, 0, 3, 5, 1, 0, 2, 0],
-#     [0, 1, 1, 1, 3, 1, 1, 1, 1, 0],
-#     [6, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-#     [1, 1, 4, 1, 1, 1, 1, 1, 1, 0],
-#     [1, 1, 0, 4, 4, 0, 0, 1, 1, 5],
-#     [1, 1, 0, 0, 1, 1, 0, 1, 1, 0],
-#     [0, 0, 0, 0, 1, 1, 5, 0, 0, 0],
-#     [1, 1, 1, 6, 1, 1, 0, 1, 1, 1]
+#     [1, 0, 6, 0],
+#     [1, 2, 1, 0],
+#     [1, 6, 1, 1],
+#     [1, 1, 1, 0]
 # ])
+
+juego = np.array([
+    [0, 5, 3, 1, 1, 1, 1, 1, 1, 1],
+    [0, 1, 0, 0, 1, 0, 0, 0, 1, 1],
+    [0, 1, 1, 0, 3, 5, 1, 0, 2, 0],
+    [0, 1, 1, 1, 3, 1, 1, 1, 1, 0],
+    [6, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [1, 1, 4, 1, 1, 1, 1, 1, 1, 0],
+    [1, 1, 0, 4, 4, 0, 0, 1, 1, 5],
+    [1, 1, 0, 0, 1, 1, 0, 1, 1, 0],
+    [0, 0, 0, 0, 1, 1, 5, 0, 0, 0],
+    [1, 1, 1, 6, 1, 1, 0, 1, 1, 1]
+])
 # esferas -> (2,0) y (1,2)
 
 
@@ -83,7 +83,6 @@ def profundidad(matriz_juego):
             if matriz_juego[i][j] == 6:  # posicion del agente
                 pos_esfera.append([j, i])  # x=j(columnas), y=i(filas)
                 # matriz_juego[i][j] = 0  # actualizar
-                break  # romper ciclo para eficiencia
     # print("Posiciones ideales", pos_esfera)
 
     raiz = Nodo(
@@ -103,7 +102,7 @@ def profundidad(matriz_juego):
         nodo = pila.pop()  # extraer el primero de la pila
         # print("Nodos visitados", nodo.nodos_visitados)
 
-        nodos_visitados.append(nodo.posAgente)
+        nodos_visitados.append(nodo.estadoAgente)
         nodos_expandidos += 1
         if (nodo.condicionGanar(pos_esfera)):
             # Retorno la solución
@@ -111,8 +110,8 @@ def profundidad(matriz_juego):
             final = nodo.recorrido, nodos_expandidos, nodo.profundidad, matriz_juego
             return final
 
-        x = nodo.posAgente[0][0]
-        y = nodo.posAgente[0][1]
+        x = nodo.estadoAgente[0][0]
+        y = nodo.estadoAgente[0][1]
         # genero los hijos
 
         # derecha
@@ -121,7 +120,7 @@ def profundidad(matriz_juego):
 
         if xI < matriz_juego.shape[1] and nodo.matriz[yI, xI] != 1:
             movimientos = verficarMovimientos(xI, yI, nodo.esferas.copy(
-            ), nodo.posAgente.copy(), nodo.matriz.copy(), nodo.matriz)
+            ), nodo.estadoAgente.copy(), nodo.matriz.copy(), nodo.matriz)
             recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
             # estado = nodo.estadoEsferas.copy()
             hijo = Nodo(
@@ -146,7 +145,7 @@ def profundidad(matriz_juego):
 
         if xI >= 0 and nodo.matriz[yI, xI] != 1:
             movimientos = verficarMovimientos(xI, yI, nodo.esferas.copy(
-            ), nodo.posAgente.copy(), nodo.matriz.copy(), nodo.matriz)
+            ), nodo.estadoAgente.copy(), nodo.matriz.copy(), nodo.matriz)
             recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
             # estado = nodo.estadoEsferas.copy()
             hijo = Nodo(
@@ -171,7 +170,7 @@ def profundidad(matriz_juego):
 
         if yI < matriz_juego.shape[0] and nodo.matriz[yI, xI] != 1:
             movimientos = verficarMovimientos(xI, yI, nodo.esferas.copy(
-            ), nodo.posAgente.copy(), nodo.matriz.copy(), nodo.matriz)
+            ), nodo.estadoAgente.copy(), nodo.matriz.copy(), nodo.matriz)
             recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
             # estado = nodo.estadoEsferas.copy()
             hijo = Nodo(
@@ -196,7 +195,7 @@ def profundidad(matriz_juego):
 
         if yI >= 0 and nodo.matriz[yI, xI] != 1:
             movimientos = verficarMovimientos(xI, yI, nodo.esferas.copy(
-            ), nodo.posAgente.copy(), nodo.matriz.copy(), nodo.matriz)
+            ), nodo.estadoAgente.copy(), nodo.matriz.copy(), nodo.matriz)
             recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
             # estado = nodo.estadoEsferas.copy()
             hijo = Nodo(
