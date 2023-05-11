@@ -75,16 +75,23 @@ def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, co
         costo2 = costo1 + costoAgente.pop()
         costoAgente.append(costo2)
         semillasRecolectadas[0] += 1
+        print("Semillas recolectadas:", semillasRecolectadas[0])
+        # if (semillasRecolectadas[0] == 1):
+        #     estadoAgente[3][0] = [(xI, yI)]
+        # if (semillasRecolectadas[0] == 2):
+        #     estadoAgente[3][1] = [(xI, yI)]
+        if ((xI, yI) not in estadoAgente[3]):
+            estadoAgente[3].append([xI, yI])
 
     # Caso donde encuentre un cell y no tenga semilla
-    if (matriz[yI, xI] == 4):
+    if (matriz[yI, xI] == 4 and semillasRecolectadas[0] == 0):
         matrizNew[yI, xI] = 0
         costo1 += 7
         costo2 = costo1 + costoAgente[-1]
         costoAgente.append(costo2)
 
     # Caso donde encuentre un cell y tenga semilla
-    if (matriz[yI, xI] == 4):
+    if (matriz[yI, xI] == 4 and semillasRecolectadas[0] >= 1):
         matrizNew[yI, xI] = 0
         costo1 += 1
         costo2 = costo1 + costoAgente[-1]
@@ -92,7 +99,7 @@ def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, co
         semillasRecolectadas[0] - 1
 
     # Caso donde encuentre un freezer y no tenga semilla
-    if (matriz[yI, xI] == 3):
+    if (matriz[yI, xI] == 3 and semillasRecolectadas[0] == 0):
         matrizNew[yI, xI] = 0
         costo1 += 4
         costo2 = costo1 + costoAgente[-1]
@@ -100,7 +107,7 @@ def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, co
         semillasRecolectadas[0] - 1
 
     # Caso donde encuentre un freezer y tenga semilla
-    if (matriz[yI, xI] == 3):
+    if (matriz[yI, xI] == 3 and semillasRecolectadas[0] >= 1):
         matrizNew[yI, xI] = 0
         costo1 += 1
         costo2 = costo1 + costoAgente[-1]
@@ -134,9 +141,9 @@ def costo_uniforme(matriz_juego):
 
     raiz = Nodo(
         matriz_juego,
-        [pos_agente, [], []],
+        [pos_agente, [], [], []],
         [pos_agente],
-        [[pos_agente], [], []],
+        [[pos_agente], [], [], []],
         [0],
         [0, pos_esfera],
         0,
