@@ -146,6 +146,7 @@ class Interfaz(tk.Tk):
                 self.nodosExpandidos = str(final[1])
                 self.profundidadArbol = str(final[2])
                 self.tiempo_computo = str(round(finalT - inicioT, 5))
+                self.costo = str(final[3])
                 label_nodos = tk.Label(
                     reporte, text=f'Nodos expandidos: {self.nodosExpandidos}', fg='black', bg="white", font=('Arial', 12))
                 label_nodos.place(x=10, y=50)
@@ -173,7 +174,6 @@ class Interfaz(tk.Tk):
                 self.nodosExpandidos = str(final[1])
                 self.profundidadArbol = str(final[2])
                 self.tiempo_computo = str(round(finalT - inicioT, 5))
-                self.costo = 0
                 label_nodos = tk.Label(
                     reporte, text=f'Nodos expandidos: {self.nodosExpandidos}', fg='black', bg="white", font=('Arial', 12))
                 label_nodos.place(x=10, y=50)
@@ -195,7 +195,7 @@ class Interfaz(tk.Tk):
                 self.nodosExpandidos = str(final[1])
                 self.profundidadArbol = str(final[2])
                 self.tiempo_computo = str(round(finalT - inicioT, 5))
-                self.costo = 0
+                self.costo = str(final[3])
                 label_nodos = tk.Label(
                     reporte, text=f'Nodos expandidos: {self.nodosExpandidos}', fg='black', bg="white", font=('Arial', 12))
                 label_nodos.place(x=10, y=50)
