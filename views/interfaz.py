@@ -148,7 +148,7 @@ class Interfaz(tk.Tk):
                 label_tiempo.place(x=10, y=150)
 
                 ## Falta costo
-                label_costo = tk.Label(reporte, text=f'Costo: {self.costo} s', fg='black', bg="white" , font=('Arial', 12))
+                label_costo = tk.Label(reporte, text=f'Costo: {self.costo}', fg='black', bg="white" , font=('Arial', 12))
                 label_costo.place(x=10, y=200)
 
             if BusquedaInformada == "Avara":
@@ -191,7 +191,7 @@ class Interfaz(tk.Tk):
                 label_tiempo.place(x=10, y=150)
 
                 ## Falta costo
-                label_costo = tk.Label(reporte, text=f'Costo: {self.costo} s', fg='black', bg="white" , font=('Arial', 12))
+                label_costo = tk.Label(reporte, text=f'Costo: {self.costo}', fg='black', bg="white" , font=('Arial', 12))
                 label_costo.place(x=10, y=200)
 
         # Botón para iniciar el algoritmo seleccionado
