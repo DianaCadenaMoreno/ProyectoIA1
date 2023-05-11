@@ -27,7 +27,7 @@ class Nodo:
                 if self.matriz[i][j] == 6:  # posicion del agente
                     # x=j(columnas), y=i(filas)
                     esferas.append((j, i))
-                    break  # romper ciclo para eficiencia
+
         distancias = []
 
         if len(esferas) == 0:

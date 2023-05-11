@@ -81,10 +81,10 @@ def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, co
         suma = costo2 + heuristica
         fn[0] = suma
         costoAgente.append(costo2)
+        estadoAgente[3].append((xI, yI))
 
     # Caso donde encuentre un cell y no tenga semilla
     if (matriz[yI, xI] == 4):
-        matrizNew[yI, xI] = 0
         costo1 += 7
         costo2 = costo1 + costoAgente[-1]
         suma = costo2 + heuristica
@@ -128,6 +128,7 @@ def avara(matriz_juego):
     nodos_creados = 0
     nodos_expandidos = 0
     pos_esfera = []
+    semillas = []
     # matrizInicio = matriz_juego
 
     for i in range(matriz_juego.shape[0]):  # filas
@@ -143,13 +144,14 @@ def avara(matriz_juego):
                 pos_esfera.append([j, i])  # x=j(columnas), y=i(filas)
                 # matriz_juego[i][j] = 0  # actualizar
                 break  # romper ciclo para eficiencia
+
     print("Posiciones ideales", pos_esfera)
 
     raiz = Nodo(
         matriz_juego,
-        [pos_agente, [], []],
+        [pos_agente, [], [], []],
         [pos_agente],
-        [[pos_agente], [], []],
+        [[pos_agente], [], [], []],
         [0],
         [0, pos_esfera],
         0,

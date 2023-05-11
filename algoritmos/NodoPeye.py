@@ -20,7 +20,7 @@ class Nodo:
             # print("toy en nodo", self.posAgente)
             self.estadoEsferas[0] = True
             # para que pueda devolverse, despues de encontrar la primera esfera
-            # self.nodos_visitados = []
+            self.nodos_visitados = []
 
         # Encontramos la segunda esfera
         if self.esferas[0] == 2:

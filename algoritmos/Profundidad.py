@@ -1,7 +1,6 @@
 import numpy as np
 from NodoPeye import Nodo
 
-
 juego = np.array([
     [0, 5, 3, 1, 1, 1, 1, 1, 1, 1],
     [0, 1, 0, 0, 1, 0, 0, 0, 1, 1],
@@ -63,7 +62,7 @@ def profundidad(matriz_juego):
         xI = x + 1
         yI = y
 
-        if xI < matriz_juego.shape[1] and not ((xI, yI) in nodo.nodos_visitados) and nodo.matriz[y, x] != 1:
+        if xI < matriz_juego.shape[1] and not ((xI, yI) in nodo.nodos_visitados) and nodo.matriz[yI, xI] != 1:
             esferas = nodo.esferas.copy()
             estado = nodo.estadoEsferas.copy()
             matrizNew = nodo.matriz.copy()
@@ -122,7 +121,7 @@ def profundidad(matriz_juego):
         xI = x - 1
         yI = y
 
-        if xI >= 0 and not ((xI, yI) in nodo.nodos_visitados) and nodo.matriz[y, x] != 1:
+        if xI >= 0 and not ((xI, yI) in nodo.nodos_visitados) and nodo.matriz[yI, xI] != 1:
             esferas = nodo.esferas.copy()
             estado = nodo.estadoEsferas.copy()
             matrizNew = nodo.matriz.copy()
@@ -181,7 +180,7 @@ def profundidad(matriz_juego):
         xI = x
         yI = y + 1
 
-        if yI < matriz_juego.shape[0] and not ((xI, yI) in nodo.nodos_visitados) and nodo.matriz[y, x] != 1:
+        if yI < matriz_juego.shape[0] and ((xI, yI) not in nodo.nodos_visitados) and nodo.matriz[yI, xI] != 1:
             esferas = nodo.esferas.copy()
             estado = nodo.estadoEsferas.copy()
             matrizNew = nodo.matriz.copy()
@@ -239,7 +238,7 @@ def profundidad(matriz_juego):
         xI = x
         yI = y - 1
 
-        if yI >= 0 and not ((xI, yI) in nodo.nodos_visitados) and nodo.matriz[y, x] != 1:
+        if yI >= 0 and not ((xI, yI) in nodo.nodos_visitados) and nodo.matriz[yI, xI] != 1:
             esferas = nodo.esferas.copy()
             estado = nodo.estadoEsferas.copy()
             matrizNew = nodo.matriz.copy()
