@@ -4,7 +4,6 @@ from algoritmos.Nodo_noInformada import Nodo
 # @param coordenada x (int), coordenada y (int), copia del estado de las esferas (list), copia del estado del agente (list), copia del estado de la matriz (NumPy array), matriz del juego (NumPy array)
 # @return la lista con la matriz actualizada, el estado del agente y las esferas (List)
 
-
 def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, matriz):
     esferas = copiaEsferas
     estadoAgente = copiaEstadoAgente
