@@ -3,7 +3,7 @@ class Nodo:
         self.matriz = matriz
         self.estadoAgente = estadoAgente
         self.recorrido = recorrido
-        self.nodos_visitados = nodos_visitados  # evitar devolverse
+        self.nodos_visitados = nodos_visitados
         self.semillas = semillas
         self.esferas = esferas
         self.profundidad = profundidad

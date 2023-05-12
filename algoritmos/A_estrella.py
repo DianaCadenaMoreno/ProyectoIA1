@@ -1,4 +1,8 @@
 from algoritmos.Nodo_Informada import Nodo
+# Esta funcion realiza las acciones que puede hacer el agente, si pasa por una esfera, una semilla, un enemigo sin semilla o un enemigo con semilla
+# @param xI (int), yI (int), copiaEsferas(list), copiaEstadoAgente(list), copiaMatriz(NumPy array), copiaSemillas(), copiaFn, matriz(NumPy array), copiaCostoAgente(list), heuristica(int), funcionHeuristica(int)
+# @return Una lista con los siguientes datos: matrizNew, estadoAgente, esferas, costoAgentey semillasRecolectadas (List), heuristica(int), fn(list)
+
 
 def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, copiaSemillas, copiaFn, matriz, copiaCostoAgente, heuristica, funcionHeuristica):
     esferas = copiaEsferas
@@ -84,6 +88,10 @@ def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, co
     Final = matrizNew, estadoAgente, esferas, costoAgente, semillasRecolectadas, heuristica, fn
     return Final
 
+# Realiza el algoritmo de busqueda por A*
+# @param matriz_juego(NumPy array)
+# @return nodo.recorrido (List), nodos_expandidos(int), nodo.profundidad(int), costo(int), nodo.fn(list), matriz_juego(NumPy array)
+
 
 def A_estrella(matriz_juego):
     nodos_creados = 0
@@ -94,18 +102,18 @@ def A_estrella(matriz_juego):
     for i in range(matriz_juego.shape[0]):  # filas
         for j in range(matriz_juego.shape[1]):  # columnas
             if matriz_juego[i][j] == 2:  # posicion del agente
-                pos_agente = (j, i)  # x=j(columnas), y=i(filas)
-                break  # romper ciclo para eficiencia
+                pos_agente = (j, i)
+                break
 
     for i in range(matriz_juego.shape[0]):  # filas
         for j in range(matriz_juego.shape[1]):  # columnas
-            if matriz_juego[i][j] == 6:  # posicion del agente
-                pos_esfera.append([j, i])  # x=j(columnas), y=i(filas)
+            if matriz_juego[i][j] == 6:  # posicion de las esferas
+                pos_esfera.append([j, i])
 
     for i in range(matriz_juego.shape[0]):  # filas
         for j in range(matriz_juego.shape[1]):  # columnas
-            if matriz_juego[i][j] == 5:  # posicion del agente
-                pos_semillas.append([j, i])  # x=j(columnas), y=i(filas)
+            if matriz_juego[i][j] == 5:  # posicion de las semillas
+                pos_semillas.append([j, i])
 
     semillas = [[] for _ in range(len(pos_semillas))]
 

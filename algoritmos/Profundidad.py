@@ -1,7 +1,7 @@
 from algoritmos.Nodo_noInformada import Nodo
 
 # Esta funcion realiza las acciones que puede hacer el agente, si pasa por una esfera, una semilla, un enemigo sin semilla o un enemigo con semilla
-# @param coordenada x (int), coordenada y (int), copia del estado de las esferas (list), copia del estado del agente (list), copia del estado de la matriz (NumPy array), matriz del juego (NumPy array)
+# @param xI (int), yI (int), copiaEsferas(list), copiaEstadoAgente(list), copiaMatriz(NumPy array), matriz(NumPy array)
 # @return la lista con la matriz actualizada, el estado del agente y las esferas (List)
 
 
@@ -25,12 +25,9 @@ def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, ma
     # Caso donde encuentre un cell y no tenga semilla
     if (matriz[yI, xI] == 4):
         matrizNew[yI, xI] = 0
-        0
-        # print("encontró un cell sin semilla")
 
     # Caso donde encuentre un cell y tenga semilla
     if (matriz[yI, xI] == 4):
-        # print("encontró un cell con semilla")
         matrizNew[yI, xI] = 0
 
     # Caso donde encuentre un freezer y no tenga semilla
@@ -47,7 +44,7 @@ def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, ma
     return Final
 
 # Realiza el algoritmo de busqueda por profundidad
-# @param matriz del juego (NumPy array)
+# @param matriz_juego (NumPy array)
 # @return nodo.recorrido (List), nodos_expandidos(int),nodo.profundidad(int), matriz_juego(NumPy array)
 
 
@@ -189,4 +186,4 @@ def profundidad(matriz_juego):
                 recorrido.append((xI, yI))
                 0
 
-    return "No hay solucion", nodos_creados, nodos_expandidos, nodo.profundidad
+    return "No hay solucion", nodo.recorrido, nodos_expandidos, nodo.profundidad, matriz_juego
