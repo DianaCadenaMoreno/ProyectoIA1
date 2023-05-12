@@ -1,5 +1,5 @@
 import numpy as np
-from algoritmos.Nodo_Informada import Nodo
+from Nodo_Informada import Nodo
 
 # juego = np.array([
 #     [1, 0, 6, 0],
@@ -8,14 +8,14 @@ from algoritmos.Nodo_Informada import Nodo
 #     [1, 1, 1, 0]
 # ])
 
-juego = np.array([
-    [1, 1, 1, 6, 2, 0],
-    [1, 1, 1, 1, 1, 0],
-    [1, 0, 0, 0, 0, 0],
-    [1, 0, 1, 1, 1, 0],
-    [1, 4, 1, 1, 1, 5],
-    [1, 6, 1, 1, 1, 1]
-])
+# juego = np.array([
+#     [1, 1, 1, 6, 2, 0],
+#     [1, 1, 1, 1, 1, 0],
+#     [1, 0, 0, 0, 0, 0],
+#     [1, 0, 1, 1, 1, 0],
+#     [1, 4, 1, 1, 1, 5],
+#     [1, 6, 1, 1, 1, 1]
+# ])
 
 # Recorrido ideal ([(4, 0), (3, 0), (4, 0), (5, 0), (5, 1), (5, 2), (5, 3), (5, 4), (5, 3), (5, 2), (4, 2), (3, 2), (2, 2), (1, 2), (1, 3), (1, 4), (1, 5)]
 
@@ -45,18 +45,18 @@ juego = np.array([
 #     [6, 0, 0, 0, 0, 0, 0, 0, 4, 0]
 # ])
 
-# juego = np.array([
-#     [0, 5, 3, 1, 1, 1, 1, 1, 1, 1],
-#     [0, 1, 0, 0, 1, 0, 0, 0, 1, 1],
-#     [0, 1, 1, 0, 3, 5, 1, 0, 2, 0],
-#     [0, 1, 1, 1, 3, 1, 1, 1, 1, 0],
-#     [6, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-#     [1, 1, 4, 1, 1, 1, 1, 1, 1, 0],
-#     [1, 1, 0, 4, 4, 0, 0, 1, 1, 5],
-#     [1, 1, 0, 0, 1, 1, 0, 1, 1, 0],
-#     [0, 0, 0, 0, 1, 1, 5, 0, 0, 0],
-#     [1, 1, 1, 6, 1, 1, 0, 1, 1, 1]
-# ])
+juego = np.array([
+    [0, 5, 3, 1, 1, 1, 1, 1, 1, 1],
+    [0, 1, 0, 0, 1, 0, 0, 0, 1, 1],
+    [0, 1, 1, 0, 3, 5, 1, 0, 2, 0],
+    [0, 1, 1, 1, 3, 1, 1, 1, 1, 0],
+    [6, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [1, 1, 4, 1, 1, 1, 1, 1, 1, 0],
+    [1, 1, 0, 4, 4, 0, 0, 1, 1, 5],
+    [1, 1, 0, 0, 1, 1, 0, 1, 1, 0],
+    [0, 0, 0, 0, 1, 1, 5, 0, 0, 0],
+    [1, 1, 1, 6, 1, 1, 0, 1, 1, 1]
+])
 # esferas -> (2,0) y (1,2)
 
 
@@ -74,8 +74,8 @@ def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, co
 
     if (matriz[yI, xI] == 0):
         costo1 += 1
-        costo2 = costo1 + costoAgente.pop()
-        costoAgente.append(costo2)
+        costo2 = costo1 + costoAgente[-1]
+        costoAgente[0] = costo2
 
     if (matriz[yI, xI] == 6):
         esferas[0] += 1
@@ -88,16 +88,16 @@ def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, co
         costo2 = costo1 + costoAgente[-1]
         suma = costo2 + heuristica
         fn.append(suma)
-        costoAgente.append(costo2)
+        costoAgente[0] = costo2
 
     if (matriz[yI, xI] == 5):
         matrizNew[yI, xI] = 0
         costo1 += 1
-        costo2 = costo1 + costoAgente.pop()
+        costo2 = costo1 + costoAgente[-1]
         semillasRecolectadas[0] += 1
         suma = costo2 + heuristica
         fn.append(suma)
-        costoAgente.append(costo2)
+        costoAgente[0] = costo2
         if ([(xI, yI)] not in estadoAgente[3]):
             if (semillasRecolectadas[0] >= 1):
                 estadoAgente[3] = [[xI, yI]]
@@ -112,17 +112,17 @@ def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, co
         costo2 = costo1 + costoAgente[-1]
         suma = costo2 + heuristica
         fn.append(suma)
-        costoAgente.append(costo2)
+        costoAgente[0] = costo2
 
     # Caso donde encuentre un cell y tenga semilla
     if (matriz[yI, xI] == 4 and semillasRecolectadas[0] >= 1):
         matrizNew[yI, xI] = 0
         costo1 += 1
         costo2 = costo1 + costoAgente[-1]
-        semillasRecolectadas[0] - 1
+        semillasRecolectadas[0] -= 1
         suma = costo2 + heuristica
         fn.append(suma)
-        costoAgente.append(costo2)
+        costoAgente[0] = costo2
 
     # Caso donde encuentre un freezer y no tenga semilla
     if (matriz[yI, xI] == 3 and semillasRecolectadas[0] == 0):
@@ -131,7 +131,7 @@ def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, co
         costo2 = costo1 + costoAgente[-1]
         suma = costo2 + heuristica
         fn.append(suma)
-        costoAgente.append(costo2)
+        costoAgente[0] = costo2
 
     # Caso donde encuentre un freezer y tenga semilla
     if (matriz[yI, xI] == 3 and semillasRecolectadas[0] >= 1):
@@ -140,7 +140,8 @@ def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, co
         costo2 = costo1 + costoAgente[-1]
         suma = costo2 + heuristica
         fn.append(suma)
-        semillasRecolectadas[0] - 1
+        semillasRecolectadas[0] -= 1
+        costoAgente[0] = costo2
 
     estadoAgente[0] = ((xI, yI))
     Final = matrizNew, estadoAgente, esferas, costoAgente, semillasRecolectadas, heuristica, fn
@@ -172,6 +173,7 @@ def A_estrella(matriz_juego):
             if matriz_juego[i][j] == 5:  # posicion del agente
                 pos_semillas.append([j, i])  # x=j(columnas), y=i(filas)
                 # matriz_juego[i][j] = 0  # actualizar
+
 
     print("Posiciones ideales", pos_esfera)
     semillas = [[] for _ in range(len(pos_semillas))]

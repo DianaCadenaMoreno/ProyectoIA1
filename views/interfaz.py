@@ -153,16 +153,16 @@ class Interfaz(tk.Tk):
 
                 label_profundidad = tk.Label(
                     reporte, text=f'Profundidad: {self.profundidadArbol}', fg='black', bg="white", font=('Arial', 12))
-                label_profundidad.place(x=10, y=100)
+                label_profundidad.place(x=10, y=80)
 
                 label_tiempo = tk.Label(
                     reporte, text=f'Tiempo de computo: {self.tiempo_computo} s', fg='black', bg="white", font=('Arial', 12))
-                label_tiempo.place(x=10, y=150)
+                label_tiempo.place(x=10, y=110)
 
                 # Falta costo
                 label_costo = tk.Label(
                     reporte, text=f'Costo: {self.costo}', fg='black', bg="white", font=('Arial', 12))
-                label_costo.place(x=10, y=200)
+                label_costo.place(x=10, y=150)
 
             if BusquedaInformada == "Avara":
 
@@ -202,16 +202,16 @@ class Interfaz(tk.Tk):
 
                 label_profundidad = tk.Label(
                     reporte, text=f'Profundidad: {self.profundidadArbol}', fg='black', bg="white", font=('Arial', 12))
-                label_profundidad.place(x=10, y=100)
+                label_profundidad.place(x=10, y=80)
 
                 label_tiempo = tk.Label(
                     reporte, text=f'Tiempo de computo: {self.tiempo_computo} s', fg='black', bg="white", font=('Arial', 12))
-                label_tiempo.place(x=10, y=150)
+                label_tiempo.place(x=10, y=110)
 
                 # Falta costo
                 label_costo = tk.Label(
                     reporte, text=f'Costo: {self.costo}', fg='black', bg="white", font=('Arial', 12))
-                label_costo.place(x=10, y=200)
+                label_costo.place(x=10, y=150)
 
         # Botón para iniciar el algoritmo seleccionado
         boton_inicio = tk.Button(
