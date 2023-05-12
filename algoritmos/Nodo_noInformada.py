@@ -9,5 +9,8 @@ class Nodo:
         self.profundidad = profundidad
         self.costo = costo
 
+    # Funcion que verifica si el agente ya tiene todas las esferas y ha ganado
+    # @param esferas (List)
+    # @return Boolean
     def condicionGanar(self, esferas):
         return (self.estadoAgente[1] in esferas and self.estadoAgente[2] in esferas)

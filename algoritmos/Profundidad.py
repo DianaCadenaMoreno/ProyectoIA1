@@ -1,5 +1,10 @@
 from algoritmos.Nodo_noInformada import Nodo
 
+# Esta funcion realiza las acciones que puede hacer el agente, si pasa por una esfera, una semilla, un enemigo sin semilla o un enemigo con semilla
+# @param coordenada x (int), coordenada y (int), copia del estado de las esferas (list), copia del estado del agente (list), copia del estado de la matriz (NumPy array), matriz del juego (NumPy array)
+# @return la lista con la matriz actualizada, el estado del agente y las esferas (List)
+
+
 def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, matriz):
     esferas = copiaEsferas
     estadoAgente = copiaEstadoAgente
@@ -41,6 +46,10 @@ def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, ma
     Final = matrizNew, estadoAgente, esferas
     return Final
 
+# Realiza el algoritmo de busqueda por profundidad
+# @param matriz del juego (NumPy array)
+# @return nodo.recorrido (List), nodos_expandidos(int),nodo.profundidad(int), matriz_juego(NumPy array)
+
 
 def profundidad(matriz_juego):
     nodos_creados = 0
@@ -50,14 +59,13 @@ def profundidad(matriz_juego):
     for i in range(matriz_juego.shape[0]):  # filas
         for j in range(matriz_juego.shape[1]):  # columnas
             if matriz_juego[i][j] == 2:  # posicion del agente
-                pos_agente = (j, i)  # x=j(columnas), y=i(filas)
-                # matriz_juego[i][j] = 0  # actualizar
+                pos_agente = (j, i)
                 break  # romper ciclo para eficiencia
 
     for i in range(matriz_juego.shape[0]):  # filas
         for j in range(matriz_juego.shape[1]):  # columnas
-            if matriz_juego[i][j] == 6:  # posicion del agente
-                pos_esfera.append([j, i])  # x=j(columnas), y=i(filas)
+            if matriz_juego[i][j] == 6:  # posicion de las esferas
+                pos_esfera.append([j, i])
 
     raiz = Nodo(
         matriz_juego,
@@ -71,17 +79,18 @@ def profundidad(matriz_juego):
 
     pila = [raiz]
     nodos_visitados = []
-    while len(pila) > 0:  # condicion de parada
-        nodo = pila.pop()  # extraer el primero de la pila
+    while len(pila) > 0:
+        nodo = pila.pop()
         nodos_visitados.append(nodo.estadoAgente)
         nodos_expandidos += 1
         if (nodo.condicionGanar(pos_esfera)):
-            # Retorno la solución
+
             final = nodo.recorrido, nodos_expandidos, nodo.profundidad, matriz_juego
             return final
 
         x = nodo.estadoAgente[0][0]
         y = nodo.estadoAgente[0][1]
+
         # genero los hijos
 
         # derecha
@@ -91,12 +100,12 @@ def profundidad(matriz_juego):
         if xI < matriz_juego.shape[1] and nodo.matriz[yI, xI] != 1:
             movimientos = verficarMovimientos(xI, yI, nodo.esferas.copy(
             ), nodo.estadoAgente.copy(), nodo.matriz.copy(), nodo.matriz)
-            recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
+            recorrido = nodo.recorrido.copy()
             hijo = Nodo(
                 movimientos[0],
                 movimientos[1],
-                recorrido,  # Nuevo
-                nodos_visitados,  # Nuevo
+                recorrido,
+                nodos_visitados,
                 nodo.semillas,
                 movimientos[2],
                 nodo.profundidad + 1,
@@ -115,12 +124,12 @@ def profundidad(matriz_juego):
         if xI >= 0 and nodo.matriz[yI, xI] != 1:
             movimientos = verficarMovimientos(xI, yI, nodo.esferas.copy(
             ), nodo.estadoAgente.copy(), nodo.matriz.copy(), nodo.matriz)
-            recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
+            recorrido = nodo.recorrido.copy()
             hijo = Nodo(
                 movimientos[0],
                 movimientos[1],
-                recorrido,  # Nuevo
-                nodos_visitados,  # Nuevo
+                recorrido,
+                nodos_visitados,
                 nodo.semillas,
                 movimientos[2],
                 nodo.profundidad + 1,
@@ -139,12 +148,12 @@ def profundidad(matriz_juego):
         if yI < matriz_juego.shape[0] and nodo.matriz[yI, xI] != 1:
             movimientos = verficarMovimientos(xI, yI, nodo.esferas.copy(
             ), nodo.estadoAgente.copy(), nodo.matriz.copy(), nodo.matriz)
-            recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
+            recorrido = nodo.recorrido.copy()
             hijo = Nodo(
                 movimientos[0],
                 movimientos[1],
-                recorrido,  # Nuevo
-                nodos_visitados,  # Nuevo
+                recorrido,
+                nodos_visitados,
                 nodo.semillas,
                 movimientos[2],
                 nodo.profundidad + 1,
@@ -163,12 +172,12 @@ def profundidad(matriz_juego):
         if yI >= 0 and nodo.matriz[yI, xI] != 1:
             movimientos = verficarMovimientos(xI, yI, nodo.esferas.copy(
             ), nodo.estadoAgente.copy(), nodo.matriz.copy(), nodo.matriz)
-            recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
+            recorrido = nodo.recorrido.copy()
             hijo = Nodo(
                 movimientos[0],
                 movimientos[1],
-                recorrido,  # Nuevo
-                nodos_visitados,  # Nuevo
+                recorrido,
+                nodos_visitados,
                 nodo.semillas,
                 movimientos[2],
                 nodo.profundidad + 1,

@@ -1,6 +1,11 @@
 from algoritmos.Nodo_noInformada import Nodo
 
-def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, matriz,):
+# Esta funcion realiza las acciones que puede hacer el agente, si pasa por una esfera, una semilla, un enemigo sin semilla o un enemigo con semilla
+# @param coordenada x (int), coordenada y (int), copia del estado de las esferas (list), copia del estado del agente (list), copia del estado de la matriz (NumPy array), matriz del juego (NumPy array)
+# @return la lista con la matriz actualizada, el estado del agente y las esferas (List)
+
+
+def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, matriz):
     esferas = copiaEsferas
     estadoAgente = copiaEstadoAgente
     matrizNew = copiaMatriz
@@ -27,13 +32,11 @@ def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, ma
 
     # Caso donde encuentre un cell y tenga semilla
     if (matriz[yI, xI] == 4):
-        # print("encontró un cell con semilla")
         matrizNew[yI, xI] = 0
 
     # Caso donde encuentre un freezer y no tenga semilla
     if (matriz[yI, xI] == 3):
         matrizNew[yI, xI] = 0
-        0
 
     # Caso donde encuentre un freezer y tenga semilla
     if (matriz[yI, xI] == 3):
@@ -43,6 +46,10 @@ def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, ma
 
     Final = matrizNew, estadoAgente, esferas
     return Final
+
+# Realiza el algoritmo de busqueda por amplitud
+# @param matriz del juego (NumPy array)
+# @return nodo.recorrido (List), nodos_expandidos(int),nodo.profundidad(int), matriz_juego(NumPy array)
 
 
 def amplitud(matriz_juego):
@@ -54,14 +61,13 @@ def amplitud(matriz_juego):
     for i in range(matriz_juego.shape[0]):  # filas
         for j in range(matriz_juego.shape[1]):  # columnas
             if matriz_juego[i][j] == 2:  # posicion del agente
-                pos_agente = (j, i)  # x=j(columnas), y=i(filas)
-                # matriz_juego[i][j] = 0  # actualizar
-                break  # romper ciclo para eficiencia
+                pos_agente = (j, i)
+                break
 
     for i in range(matriz_juego.shape[0]):  # filas
         for j in range(matriz_juego.shape[1]):  # columnas
-            if matriz_juego[i][j] == 6:  # posicion del agente
-                pos_esfera.append([j, i])  # x=j(columnas), y=i(filas)
+            if matriz_juego[i][j] == 6:  # posicion de las esferas
+                pos_esfera.append([j, i])
 
     raiz = Nodo(
         matriz_juego,
@@ -80,10 +86,10 @@ def amplitud(matriz_juego):
 
         nodos_visitados.append(nodo.estadoAgente)
         nodos_expandidos += 1
+        print("copia", nodo.matriz.copy())
         if (nodo.condicionGanar(pos_esfera)):
             # Retorno la solución
             final = nodo.recorrido, nodos_expandidos, nodo.profundidad, matriz_juego
-
             return final
 
         x = nodo.estadoAgente[0][0]
