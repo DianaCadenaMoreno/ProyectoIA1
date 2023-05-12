@@ -1,7 +1,7 @@
 from algoritmos.Nodo_Informada import Nodo
 # Esta funcion realiza las acciones que puede hacer el agente, si pasa por una esfera, una semilla, un enemigo sin semilla o un enemigo con semilla
 # @param xI (int), yI (int), copiaEsferas(list), copiaEstadoAgente(list), copiaMatriz(NumPy array), copiaSemillas(), copiaFn, matriz(NumPy array), copiaCostoAgente(list), heuristica(int), funcionHeuristica(int)
-# @return Una lista con los siguientes datos: matrizNew, estadoAgente, esferas, costoAgentey semillasRecolectadas (List), heuristica(int), fn(list)
+# @return Una lista con los siguientes datos: matrizNew(NumPy array), estadoAgente(list), esferas(list), costoAgente(NumPy array), semillasRecolectadas (List), heuristica(int), fn(list)
 
 
 def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, copiaSemillas, copiaFn, matriz, copiaCostoAgente, heuristica, funcionHeuristica):
