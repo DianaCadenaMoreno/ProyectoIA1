@@ -1,8 +1,8 @@
 from algoritmos.Nodo_noInformada import Nodo
 
 # Esta funcion realiza las acciones que puede hacer el agente, si pasa por una esfera, una semilla, un enemigo sin semilla o un enemigo con semilla
-# @param coordenada x (int), coordenada y (int), copia del estado de las esferas (list), copia del estado del agente (list), copia del estado de la matriz (NumPy array), matriz del juego (NumPy array)
-# @return la lista con la matriz actualizada, el estado del agente y las esferas (List)
+# @param xI (int), yI (int), copiaEsferas(list), copiaEstadoAgente(list), copiaMatriz(NumPy array), matriz(NumPy array)
+# @return Una lista con los siguientes datos: matrizNew(NumPy array), estadoAgente(list), esferas(list)
 
 
 def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, matriz):
@@ -27,8 +27,6 @@ def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, ma
     # Caso donde encuentre un cell y no tenga semilla
     if (matriz[yI, xI] == 4):
         matrizNew[yI, xI] = 0
-        0
-        # print("encontró un cell sin semilla")
 
     # Caso donde encuentre un cell y tenga semilla
     if (matriz[yI, xI] == 4):
@@ -48,7 +46,7 @@ def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, ma
     return Final
 
 # Realiza el algoritmo de busqueda por amplitud
-# @param matriz del juego (NumPy array)
+# @param matriz_juego(NumPy array)
 # @return nodo.recorrido (List), nodos_expandidos(int),nodo.profundidad(int), matriz_juego(NumPy array)
 
 
@@ -81,12 +79,10 @@ def amplitud(matriz_juego):
 
     cola = [raiz]
     nodos_visitados = []
-    while len(cola) > 0:  # condicion de parada
-        nodo = cola.pop(0)  # extraer el primero de la cola
-
+    while len(cola) > 0:
+        nodo = cola.pop(0)
         nodos_visitados.append(nodo.estadoAgente)
         nodos_expandidos += 1
-        print("copia", nodo.matriz.copy())
         if (nodo.condicionGanar(pos_esfera)):
             # Retorno la solución
             final = nodo.recorrido, nodos_expandidos, nodo.profundidad, matriz_juego
@@ -103,12 +99,12 @@ def amplitud(matriz_juego):
         if yI >= 0 and nodo.matriz[yI, xI] != 1:
             movimientos = verficarMovimientos(xI, yI, nodo.esferas.copy(
             ), nodo.estadoAgente.copy(), nodo.matriz.copy(), nodo.matriz)
-            recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
+            recorrido = nodo.recorrido.copy()
             hijo = Nodo(
                 movimientos[0],
                 movimientos[1],
-                recorrido,  # Nuevo
-                nodos_visitados,  # Nuevo
+                recorrido,
+                nodos_visitados,
                 nodo.semillas,
                 movimientos[2],
                 nodo.profundidad + 1,
@@ -127,12 +123,12 @@ def amplitud(matriz_juego):
         if yI < matriz_juego.shape[0] and nodo.matriz[yI, xI] != 1:
             movimientos = verficarMovimientos(xI, yI, nodo.esferas.copy(
             ), nodo.estadoAgente.copy(), nodo.matriz.copy(), nodo.matriz)
-            recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
+            recorrido = nodo.recorrido.copy()
             hijo = Nodo(
                 movimientos[0],
                 movimientos[1],
-                recorrido,  # Nuevo
-                nodos_visitados,  # Nuevo
+                recorrido,
+                nodos_visitados,
                 nodo.semillas,
                 movimientos[2],
                 nodo.profundidad + 1,
@@ -150,12 +146,12 @@ def amplitud(matriz_juego):
         if xI >= 0 and nodo.matriz[yI, xI] != 1:
             movimientos = verficarMovimientos(xI, yI, nodo.esferas.copy(
             ), nodo.estadoAgente.copy(), nodo.matriz.copy(), nodo.matriz)
-            recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
+            recorrido = nodo.recorrido.copy()
             hijo = Nodo(
                 movimientos[0],
                 movimientos[1],
-                recorrido,  # Nuevo
-                nodos_visitados,  # Nuevo
+                recorrido,
+                nodos_visitados,
                 nodo.semillas,
                 movimientos[2],
                 nodo.profundidad + 1,
@@ -174,12 +170,12 @@ def amplitud(matriz_juego):
         if xI < matriz_juego.shape[1] and nodo.matriz[yI, xI] != 1:
             movimientos = verficarMovimientos(xI, yI, nodo.esferas.copy(
             ), nodo.estadoAgente.copy(), nodo.matriz.copy(), nodo.matriz)
-            recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
+            recorrido = nodo.recorrido.copy()
             hijo = Nodo(
                 movimientos[0],
                 movimientos[1],
-                recorrido,  # Nuevo
-                nodos_visitados,  # Nuevo
+                recorrido,
+                nodos_visitados,
                 nodo.semillas,
                 movimientos[2],
                 nodo.profundidad + 1,
@@ -192,4 +188,4 @@ def amplitud(matriz_juego):
                     recorrido.append((xI, yI))
                 0
 
-    return "No hay solucion", nodos_creados, nodos_expandidos, nodo.profundidad
+    return "No hay solucion", nodo.recorrido, nodos_expandidos, nodo.profundidad, matriz_juego
