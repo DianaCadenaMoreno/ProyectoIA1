@@ -1,4 +1,3 @@
-import numpy as np
 from algoritmos.Nodo_noInformada import Nodo
 
 def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, matriz,):
@@ -51,7 +50,6 @@ def amplitud(matriz_juego):
     nodos_expandidos = 0
     pos_agente = []
     pos_esfera = []
-    # matrizInicio = matriz_juego
 
     for i in range(matriz_juego.shape[0]):  # filas
         for j in range(matriz_juego.shape[1]):  # columnas

@@ -1,4 +1,3 @@
-import numpy as np
 from algoritmos.Nodo_Informada import Nodo
 
 def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, copiaSemillas, matriz, heuristica, funcionHeuristica):

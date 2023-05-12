@@ -1,4 +1,3 @@
-import numpy as np
 from algoritmos.Nodo_noInformada import Nodo
 
 def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, matriz):
@@ -47,7 +46,6 @@ def profundidad(matriz_juego):
     nodos_creados = 0
     nodos_expandidos = 0
     pos_esfera = []
-    # matrizInicio = matriz_juego
 
     for i in range(matriz_juego.shape[0]):  # filas
         for j in range(matriz_juego.shape[1]):  # columnas
@@ -75,7 +73,6 @@ def profundidad(matriz_juego):
     nodos_visitados = []
     while len(pila) > 0:  # condicion de parada
         nodo = pila.pop()  # extraer el primero de la pila
-
         nodos_visitados.append(nodo.estadoAgente)
         nodos_expandidos += 1
         if (nodo.condicionGanar(pos_esfera)):
@@ -95,7 +92,6 @@ def profundidad(matriz_juego):
             movimientos = verficarMovimientos(xI, yI, nodo.esferas.copy(
             ), nodo.estadoAgente.copy(), nodo.matriz.copy(), nodo.matriz)
             recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
-            # estado = nodo.estadoEsferas.copy()
             hijo = Nodo(
                 movimientos[0],
                 movimientos[1],
@@ -120,7 +116,6 @@ def profundidad(matriz_juego):
             movimientos = verficarMovimientos(xI, yI, nodo.esferas.copy(
             ), nodo.estadoAgente.copy(), nodo.matriz.copy(), nodo.matriz)
             recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
-            # estado = nodo.estadoEsferas.copy()
             hijo = Nodo(
                 movimientos[0],
                 movimientos[1],

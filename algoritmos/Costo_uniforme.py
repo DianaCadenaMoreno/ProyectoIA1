@@ -70,7 +70,6 @@ def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, co
     Final = matrizNew, estadoAgente, esferas, costoAgente, semillasRecolectadas
     return Final
 
-
 def costo_uniforme(matriz_juego):
     nodos_creados = 0
     nodos_expandidos = 0
@@ -157,7 +156,7 @@ def costo_uniforme(matriz_juego):
             movimientos = verficarMovimientos(xI, yI, nodo.esferas.copy(
             ), nodo.estadoAgente.copy(), nodo.matriz.copy(), nodo.semillas.copy(), nodo.costo.copy(), nodo.matriz, pos_semillas)
             recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
-            # estado = nodo.estadoEsferas.copy()
+            
             hijo = Nodo(
                 movimientos[0],
                 movimientos[1],

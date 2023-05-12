@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog
 import numpy as np
+import winsound
 import time
 from PIL import Image, ImageTk
 from views.mapa import moverAgente_mapa
@@ -15,10 +16,12 @@ class Interfaz(tk.Tk):
 
     global matriz
 
-    with open("resources/maps/matriz.txt", "r") as archivo:
+    with open("resources/maps/prueba.txt", "r") as archivo:
         lineas = archivo.readlines()
         matriz = np.array([list(map(int, linea.strip().split()))
                           for linea in lineas])
+    def sound(self):
+        winsound.PlaySound('resources/sound/esferas.wav', winsound.SND_ASYNC | winsound.SND_LOOP )
 
     def __init__(self):
         super().__init__()
@@ -81,6 +84,7 @@ class Interfaz(tk.Tk):
                     side="right", padx=135, pady=[10, 150])
                 drop_box_busquedaIN.config(
                     font=('Times New Roman', 10), bg="orange", fg="black")
+                
         # Crear un canvas en la ventana principal
         reporte = tk.Canvas(self, width=300, height=200, bg='white', bd=0)
         reporte.pack()
@@ -88,13 +92,13 @@ class Interfaz(tk.Tk):
         label_reporte = tk.Label(
             reporte, text="Reporte:", fg='black', bg="white", font=('Arial', 12))
         label_reporte.place(x=10, y=10)
+        
         # Boton para iniciar el algoritmo
-
         def iniciar_algoritmo():
             BusquedaNoInformada = variar_opciones2.get()
             BusquedaInformada = variar_opciones3.get()
             if BusquedaNoInformada == "Amplitud":
-
+                self.sound()
                 inicioT = time.time()
                 final = amplitud(matriz)
                 finalT = time.time()
@@ -114,9 +118,8 @@ class Interfaz(tk.Tk):
                 label_tiempo = tk.Label(
                     reporte, text=f'Tiempo de computo: {self.tiempo_computo} s', fg='black', bg="white", font=('Arial', 12))
                 label_tiempo.place(x=10, y=150)
-
             elif BusquedaNoInformada == "Profundidad":
-
+                self.sound()
                 inicioT = time.time()
                 final = profundidad(matriz)
                 finalT = time.time()
@@ -138,6 +141,7 @@ class Interfaz(tk.Tk):
                 label_tiempo.place(x=10, y=150)
 
             elif BusquedaNoInformada == "Costo uniforme":
+                self.sound()
                 inicioT = time.time()
                 final = costo_uniforme(matriz)
                 finalT = time.time()
@@ -159,13 +163,12 @@ class Interfaz(tk.Tk):
                     reporte, text=f'Tiempo de computo: {self.tiempo_computo} s', fg='black', bg="white", font=('Arial', 12))
                 label_tiempo.place(x=10, y=110)
 
-                # Falta costo
                 label_costo = tk.Label(
                     reporte, text=f'Costo: {self.costo}', fg='black', bg="white", font=('Arial', 12))
                 label_costo.place(x=10, y=150)
 
             if BusquedaInformada == "Avara":
-
+                self.sound()
                 inicioT = time.time()
                 final = avara(matriz)
                 finalT = time.time()
@@ -187,6 +190,7 @@ class Interfaz(tk.Tk):
                 label_tiempo.place(x=10, y=150)
 
             elif BusquedaInformada == "A*":
+                self.sound()
                 inicioT = time.time()
                 final = A_estrella(matriz)
                 finalT = time.time()
@@ -218,18 +222,40 @@ class Interfaz(tk.Tk):
             self, text="Iniciar algoritmo", command=iniciar_algoritmo, bg="black", fg="white")
         boton_inicio.pack()
         boton_inicio.place(x=775, y=215)
+        boton_inicio.config(font=('Times New Roman', 10))
 
         # Botón para seleccionar busqueda
         boton_seleccion = tk.Button(
             self, text="Seleccionar", command=seleccionarBusqueda, bg="black", fg="white")
         boton_seleccion.pack()
         boton_seleccion.place(x=800, y=140)
+        boton_seleccion.config(font=('Times New Roman', 10))
 
         # Botón de reinicio
         boton_reiniciar = tk.Button(
             self, text="Reiniciar", command=self.reiniciar_programa, bg="black", fg="white")
         boton_reiniciar.pack()
         boton_reiniciar.place(x=800, y=550)
+        boton_reiniciar.config(font=('Times New Roman', 10))
+
+        # Creditos
+        def mostrar_creditos():
+            ventana_creditos = tk.Toplevel(self)
+            ventana_creditos.title("Créditos")
+            ventana_creditos. geometry("300x200")
+            ventana_creditos.config(bg="white")
+
+            # Crear una etiqueta para mostrar los créditos del programa
+            etiqueta_creditos = tk.Label(
+                ventana_creditos, text="Créditos \n  \n Laura Daniela Jaimes - 2040430 \n Diana Marcela Cadena - 2041260 \n Mayra Alejandra Sanchez - 2040506")
+            etiqueta_creditos.pack()
+            etiqueta_creditos.config(font=('Times New Roman', 10), bg="white")
+            etiqueta_creditos.place(x=50, y=50)
+
+        boton_creditos = tk.Button(self, text="Créditos",command=mostrar_creditos, bg="black", fg="white")
+        boton_creditos.pack()
+        boton_creditos.config(font=('Times New Roman', 10))
+        boton_creditos.place(x=700, y=550)
 
     def reiniciar_programa(self):
         self.destroy()  # Cierra la ventana actual

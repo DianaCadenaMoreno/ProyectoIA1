@@ -32,16 +32,12 @@ class Nodo:
             return 0
 
         for esfera in esferas:
-            print(
-                f"Posiciones: {self.estadoAgente[0]}, {self.estadoAgente[1]}, {esfera[0]}, {esfera[1]}")
             distancias.append(self.distancia_manhattan(
                 self.estadoAgente[0][0], self.estadoAgente[0][1], esfera[0], esfera[1]))
-            print("D: ", distancias)
 
         if len(esferas) == 2:
             distancia_esferas = self.distancia_manhattan(
                 esferas[0][0], esferas[0][1], esferas[1][0], esferas[1][1])
-            print("D_esf: ", distancia_esferas)
         else:
             distancia_esferas = 0
 
@@ -50,5 +46,4 @@ class Nodo:
         else:
             self.heuristica = distancia_esferas + \
                 min(distancias[0], distancias[1])
-        print("heuristica", self.heuristica)
         return self.heuristica
