@@ -20,14 +20,25 @@ class Interfaz(tk.Tk):
         lineas = archivo.readlines()
         matriz = np.array([list(map(int, linea.strip().split()))
                           for linea in lineas])
+
     def sound(self):
-        winsound.PlaySound('resources/sound/esferas.wav', winsound.SND_ASYNC | winsound.SND_LOOP )
+        winsound.PlaySound('resources/sound/esferas.wav',
+                           winsound.SND_ASYNC | winsound.SND_LOOP)
+
+    def stop_sound(self):
+        winsound.PlaySound(None, winsound.SND_ASYNC)
 
     def __init__(self):
         super().__init__()
         self.title("Goku Smart")
         self.geometry("900x600")
         self.config(bg="white")
+
+        def inhabilitarSeleccion():
+            boton_seleccion.configure(state='disabled')
+
+        def inhabilitarAlgoritmo():
+            boton_inicio.configure(state='disabled')
 
         # Imagen de titulo
         img = Image.open("resources/images/titulo.png")
@@ -84,7 +95,7 @@ class Interfaz(tk.Tk):
                     side="right", padx=135, pady=[10, 150])
                 drop_box_busquedaIN.config(
                     font=('Times New Roman', 10), bg="orange", fg="black")
-                
+
         # Crear un canvas en la ventana principal
         reporte = tk.Canvas(self, width=300, height=200, bg='white', bd=0)
         reporte.pack()
@@ -92,7 +103,7 @@ class Interfaz(tk.Tk):
         label_reporte = tk.Label(
             reporte, text="Reporte:", fg='black', bg="white", font=('Arial', 12))
         label_reporte.place(x=10, y=10)
-        
+
         # Boton para iniciar el algoritmo
         def iniciar_algoritmo():
             BusquedaNoInformada = variar_opciones2.get()
@@ -118,6 +129,7 @@ class Interfaz(tk.Tk):
                 label_tiempo = tk.Label(
                     reporte, text=f'Tiempo de computo: {self.tiempo_computo} s', fg='black', bg="white", font=('Arial', 12))
                 label_tiempo.place(x=10, y=150)
+                self.stop_sound()
             elif BusquedaNoInformada == "Profundidad":
                 self.sound()
                 inicioT = time.time()
@@ -139,7 +151,7 @@ class Interfaz(tk.Tk):
                 label_tiempo = tk.Label(
                     reporte, text=f'Tiempo de computo: {self.tiempo_computo} s', fg='black', bg="white", font=('Arial', 12))
                 label_tiempo.place(x=10, y=150)
-
+                self.stop_sound()
             elif BusquedaNoInformada == "Costo uniforme":
                 self.sound()
                 inicioT = time.time()
@@ -166,7 +178,7 @@ class Interfaz(tk.Tk):
                 label_costo = tk.Label(
                     reporte, text=f'Costo: {self.costo}', fg='black', bg="white", font=('Arial', 12))
                 label_costo.place(x=10, y=150)
-
+                self.stop_sound()
             if BusquedaInformada == "Avara":
                 self.sound()
                 inicioT = time.time()
@@ -188,7 +200,7 @@ class Interfaz(tk.Tk):
                 label_tiempo = tk.Label(
                     reporte, text=f'Tiempo de computo: {self.tiempo_computo} s', fg='black', bg="white", font=('Arial', 12))
                 label_tiempo.place(x=10, y=150)
-
+                self.stop_sound()
             elif BusquedaInformada == "A*":
                 self.sound()
                 inicioT = time.time()
@@ -212,21 +224,20 @@ class Interfaz(tk.Tk):
                     reporte, text=f'Tiempo de computo: {self.tiempo_computo} s', fg='black', bg="white", font=('Arial', 12))
                 label_tiempo.place(x=10, y=110)
 
-                # Falta costo
                 label_costo = tk.Label(
                     reporte, text=f'Costo: {self.costo}', fg='black', bg="white", font=('Arial', 12))
                 label_costo.place(x=10, y=150)
-
+                self.stop_sound()
         # Botón para iniciar el algoritmo seleccionado
         boton_inicio = tk.Button(
-            self, text="Iniciar algoritmo", command=iniciar_algoritmo, bg="black", fg="white")
+            self, text="Iniciar algoritmo", command=lambda: (iniciar_algoritmo(), inhabilitarAlgoritmo()), bg="black", fg="white")
         boton_inicio.pack()
         boton_inicio.place(x=775, y=215)
         boton_inicio.config(font=('Times New Roman', 10))
 
         # Botón para seleccionar busqueda
         boton_seleccion = tk.Button(
-            self, text="Seleccionar", command=seleccionarBusqueda, bg="black", fg="white")
+            self, text="Seleccionar", command=lambda: (seleccionarBusqueda(), inhabilitarSeleccion()), bg="black", fg="white")
         boton_seleccion.pack()
         boton_seleccion.place(x=800, y=140)
         boton_seleccion.config(font=('Times New Roman', 10))
@@ -252,7 +263,8 @@ class Interfaz(tk.Tk):
             etiqueta_creditos.config(font=('Times New Roman', 10), bg="white")
             etiqueta_creditos.place(x=50, y=50)
 
-        boton_creditos = tk.Button(self, text="Créditos",command=mostrar_creditos, bg="black", fg="white")
+        boton_creditos = tk.Button(
+            self, text="Créditos", command=mostrar_creditos, bg="black", fg="white")
         boton_creditos.pack()
         boton_creditos.config(font=('Times New Roman', 10))
         boton_creditos.place(x=700, y=550)

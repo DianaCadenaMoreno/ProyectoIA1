@@ -1,5 +1,10 @@
 from algoritmos.Nodo_Informada import Nodo
 
+# Esta funcion realiza las acciones que puede hacer el agente, si pasa por una esfera, una semilla, un enemigo sin semilla o un enemigo con semilla
+# @param xI (int), yI (int), copiaEsferas(list), copiaEstadoAgente(list), copiaMatriz(NumPy array), copiaSemillas(), matriz(NumPy array),  heuristica(int), funcionHeuristica(int)
+# @return Una lista con los siguientes datos: matrizNew(NumPy array), estadoAgente(list), esferas(list), semillasRecolectadas (List), heuristica(int), fn(list)
+
+
 def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, copiaSemillas, matriz, heuristica, funcionHeuristica):
     esferas = copiaEsferas
     estadoAgente = copiaEstadoAgente
@@ -47,6 +52,10 @@ def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, co
     Final = matrizNew, estadoAgente, esferas, semillasRecolectadas, heuristica
     return Final
 
+# Realiza el algoritmo de busqueda por Avara
+# @param matriz_juego(NumPy array)
+# @return nodo.recorrido (List), nodos_expandidos(int), nodo.profundidad(int),  matriz_juego(NumPy array)
+
 
 def avara(matriz_juego):
     nodos_creados = 0
@@ -57,18 +66,18 @@ def avara(matriz_juego):
     for i in range(matriz_juego.shape[0]):  # filas
         for j in range(matriz_juego.shape[1]):  # columnas
             if matriz_juego[i][j] == 2:  # posicion del agente
-                pos_agente = (j, i)  # x=j(columnas), y=i(filas)
-                break  # romper ciclo para eficiencia
+                pos_agente = (j, i)
+                break
 
     for i in range(matriz_juego.shape[0]):  # filas
         for j in range(matriz_juego.shape[1]):  # columnas
-            if matriz_juego[i][j] == 6:  # posicion del agente
-                pos_esfera.append([j, i])  # x=j(columnas), y=i(filas)
+            if matriz_juego[i][j] == 6:  # posicion de las esferas
+                pos_esfera.append([j, i])
 
     for i in range(matriz_juego.shape[0]):  # filas
         for j in range(matriz_juego.shape[1]):  # columnas
-            if matriz_juego[i][j] == 5:  # posicion del agente
-                pos_semillas.append([j, i])  # x=j(columnas), y=i(filas)
+            if matriz_juego[i][j] == 5:  # posicion de las semillas
+                pos_semillas.append([j, i])
 
     semillas = [[] for _ in range(len(pos_semillas))]
 
@@ -86,9 +95,9 @@ def avara(matriz_juego):
 
     cola = [raiz]
     nodos_visitados = []
-    while len(cola) > 0:  # condicion de parada
+    while len(cola) > 0:
         nodo = min(cola, key=lambda x: x.heuristica)
-        cola.remove(nodo)  # extrae el ultimo elemento de primero
+        cola.remove(nodo)
         costoAgente = nodo.costo.copy()
 
         nodos_visitados.append(nodo.estadoAgente)
@@ -109,12 +118,12 @@ def avara(matriz_juego):
         if yI >= 0 and nodo.matriz[yI, xI] != 1:
             movimientos = verficarMovimientos(xI, yI, nodo.esferas.copy(
             ), nodo.estadoAgente.copy(), nodo.matriz.copy(), nodo.semillas.copy(), nodo.matriz, nodo.heuristica, nodo.encontrar_heuristica())
-            recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
+            recorrido = nodo.recorrido.copy()
             hijo = Nodo(
                 movimientos[0],
                 movimientos[1],
-                recorrido,  # Nuevo
-                nodos_visitados,  # Nuevo
+                recorrido,
+                nodos_visitados,
                 movimientos[3],
                 movimientos[2],
                 nodo.profundidad + 1,
@@ -135,12 +144,12 @@ def avara(matriz_juego):
         if yI < matriz_juego.shape[0] and nodo.matriz[yI, xI] != 1:
             movimientos = verficarMovimientos(xI, yI, nodo.esferas.copy(
             ), nodo.estadoAgente.copy(), nodo.matriz.copy(), nodo.semillas.copy(), nodo.matriz, nodo.heuristica, nodo.encontrar_heuristica())
-            recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
+            recorrido = nodo.recorrido.copy()
             hijo = Nodo(
                 movimientos[0],
                 movimientos[1],
-                recorrido,  # Nuevo
-                nodos_visitados,  # Nuevo
+                recorrido,
+                nodos_visitados,
                 movimientos[3],
                 movimientos[2],
                 nodo.profundidad + 1,
@@ -161,12 +170,12 @@ def avara(matriz_juego):
         if xI >= 0 and nodo.matriz[yI, xI] != 1:
             movimientos = verficarMovimientos(xI, yI, nodo.esferas.copy(
             ), nodo.estadoAgente.copy(), nodo.matriz.copy(), nodo.semillas.copy(), nodo.matriz, nodo.heuristica, nodo.encontrar_heuristica())
-            recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
+            recorrido = nodo.recorrido.copy()
             hijo = Nodo(
                 movimientos[0],
                 movimientos[1],
-                recorrido,  # Nuevo
-                nodos_visitados,  # Nuevo
+                recorrido,
+                nodos_visitados,
                 movimientos[3],
                 movimientos[2],
                 nodo.profundidad + 1,
@@ -186,12 +195,12 @@ def avara(matriz_juego):
         if xI < matriz_juego.shape[1] and nodo.matriz[yI, xI] != 1:
             movimientos = verficarMovimientos(xI, yI, nodo.esferas.copy(
             ), nodo.estadoAgente.copy(), nodo.matriz.copy(), nodo.semillas.copy(), nodo.matriz, nodo.heuristica, nodo.encontrar_heuristica())
-            recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
+            recorrido = nodo.recorrido.copy()
             hijo = Nodo(
                 movimientos[0],
                 movimientos[1],
-                recorrido,  # Nuevo
-                nodos_visitados,  # Nuevo
+                recorrido,
+                nodos_visitados,
                 movimientos[3],
                 movimientos[2],
                 nodo.profundidad + 1,

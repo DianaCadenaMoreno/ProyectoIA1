@@ -1,5 +1,10 @@
 from algoritmos.Nodo_noInformada import Nodo
 
+# Esta funcion realiza las acciones que puede hacer el agente, si pasa por una esfera, una semilla, un enemigo sin semilla o un enemigo con semilla
+# @param xI (int), yI (int), copiaEsferas(list), copiaEstadoAgente(list), copiaMatriz(NumPy array), matriz(NumPy array)
+# @return Una lista con los siguientes datos: matrizNew(NumPy array), estadoAgente(list), esferas(list), costoAgente(NumPy array), semillasRecolectadas (List)
+
+
 def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, copiaSemillas, copiaCostoAgente, matriz, pos_semillas):
     esferas = copiaEsferas
     estadoAgente = copiaEstadoAgente
@@ -70,6 +75,11 @@ def verficarMovimientos(xI, yI, copiaEsferas, copiaEstadoAgente, copiaMatriz, co
     Final = matrizNew, estadoAgente, esferas, costoAgente, semillasRecolectadas
     return Final
 
+# Realiza el algoritmo de busqueda por costo uniforme
+# @param matriz_juego(NumPy array)
+# @return nodo.recorrido (List), nodos_expandidos(int),nodo.profundidad(int), costo(int), matriz_juego(NumPy array)
+
+
 def costo_uniforme(matriz_juego):
     nodos_creados = 0
     nodos_expandidos = 0
@@ -79,18 +89,18 @@ def costo_uniforme(matriz_juego):
     for i in range(matriz_juego.shape[0]):  # filas
         for j in range(matriz_juego.shape[1]):  # columnas
             if matriz_juego[i][j] == 2:  # posicion del agente
-                pos_agente = (j, i)  # x=j(columnas), y=i(filas)
-                break  # romper ciclo para eficiencia
+                pos_agente = (j, i)
+                break
 
     for i in range(matriz_juego.shape[0]):  # filas
         for j in range(matriz_juego.shape[1]):  # columnas
-            if matriz_juego[i][j] == 6:  # posicion del agente
-                pos_esfera.append([j, i])  # x=j(columnas), y=i(filas)
+            if matriz_juego[i][j] == 6:  # posicion de las esferas
+                pos_esfera.append([j, i])
 
     for i in range(matriz_juego.shape[0]):  # filas
         for j in range(matriz_juego.shape[1]):  # columnas
-            if matriz_juego[i][j] == 5:  # posicion del agente
-                pos_semillas.append([j, i])  # x=j(columnas), y=i(filas)
+            if matriz_juego[i][j] == 5:  # posicion de las semillas
+                pos_semillas.append([j, i])
 
     semillas = [[] for _ in range(len(pos_semillas))]
 
@@ -106,10 +116,9 @@ def costo_uniforme(matriz_juego):
 
     cola = [raiz]
     nodos_visitados = []
-    while len(cola) > 0:  # condicion de parada
-        # print("*", list(map(lambda nodo: nodo.recorrido, cola)), "*")
+    while len(cola) > 0:
         nodo = min(cola, key=lambda x: sum(x.costo))
-        cola.remove(nodo)  # extrae el ultimo elemento de primero
+        cola.remove(nodo)
         costoAgente = nodo.costo.copy()
 
         nodos_visitados.append(nodo.estadoAgente)
@@ -131,12 +140,12 @@ def costo_uniforme(matriz_juego):
             movimientos = verficarMovimientos(xI, yI, nodo.esferas.copy(
             ), nodo.estadoAgente.copy(), nodo.matriz.copy(), nodo.semillas.copy(), nodo.costo.copy(), nodo.matriz, pos_semillas)
 
-            recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
+            recorrido = nodo.recorrido.copy()
             hijo = Nodo(
                 movimientos[0],
                 movimientos[1],
-                recorrido,  # Nuevo
-                nodos_visitados,  # Nuevo
+                recorrido,
+                nodos_visitados,
                 movimientos[4],
                 movimientos[2],
                 nodo.profundidad + 1,
@@ -155,13 +164,13 @@ def costo_uniforme(matriz_juego):
         if yI < matriz_juego.shape[0] and nodo.matriz[yI, xI] != 1:
             movimientos = verficarMovimientos(xI, yI, nodo.esferas.copy(
             ), nodo.estadoAgente.copy(), nodo.matriz.copy(), nodo.semillas.copy(), nodo.costo.copy(), nodo.matriz, pos_semillas)
-            recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
-            
+            recorrido = nodo.recorrido.copy()
+
             hijo = Nodo(
                 movimientos[0],
                 movimientos[1],
-                recorrido,  # Nuevo
-                nodos_visitados,  # Nuevo
+                recorrido,
+                nodos_visitados,
                 movimientos[4],
                 movimientos[2],
                 nodo.profundidad + 1,
@@ -180,12 +189,12 @@ def costo_uniforme(matriz_juego):
         if xI >= 0 and nodo.matriz[yI, xI] != 1:
             movimientos = verficarMovimientos(xI, yI, nodo.esferas.copy(
             ), nodo.estadoAgente.copy(), nodo.matriz.copy(), nodo.semillas.copy(), nodo.costo.copy(), nodo.matriz, pos_semillas)
-            recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
+            recorrido = nodo.recorrido.copy()
             hijo = Nodo(
                 movimientos[0],
                 movimientos[1],
-                recorrido,  # Nuevo
-                nodos_visitados,  # Nuevo
+                recorrido,
+                nodos_visitados,
                 movimientos[4],
                 movimientos[2],
                 nodo.profundidad + 1,
@@ -203,12 +212,12 @@ def costo_uniforme(matriz_juego):
         if xI < matriz_juego.shape[1] and nodo.matriz[yI, xI] != 1:
             movimientos = verficarMovimientos(xI, yI, nodo.esferas.copy(
             ), nodo.estadoAgente.copy(), nodo.matriz.copy(), nodo.semillas.copy(), nodo.costo.copy(), nodo.matriz, pos_semillas)
-            recorrido = nodo.recorrido.copy()  # Evitar pasa por referencia
+            recorrido = nodo.recorrido.copy()
             hijo = Nodo(
                 movimientos[0],
                 movimientos[1],
-                recorrido,  # Nuevo
-                nodos_visitados,  # Nuevo
+                recorrido,
+                nodos_visitados,
                 movimientos[4],
                 movimientos[2],
                 nodo.profundidad + 1,
@@ -220,4 +229,4 @@ def costo_uniforme(matriz_juego):
                 recorrido.append((xI, yI))
                 0
 
-    return "No hay solucion", nodos_creados, nodos_expandidos, nodo.profundidad
+    return "No hay solucion", nodo.recorrido, nodos_expandidos, nodo.profundidad, costo, matriz_juego
