@@ -6,7 +6,7 @@ Este es el primer proyecto propuesto en el curso de inteligencia artificial que 
 Para poder ver los distintos tipos de algoritmos podra seleccionarlo en un menu desplegable y para ver los resultados obtenidos y movimientos deberá dar click en el boton de iniciar algoritmo. 
 
 <p align="center">
-    <img src="https://drive.google.com/file/d/1QzN464xD_NL-NXbppjLvFv0VQ8KdpaZY/view?usp=sharing">
+    <img src="https://user-images.githubusercontent.com/95255931/237900790-8ba71de9-c69b-4ff2-9af3-fd056ea69ce9.jpeg">
 </p>
 
 ### Git clone
